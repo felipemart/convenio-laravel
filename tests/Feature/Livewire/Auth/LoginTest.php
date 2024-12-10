@@ -36,3 +36,22 @@ it('should make sure the email and password', function () {
         ->assertSee('Credenciais inválidas.');
 
 });
+
+it('should make sure that rate limiter is working', function () {
+    $usrer = User::factory()->create();
+
+    for ($i = 0; $i < 5; $i++) {
+        Livewire::test(Login::class)
+            ->set('email', $usrer->email)
+            ->set('password', 'wrong-password')
+            ->call('tryLogin')
+            ->assertHasErrors(['invalidCredentials']);
+    }
+
+    Livewire::test(Login::class)
+        ->set('email', $usrer->email)
+        ->set('password', 'wrong-password')
+        ->call('tryLogin')
+        ->assertHasErrors(['rateLimiter']);
+
+});
