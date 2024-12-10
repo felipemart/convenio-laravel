@@ -2,6 +2,8 @@
 
 use App\Livewire\Auth\Register;
 use App\Models\User;
+use App\Notifications\WecomeNotification;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
@@ -55,3 +57,18 @@ test('validation rules', function ($f) {
 ]);
 
 
+test('should be able to confirm email', function () {
+   Notification::fake();
+
+    Livewire::test(Register::class)
+        ->set('name', 'John Doe')
+        ->set('email', 'johndoe@example.com')
+        ->set('email_confirmation', 'johndoe@example.com')
+        ->set('password', 'password')
+        ->call('submit');
+
+    $user = User::where('email', 'johndoe@example.com')->first();
+
+    Notification::assertSentTo($user, WecomeNotification::class);
+
+});

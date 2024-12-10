@@ -3,6 +3,7 @@
 namespace App\Livewire\Auth;
 
 use App\Models\User;
+use App\Notifications\WecomeNotification;
 use Illuminate\View\View;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -30,12 +31,15 @@ class Register extends Component
     {
         $this->validate();
 
-        User::query()->create([
+        $user = User::query()->create([
             'name' => $this->name,
             'email' => $this->email,
             'password' => $this->password
 
         ]);
+
+
+        $user->notify(new WecomeNotification);
 
     }
 }
