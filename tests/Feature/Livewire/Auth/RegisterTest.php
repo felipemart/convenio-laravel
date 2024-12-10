@@ -5,8 +5,8 @@ use App\Models\User;
 use App\Notifications\WecomeNotification;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
-use function Pest\Laravel\assertDatabaseCount;
-use function Pest\Laravel\assertDatabaseHas;
+
+use function Pest\Laravel\{assertDatabaseCount, assertDatabaseHas};
 
 it('renders successfully', function () {
     Livewire::test(Register::class)
@@ -23,13 +23,12 @@ it('should be able to register a new user in the system', function () {
         ->assertHasNoErrors();
 
     assertDatabaseHas('users', [
-        'name' => 'John Doe',
-        'email' => 'johndoe@example.com'
-        ]);
+        'name'  => 'John Doe',
+        'email' => 'johndoe@example.com',
+    ]);
 
     assertDatabaseCount('users', 1);
 });
-
 
 test('validation rules', function ($f) {
     if ($f->rule == 'unique') {
@@ -56,9 +55,8 @@ test('validation rules', function ($f) {
     'password::required' => (object)['field' => 'password', 'value' => '', 'rule' => 'required'],
 ]);
 
-
 test('should be able to confirm email', function () {
-   Notification::fake();
+    Notification::fake();
 
     Livewire::test(Register::class)
         ->set('name', 'John Doe')

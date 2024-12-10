@@ -21,7 +21,6 @@ class Register extends Component
     #[Rule(['required'])]
     public ?string $password = null;
 
-
     public function render(): View
     {
         return view('livewire.auth.register');
@@ -32,14 +31,13 @@ class Register extends Component
         $this->validate();
 
         $user = User::query()->create([
-            'name' => $this->name,
-            'email' => $this->email,
-            'password' => $this->password
+            'name'     => $this->name,
+            'email'    => $this->email,
+            'password' => $this->password,
 
         ]);
 
-
-        $user->notify(new WecomeNotification);
+        $user->notify(new WecomeNotification());
 
     }
 }

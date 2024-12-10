@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', Welcome::class);
+Route::get('/', Welcome::class)->name('dashboard');
 
 Route::get('/register', \App\Livewire\Auth\Register::class)->name('auth.register');
