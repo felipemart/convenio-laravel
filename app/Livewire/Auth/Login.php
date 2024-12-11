@@ -14,11 +14,30 @@ class Login extends Component
 
     public function render()
     {
-        return view('livewire.auth.login');
+        return view('livewire.auth.login')
+            ->layout('components.layouts.guest', ['title' => 'Login']);
+    }
+
+    protected function rules()
+    {
+        return [
+            'email'    => 'required|email',
+            'password' => 'required',
+        ];
+    }
+
+    protected function messages()
+    {
+        return [
+            'required' => 'O campo :attribute é obrigatório.',
+            'email'    => 'O campo :attribute deve ser um e-mail válido.',
+        ];
     }
 
     public function tryLogin(): void
     {
+
+        $this->validate();
 
         if ($this->virificaRateLimiter()) {
             return;
@@ -60,5 +79,12 @@ class Login extends Component
         };
 
         return false;
+    }
+
+    public function logout(): void
+    {
+        auth()->logout();
+
+        $this->redirect(route('login'));
     }
 }
