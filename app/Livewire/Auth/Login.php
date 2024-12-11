@@ -80,11 +80,4 @@ class Login extends Component
 
         return false;
     }
-
-    public function logout(): void
-    {
-        auth()->logout();
-
-        $this->redirect(route('login'));
-    }
 }
