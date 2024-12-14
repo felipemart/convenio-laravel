@@ -5,11 +5,17 @@
         <x-input label="Email" wire:model="email"/>
         <x-input label="Senha" wire:model="password" type="password"/>
 
+        @if($message = session()->has('status'))
+            <x-alert icon="o-exclamation-triangle" class="alert-warning">
+                <span>{{ $message }}</span>
+            </x-alert>
+        @endif
+
+
         @if($errors->hasAny(['invalidCredentials', 'rateLimiter']))
             <x-alert icon="o-exclamation-triangle" class="alert-warning">
 
                 @error('invalidCredentials')
-
                 <span>{{ $message }}</span>
 
                 @enderror
