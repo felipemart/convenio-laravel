@@ -46,7 +46,8 @@ class EmailRecuperacaoSenha extends Notification
             ->line('Você está recebendo este e-mail porque recebemos uma solicitação de redefinição de senha para sua conta.')
             ->action('Redefinir senha', $url)
             ->line("Este link de redefinição de senha irá expirar em $expire minutos")
-            ->line('Se você não solicitou uma redefinição de senha, nenhuma outra ação será necessária.');
+            ->line('Se você não solicitou uma redefinição de senha, nenhuma outra ação será necessária.')
+            ->salutation('presados');
     }
 
     /**
