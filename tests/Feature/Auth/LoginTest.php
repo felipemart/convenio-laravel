@@ -18,7 +18,7 @@ it('should be able to login', function () {
     Livewire::test(Login::class)
         ->set('email', 'johndoe@example.com')
         ->set('password', 'password')
-        ->call('tryLogin')
+        ->call('lgoin')
         ->assertHasNoErrors()
         ->assertRedirect(route('dashboard'));
 
@@ -31,8 +31,8 @@ it('should make sure the email and password', function () {
     Livewire::test(Login::class)
         ->set('email', 'johndoe@example.com')
         ->set('password', 'password')
-        ->call('tryLogin')
-        ->assertHasErrors(['invalidCredentials'])
+        ->call('lgoin')
+        ->assertHasErrors(['crendenciaisInvalidas'])
         ->assertSee('Credenciais inválidas.');
 
 });
@@ -44,14 +44,14 @@ it('should make sure that rate limiter is working', function () {
         Livewire::test(Login::class)
             ->set('email', $usrer->email)
             ->set('password', 'wrong-password')
-            ->call('tryLogin')
-            ->assertHasErrors(['invalidCredentials']);
+            ->call('lgoin')
+            ->assertHasErrors(['crendenciaisInvalidas']);
     }
 
     Livewire::test(Login::class)
         ->set('email', $usrer->email)
         ->set('password', 'wrong-password')
-        ->call('tryLogin')
+        ->call('lgoin')
         ->assertHasErrors(['rateLimiter']);
 
 });

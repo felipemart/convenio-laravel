@@ -3,12 +3,11 @@
 namespace App\Livewire\Auth;
 
 use App\Models\User;
-use App\Notifications\WecomeNotification;
-use Illuminate\View\View;
+use App\Notifications\BemVindoNotification;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 
-class Register extends Component
+class Registro extends Component
 {
     #[Rule(['required', 'max:255'])]
     public ?string $name = null;
@@ -20,13 +19,12 @@ class Register extends Component
 
     #[Rule(['required'])]
     public ?string $password = null;
-
-    public function render(): View
+    public function render()
     {
-        return view('livewire.auth.register');
+        return view('livewire.auth.registro');
     }
 
-    public function submit()
+    public function registrarUsuario()
     {
         $this->validate();
 
@@ -37,7 +35,7 @@ class Register extends Component
 
         ]);
 
-        $user->notify(new WecomeNotification());
+        $user->notify(new BemVindoNotification());
 
     }
 }

@@ -1,0 +1,9 @@
+login/logout
+registrar
+esqueci minha senha
+recuperacao de senha por email
+
+
+mexer
+converter tudo para convenio
+fazer os email de boas vindas e recuperacao de senha

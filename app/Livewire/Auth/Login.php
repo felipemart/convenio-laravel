@@ -34,7 +34,7 @@ class Login extends Component
         ];
     }
 
-    public function tryLogin(): void
+    public function lgoin(): void
     {
 
         $this->validate();
@@ -50,7 +50,7 @@ class Login extends Component
 
             RateLimiter::hit($this->keyLimiter());
 
-            $this->addError('invalidCredentials', 'Credenciais inválidas.');
+            $this->addError('crendenciaisInvalidas', 'Credenciais inválidas.');
 
             return;
         }

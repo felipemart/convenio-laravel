@@ -6,7 +6,7 @@ use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
 
-it('should logout the user', function () {
+test('deve desconectar o usuário', function () {
 
     $user = User::factory()->create();
 

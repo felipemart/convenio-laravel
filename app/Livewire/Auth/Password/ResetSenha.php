@@ -6,7 +6,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\{DB, Hash};
 use Livewire\Component;
 
-class Reset extends Component
+class ResetSenha extends Component
 {
     public ?string $token = null;
 
@@ -14,20 +14,18 @@ class Reset extends Component
     {
         $this->token = request('token');
 
-        if ($this->tokenNotValid()) {
+        if ($this->tokenInvalido()) {
             session()->flash('status', 'Token inválido.');
             $this->redirectRoute('login');
         }
 
     }
-
     public function render(): View
     {
-        return view('livewire.auth.password.reset')
+        return view('livewire.auth.password.reset-senha')
             ->layout('components.layouts.guest', ['title' => 'Recuperação de senha']);
     }
-
-    private function tokenNotValid(): bool
+    private function tokenInvalido(): bool
     {
         $tokens = DB::table('password_reset_tokens')->get(['token']);
 

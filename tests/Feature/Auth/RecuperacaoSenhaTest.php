@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\Auth\Password\Recovery;
+use App\Livewire\Auth\Password\RecuperacaoSenha;
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Notification;
@@ -8,44 +8,44 @@ use Livewire\Livewire;
 
 use function Pest\Laravel\{assertDatabaseCount, assertDatabaseHas, get};
 
-test('needs to have a route to password recovery', function () {
-    get(route('password.recovery'))
-        ->assertSeeLivewire('auth.password.recovery')
+test('precisa ter uma rota para recuperação de senha', function () {
+    get(route('password.recuperar'))
+        ->assertSeeLivewire('auth.password.recuperacao-senha')
         ->assertOk();
 });
 
-it('should be able to recover password', function () {
+test('deve ser capaz de recuperar a senha', function () {
     Notification::fake();
 
     $user = User::factory()->create();
 
-    Livewire::test(Recovery::class)
+    Livewire::test(RecuperacaoSenha::class)
         ->assertDontSee('Email enviado com processo de recuperação de senha.')
         ->set('email', $user->email)
-        ->call('startPasswordRecovery')
+        ->call('recuperacaoSenha')
         ->assertSee('Email enviado com processo de recuperação de senha.');
 
     Notification::assertSentTo($user, ResetPassword::class);
 
 });
 
-test('making sure the email is a real emall', function ($value, $rule) {
+test('certificando-se de que o e-mail é real', function ($value, $rule) {
 
-    Livewire::test(Recovery::class)
+    Livewire::test(RecuperacaoSenha::class)
         ->set('email', $value)
-        ->call('startPasswordRecovery')
+        ->call('recuperacaoSenha')
         ->assertHasErrors(['email' => $rule]);
 })->with([
     'required' => ['value' => '', 'rule' => 'required'],
     'email'    => ['value' => 'qualerEmail', 'rule' => 'email'],
 ]);
 
-test('needs to create token recovery', function () {
+test('precisa criar recuperação de token', function () {
     $user = User::factory()->create();
 
-    Livewire::test(Recovery::class)
+    Livewire::test(RecuperacaoSenha::class)
         ->set('email', $user->email)
-        ->call('startPasswordRecovery');
+        ->call('recuperacaoSenha');
 
     assertDatabaseCount('password_reset_tokens', 1);
     assertDatabaseHas('password_reset_tokens', [

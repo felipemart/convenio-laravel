@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class WecomeNotification extends Notification
+class BemVindoNotification extends Notification
 {
     use Queueable;
 
@@ -34,8 +34,8 @@ class WecomeNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage())
-                    ->line('Bem vindo ao convenio!')
-                    ->line('Obrigado por se cadastrar!');
+            ->line('Bem vindo ao convenio!')
+            ->line('Obrigado por se cadastrar!');
     }
 
     /**
