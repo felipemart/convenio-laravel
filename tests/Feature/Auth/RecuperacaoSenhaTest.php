@@ -1,8 +1,7 @@
 <?php
 
-use App\Livewire\Auth\Password\RecuperacaoSenha;
 use App\Models\User;
-use Illuminate\Auth\Notifications\ResetPassword;
+use App\Notifications\RecuperacaoSenha;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 
@@ -19,13 +18,13 @@ test('deve ser capaz de recuperar a senha', function () {
 
     $user = User::factory()->create();
 
-    Livewire::test(RecuperacaoSenha::class)
+    Livewire::test(\App\Livewire\Auth\Password\RecuperacaoSenha::class)
         ->assertDontSee('Email enviado com processo de recuperação de senha.')
         ->set('email', $user->email)
         ->call('recuperacaoSenha')
         ->assertSee('Email enviado com processo de recuperação de senha.');
 
-    Notification::assertSentTo($user, ResetPassword::class);
+    Notification::assertSentTo($user, RecuperacaoSenha::class);
 
 });
 

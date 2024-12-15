@@ -36,7 +36,6 @@ class RecuperacaoSenha extends Component
     {
 
         $this->validate();
-
         Password::sendResetLink($this->only('email'));
 
         $this->message = 'Email enviado com processo de recuperação de senha.';
