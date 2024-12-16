@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use  HasFactory;
+    use HasFactory;
     use Notifiable;
 
     protected $fillable = [
