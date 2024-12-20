@@ -9126,3 +9126,90 @@
 #100 /home/projeto/convenio/vendor/pestphp/pest/bin/worker.php(105): {closure}()
 #101 {main}
 "} 
+[2024-12-20 18:53:38] local.ERROR: Command "make:migrate" is not defined.
+
+Did you mean one of these?
+    make:cache-table
+    make:cast
+    make:channel
+    make:class
+    make:command
+    make:component
+    make:controller
+    make:enum
+    make:event
+    make:exception
+    make:factory
+    make:interface
+    make:job
+    make:job-middleware
+    make:listener
+    make:livewire
+    make:mail
+    make:middleware
+    make:migration
+    make:model
+    make:notification
+    make:notifications-table
+    make:observer
+    make:policy
+    make:provider
+    make:queue-batches-table
+    make:queue-failed-table
+    make:queue-table
+    make:request
+    make:resource
+    make:rule
+    make:scope
+    make:seeder
+    make:session-table
+    make:test
+    make:trait
+    make:view {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"make:migrate\" is not defined.
+
+Did you mean one of these?
+    make:cache-table
+    make:cast
+    make:channel
+    make:class
+    make:command
+    make:component
+    make:controller
+    make:enum
+    make:event
+    make:exception
+    make:factory
+    make:interface
+    make:job
+    make:job-middleware
+    make:listener
+    make:livewire
+    make:mail
+    make:middleware
+    make:migration
+    make:model
+    make:notification
+    make:notifications-table
+    make:observer
+    make:policy
+    make:provider
+    make:queue-batches-table
+    make:queue-failed-table
+    make:queue-table
+    make:request
+    make:resource
+    make:rule
+    make:scope
+    make:seeder
+    make:session-table
+    make:test
+    make:trait
+    make:view at /home/projeto/convenio/vendor/symfony/console/Application.php:726)
+[stacktrace]
+#0 /home/projeto/convenio/vendor/symfony/console/Application.php(284): Symfony\\Component\\Console\\Application->find()
+#1 /home/projeto/convenio/vendor/symfony/console/Application.php(193): Symfony\\Component\\Console\\Application->doRun()
+#2 /home/projeto/convenio/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(197): Symfony\\Component\\Console\\Application->run()
+#3 /home/projeto/convenio/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1205): Illuminate\\Foundation\\Console\\Kernel->handle()
+#4 /home/projeto/convenio/artisan(13): Illuminate\\Foundation\\Application->handleCommand()
+#5 {main}
+"} 
