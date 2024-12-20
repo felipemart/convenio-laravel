@@ -7,6 +7,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\{DB, Hash, Password};
 use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class ResetSenha extends Component
@@ -85,6 +86,13 @@ class ResetSenha extends Component
         session()->flash('status', $status);
 
         $this->redirect(route('dashboard'));
+
+    }
+
+    #[Computed]
+    public function obfuscarEmail(): string
+    {
+        return obfuscar_email($this->email);
 
     }
 }

@@ -86,3 +86,29 @@ test('certificando-se de que o e-mail é real', function ($f) {
     'password::required'  => (object)['field' => 'password', 'value' => '', 'rule' => 'required'],
     'password::confirmed' => (object)['field' => 'password', 'value' => 'password-not-confirmed', 'rule' => 'confirmed'],
 ]);
+
+test('certificar que funcao obfuscar_email ', function () {
+
+    $email         = 'johndoe@example.com';
+    $obfuscarEmail = obfuscar_email($email);
+    expect($obfuscarEmail)->toBe('jo*****@example.com');
+
+    Notification::fake();
+    $user = User::factory()->create();
+
+    Livewire::test(RecuperacaoSenha::class)
+        ->set('email', $user->email)
+        ->call('recuperacaoSenha');
+
+    Notification::assertSentTo(
+        $user,
+        EmailRecuperacaoSenha::class,
+        function (EmailRecuperacaoSenha $notification) use ($user) {
+            Livewire::test(ResetSenha::class, ['token' => $notification->token, 'email' => $user->email])
+                ->assertSet('obfuscarEmail', obfuscar_email($user->email));
+
+            return true;
+        }
+    );
+
+});
