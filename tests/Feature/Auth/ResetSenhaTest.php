@@ -47,7 +47,7 @@ test('teste possivel de resetar a senha', function () {
                 ->set('password_confirmation', 'new-password')
                 ->call('resetarSenha')
                 ->assertHasNoErrors()
-                ->assertRedirect(route('dashboard'));
+                ->assertRedirect(route('login'));
 
             $user->refresh();
 

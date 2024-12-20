@@ -51,7 +51,7 @@ class ResetSenha extends Component
     public function render(): View
     {
         return view('livewire.auth.password.reset-senha')
-            ->layout('components.layouts.guest', ['title' => 'Recuperação de senha']);
+            ->layout('components.layouts.guest', ['title' => 'Reset de senha']);
     }
     private function tokenInvalido(): bool
     {
@@ -83,9 +83,18 @@ class ResetSenha extends Component
             }
         );
 
-        session()->flash('status', $status);
+        if ($status != Password::PASSWORD_RESET) {
+            session()->flash('status', 'Ocorreu um erro ao resetar a senha.');
 
-        $this->redirect(route('dashboard'));
+            if ($status == Password::INVALID_USER) {
+                session()->flash('status', 'Não conseguimos encontrar um usuário com esse endereço de e-mail.');
+            }
+
+            return;
+        }
+
+        session()->flash('status', 'Senha resetada com sucesso.');
+        $this->redirect(route('login'));
 
     }
 

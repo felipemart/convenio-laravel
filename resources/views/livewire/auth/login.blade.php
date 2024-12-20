@@ -5,9 +5,9 @@
         <x-input label="Email" wire:model="email"/>
         <x-input label="Senha" wire:model="password" type="password"/>
 
-        @if($message = session()->has('status'))
+        @if(session()->has('status'))
             <x-alert icon="o-exclamation-triangle" class="alert-warning">
-                <span>{{ $message }}</span>
+                <span>{{ session()->get('status') }}</span>
             </x-alert>
         @endif
 
