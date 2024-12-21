@@ -27,7 +27,7 @@
         <div class="w-full flex items-center justify-between">
 
             <x-slot:actions>
-                <a wire:navigate href="{{ route('password.recuperar')  }}" class="btn btn-ghost"> Esqueci minha
+                <a wire:navigate href="{{ route('password.recovery')  }}" class="btn btn-ghost"> Esqueci minha
                     senha</a>
                 <x-button label="Cancelar" type="reset"/>
                 <x-button label="Login" class="btn-primary" type="submit" spinner="save"/>

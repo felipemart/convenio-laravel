@@ -38,6 +38,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Permission::class);
     }
 
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
     public function sendPasswordResetNotification($token): void
     {
         $this->notify(new EmailRecuperacaoSenha($token));
@@ -51,6 +56,16 @@ class User extends Authenticatable
     public function hasPermission(string $permission): bool
     {
         return $this->permissions()->where('permission', $permission)->exists();
+    }
+
+    public function giveRole(string $role): void
+    {
+        $this->roles()->firstOrCreate(['role' => $role]);
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return $this->roles()->where('role', $role)->exists();
     }
 
 }

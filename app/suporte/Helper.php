@@ -15,7 +15,7 @@ function obfuscar_email(?string $email): string
     $qt    = floor(strlen($split[0]) * 0.75);
     $resto = strlen($split[0]) - $qt;
 
-    $split[0] = substr($split[0], 0, $resto) . str_repeat('*', $qt);
+    $split[0] = substr($split[0], 0, intval($resto)) . str_repeat('*', intval($qt));
 
     return implode('@', $split);
 }
