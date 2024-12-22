@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enum\RoleEnum;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -15,7 +16,7 @@ class UserSeeder extends Seeder
 
         User::factory()
             ->withPermissions('incluir')
-            ->withRoles('admin')
+            ->withRoles(RoleEnum::ADMIN)
             ->create([
                 'name'     => 'Admin',
                 'email'    => 'admin@localhost.com',

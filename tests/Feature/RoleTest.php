@@ -1,5 +1,6 @@
 <?php
 
+use App\Enum\RoleEnum;
 use App\Models\{Role, User};
 use Database\Seeders\{RoleSeeder, UserSeeder};
 use Illuminate\Support\Facades\{Cache, DB};
@@ -10,17 +11,17 @@ test('deve conceder papel ao usuário', function () {
 
     $user = User::factory()->create();
 
-    $user->giveRole('admin');
+    $user->giveRole(RoleEnum::ADMIN);
 
-    expect($user->hasRole('admin'))->toBeTrue();
+    expect($user->hasRole(RoleEnum::ADMIN))->toBeTrue();
 
     assertDatabaseHas('roles', [
-        'role' => 'admin',
+        'role' => RoleEnum::ADMIN->value,
     ]);
 
     assertDatabaseHas('role_user', [
         'user_id' => $user->id,
-        'role_id' => Role::where('role', '=', 'admin')->first()->id,
+        'role_id' => Role::where('role', '=', RoleEnum::ADMIN->value)->first()->id,
     ]);
 });
 test('papeis deve ter seeder', function () {
@@ -30,7 +31,7 @@ test('papeis deve ter seeder', function () {
     assertDatabaseHas(
         'roles',
         [
-            'role' => 'admin', ]
+            'role' => RoleEnum::ADMIN->value, ]
     );
 });
 
@@ -47,7 +48,7 @@ test('seeder deve dar papel ao usuário', function () {
 
     assertDatabaseHas('role_user', [
         'user_id' => User::first()?->id,
-        'role_id' => Role::where('role', '=', 'admin')->first()?->id,
+        'role_id' => Role::where('role', '=', RoleEnum::ADMIN->value)->first()?->id,
     ]);
 });
 
@@ -64,7 +65,7 @@ test('deve bloquear acesso para usuário sem papel de admin', function () {
 test('ter certeza que os papeis estao em cache', function () {
     $user = User::factory()->create();
 
-    $user->giveRole('admin');
+    $user->giveRole(RoleEnum::ADMIN);
 
     $keyCache = "user::{$user->id}::roles";
 
@@ -76,11 +77,11 @@ test('ter certeza que os papeis estao em cache', function () {
 test('checando ser esta  usando cache para papeis', function () {
     $user = User::factory()->create();
 
-    $user->giveRole('admin');
+    $user->giveRole(RoleEnum::ADMIN);
 
     DB::listen(fn ($query) => throw new Exception('realizou chamada no banco'));
 
-    $user->hasRole('admin');
+    $user->hasRole(RoleEnum::ADMIN);
 
     expect(true)->toBeTrue();
 
