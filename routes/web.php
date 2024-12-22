@@ -17,7 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/logout', [Logout::class, 'logout'])->name('logout');
 
     //region Admin
-    Route::prefix('/admin')->middleware('can:admin')->group(function () {
+    Route::prefix('/admin')->middleware('role:admin')->group(function () {
         Route::get('/dashboard', fn () => 'admin dashboard')->name('admin.dashboard');
     });
     //endregion

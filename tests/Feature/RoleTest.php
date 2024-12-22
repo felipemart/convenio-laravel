@@ -2,6 +2,7 @@
 
 use App\Models\{Role, User};
 use Database\Seeders\{RoleSeeder, UserSeeder};
+use Illuminate\Support\Facades\{Cache, DB};
 
 use function Pest\Laravel\{actingAs, assertDatabaseHas, seed};
 
@@ -57,5 +58,30 @@ test('deve bloquear acesso para usuário sem papel de admin', function () {
     actingAs($user)
         ->get(route('admin.dashboard'))
         ->assertForbidden();
+
+});
+
+test('ter certeza que os papeis estao em cache', function () {
+    $user = User::factory()->create();
+
+    $user->giveRole('admin');
+
+    $keyCache = "user::{$user->id}::roles";
+
+    expect(Cache::has($keyCache))->toBeTrue('checando se chave existe')
+        ->and(Cache::get($keyCache))->toBe($user->roles);
+
+});
+
+test('checando ser esta  usando cache para papeis', function () {
+    $user = User::factory()->create();
+
+    $user->giveRole('admin');
+
+    DB::listen(fn ($query) => throw new Exception('realizou chamada no banco'));
+
+    $user->hasRole('admin');
+
+    expect(true)->toBeTrue();
 
 });
