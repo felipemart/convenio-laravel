@@ -36,4 +36,9 @@ trait HasPermissions
         Cache::forget($this->getKeyPermissions());
         Cache::rememberForever($this->getKeyPermissions(), fn () => $this->permissions);
     }
+
+    public function deleteCachePermissions()
+    {
+        Cache::forget($this->getKeyPermissions());
+    }
 }

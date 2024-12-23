@@ -65,4 +65,14 @@ class User extends Authenticatable
     {
         $this->cacheRoles();
     }
+
+    public function logoutCachePermissions(): void
+    {
+        $this->deleteCachePermissions();
+    }
+
+    public function logoutCacheRoles(): void
+    {
+        $this->deleteCacheRoles();
+    }
 }

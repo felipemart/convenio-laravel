@@ -63,6 +63,7 @@ test('ter certeza que os permissao estao em cache', function () {
         ->and(Cache::get($keyCache))->toBe($user->permissions);
 
 });
+
 test('checando ser esta  usando cache para permissao', function () {
     $user = User::factory()->create();
 

@@ -48,7 +48,11 @@ trait HasRoles
     {
         Cache::forget($this->getKeyRole());
         Cache::rememberForever($this->getKeyRole(), fn () => $this->roles);
+    }
 
+    public function deleteCacheRoles()
+    {
+        Cache::forget($this->getKeyRole());
     }
 
 }
