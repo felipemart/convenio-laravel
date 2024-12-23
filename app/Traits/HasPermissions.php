@@ -30,4 +30,10 @@ trait HasPermissions
         return $permissions->where('permission', '=', $permission)->isNotEmpty();
 
     }
+
+    public function cachePermissions(): void
+    {
+        Cache::forget($this->getKeyPermissions());
+        Cache::rememberForever($this->getKeyPermissions(), fn () => $this->permissions);
+    }
 }

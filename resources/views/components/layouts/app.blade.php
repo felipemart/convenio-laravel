@@ -42,7 +42,7 @@
                              class="-mx-2 !-my-2 rounded">
                     <x-slot:actions>
                         <livewire:auth.logout/>
-                
+
                     </x-slot:actions>
                 </x-list-item>
 
@@ -54,6 +54,15 @@
                 <x-menu-item title="Wifi" icon="o-wifi" link="####"/>
                 <x-menu-item title="Archives" icon="o-archive-box" link="####"/>
             </x-menu-sub>
+
+            @permission('incluir')
+            <x-menu-item title="Operadora1" icon="o-sparkles" link="/"/>
+            @endpermission
+
+            @role(['admin', 'operadora'])
+            <x-menu-item title="Operadora2" icon="o-sparkles" link="/"/>
+            @endrole
+
         </x-menu>
     </x-slot:sidebar>
 

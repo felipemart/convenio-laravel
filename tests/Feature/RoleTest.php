@@ -67,7 +67,7 @@ test('ter certeza que os papeis estao em cache', function () {
 
     $user->giveRole(RoleEnum::ADMIN);
 
-    $keyCache = "user::{$user->id}::roles";
+    $keyCache = "user:{$user->id}:roles";
 
     expect(Cache::has($keyCache))->toBeTrue('checando se chave existe')
         ->and(Cache::get($keyCache))->toBe($user->roles);

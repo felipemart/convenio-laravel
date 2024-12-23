@@ -32,7 +32,7 @@ class User extends Authenticatable
      */
     public function getKeyPermissions(): string
     {
-        return "user::{$this->id}::permissions";
+        return "user:{$this->id}:permissions";
     }
 
     /**
@@ -40,7 +40,7 @@ class User extends Authenticatable
      */
     public function getKeyRole(): string
     {
-        return "user::{$this->id}::roles";
+        return "user:{$this->id}:roles";
     }
 
     protected function casts(): array
@@ -54,5 +54,15 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token): void
     {
         $this->notify(new EmailRecuperacaoSenha($token));
+    }
+
+    public function loginCachePermissions(): void
+    {
+        $this->cachePermissions();
+    }
+
+    public function loginCacheRoles(): void
+    {
+        $this->cacheRoles();
     }
 }

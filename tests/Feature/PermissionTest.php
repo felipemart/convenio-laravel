@@ -58,7 +58,7 @@ test('ter certeza que os permissao estao em cache', function () {
 
     $user->givePermission('incluir');
 
-    $keyCache = "user::{$user->id}::permissions";
+    $keyCache = "user:{$user->id}:permissions";
     expect(Cache::has($keyCache))->toBeTrue('checando se chave existe')
         ->and(Cache::get($keyCache))->toBe($user->permissions);
 
