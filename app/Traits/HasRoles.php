@@ -25,6 +25,15 @@ trait HasRoles
         Cache::rememberForever($this->getKeyRole(), fn () => $this->roles);
     }
 
+    public function removeRole(RoleEnum|string $role): void
+    {
+        $keyRole = $role instanceof RoleEnum ? $role->value : $role;
+        $this->roles()->detach($keyRole);
+        $this->deleteCacheRoles();
+        $this->cacheRoles();
+
+    }
+
     public function hasRole(RoleEnum|string|array $role): bool
     {
         if (is_array($role)) {

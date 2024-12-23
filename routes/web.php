@@ -1,6 +1,5 @@
 <?php
 
-use App\Enum\RoleEnum;
 use App\Livewire\Auth\{Login, Logout, Password\Recovery, Password\Reset, Register};
 use App\Livewire\Welcome;
 use Illuminate\Support\Facades\Route;
@@ -18,7 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/logout', [Logout::class, 'logout'])->name('logout');
 
     //region Admin
-    Route::prefix('/admin')->middleware('role:' . RoleEnum::ADMIN->value)->group(function () {
+    Route::middleware('role:admin|operadora')->group(function () {
         Route::get('/dashboard', fn () => 'admin dashboard')->name('admin.dashboard');
     });
     //endregion
