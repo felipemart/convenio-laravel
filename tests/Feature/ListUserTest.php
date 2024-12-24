@@ -95,12 +95,13 @@ test('deve filtar os usuarios pelo nivel', function () {
         'name'  => 'Admin',
         'email' => 'admin@gamail.com',
     ]);
-    $mario = User::factory()->create([
+    $mario = User::factory()->withRoles('test')->create([
         'name'  => 'Mario',
         'email' => 'mario@gamail.com',
     ]);
 
-    $roles = Role::where('role', '=', 'admin')->first();
+    $roles  = Role::where('role', '=', 'admin')->first();
+    $roles2 = Role::where('role', '=', 'test')->first();
 
     actingAs($admin);
 
@@ -116,6 +117,13 @@ test('deve filtar os usuarios pelo nivel', function () {
             expect($users)
                 ->toHaveCount(1)
                 ->first()->name->toBe('Admin');
+
+            return true;
+        })
+        ->set('search_role', [$roles->id, $roles2->id])
+        ->assertSet('users', function ($users) {
+            expect($users)
+                ->toHaveCount(2);
 
             return true;
         });

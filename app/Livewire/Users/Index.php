@@ -6,6 +6,7 @@ use App\Models\{Role, User};
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\{Component, WithPagination};
@@ -29,7 +30,15 @@ class Index extends Component
 
     public ?string $email = null;
 
-    public ?array $search_role = [];
+    public Collection $roleToSearch;
+
+    public ?array $searchRole = [];
+
+    public function mount(): void
+    {
+        $this->filterRole();
+
+    }
 
     public function render(): View
     {
@@ -39,7 +48,7 @@ class Index extends Component
     #[Computed]
     public function users(): LengthAwarePaginator
     {
-        $this->validate(['search_role' => 'exists:roles,id']);
+        $this->validate(['searchRole' => 'exists:roles,id']);
 
         return User::query()
             ->when(
@@ -68,13 +77,10 @@ class Index extends Component
                     "%" . strtolower($this->email) . "%"
                 )
             )->when(
-                $this->search_role,
-                fn (Builder $q) => $q->whereRaw(
-                    '(select count(*)
-                    from role_user
-                    where role_user.user_id = users.id
-                    and role_user.role_id in (?)) > 0',
-                    $this->search_role
+                $this->searchRole,
+                fn (Builder $q) => $q->whereHas(
+                    'roles',
+                    fn (Builder $query) => $query->whereIn('id', $this->searchRole)
                 )
             )
             ->orderBy(...array_values($this->sortBy))
@@ -92,12 +98,11 @@ class Index extends Component
         ];
     }
 
-    #[Computed]
-    public function getAllRoles()
+    public function filterRole(?string $value = null): void
     {
-        return Role::query()->get()->map(function (Role $role) {
-            return ['id' => $role->id, 'name' => $role->role];
-        });
+        $this->roleToSearch = Role::query()->when($value, fn (Builder $q) => $q->where('role', 'like', "%$value%"))
+            ->orderBy('role')
+            ->get();
 
     }
 }
