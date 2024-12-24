@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Notifications\{EmailRecuperacaoSenha};
 use App\Traits\{HasPermissions, HasRoles};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -15,6 +16,7 @@ class User extends Authenticatable
     use Notifiable;
     use HasRoles;
     use HasPermissions;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',

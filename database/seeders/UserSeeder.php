@@ -22,5 +22,7 @@ class UserSeeder extends Seeder
                 'email'    => 'admin@localhost.com',
                 'password' => bcrypt('123'),
             ]);
+
+        User::factory()->count(50)->create();
     }
 }

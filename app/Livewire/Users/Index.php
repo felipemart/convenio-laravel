@@ -34,6 +34,8 @@ class Index extends Component
 
     public ?array $searchRole = [];
 
+    public bool $search_trash = false;
+
     public function mount(): void
     {
         $this->filterRole();
@@ -83,6 +85,7 @@ class Index extends Component
                     fn (Builder $query) => $query->whereIn('id', $this->searchRole)
                 )
             )
+            ->when($this->search_trash, fn (Builder $q) => $q->onlyTrashed())
             ->orderBy(...array_values($this->sortBy))
             ->paginate($this->perPage);
     }

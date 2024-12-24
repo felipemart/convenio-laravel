@@ -128,3 +128,28 @@ test('deve filtar os usuarios pelo nivel', function () {
             return true;
         });
 });
+
+test('deve filtar os usuarios deletado', function () {
+    $admin = User::factory()->withRoles('admin')->create([
+        'name'  => 'Admin',
+        'email' => 'admin@gamail.com',
+    ]);
+    $deleteUser = User::factory()->count(2)->create(['deleted_at' => now()]);
+
+    actingAs($admin);
+
+    Livewire::test(Index::class)
+        ->assertSet('users', function ($users) {
+            expect($users)
+                ->toHaveCount(1);
+
+            return true;
+        })
+        ->set('search_trash', true)
+        ->assertSet('users', function ($users) {
+            expect($users)
+                ->toHaveCount(2);
+
+            return true;
+        });
+});
