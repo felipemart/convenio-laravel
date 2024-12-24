@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function () {
     //region Admin
     Route::middleware('role:admin|operadora')->group(function () {
         Route::get('/dashboard', fn () => 'admin dashboard')->name('admin.dashboard');
+        Route::get('/users', \App\Livewire\Users\Index::class)->name('user.list');
     });
     //endregion
 

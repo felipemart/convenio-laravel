@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
 
         User::factory()
             ->withPermissions('incluir')
-            ->withRoles(RoleEnum::ADMIN)
+            ->withRoles(RoleEnum::ADMIN->value)
             ->create([
                 'name'     => 'Admin',
                 'email'    => 'admin@localhost.com',

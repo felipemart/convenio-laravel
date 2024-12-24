@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enum\RoleEnum;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -51,7 +50,7 @@ class UserFactory extends Factory
         });
     }
 
-    public function withRoles(RoleEnum $roles): static
+    public function withRoles(string $roles): static
     {
         return $this->afterCreating(function (User $user) use ($roles) {
             $user->giveRole($roles);
