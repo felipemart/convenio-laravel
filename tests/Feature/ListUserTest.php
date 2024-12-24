@@ -1,7 +1,7 @@
 <?php
 
 use App\Livewire\Users\Index;
-use App\Models\User;
+use App\Models\{Role, User};
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Livewire;
 
@@ -59,4 +59,64 @@ test('vefiricando ser a table tem formato', function () {
             ['key' => 'email', 'label' => 'Email'],
             ['key' => 'roles', 'label' => 'Nivel'],
         ]);
+});
+
+test('deve filtar os usuarios por nome e email', function () {
+    $admin = User::factory()->withRoles('admin')->create([
+        'name'  => 'Admin',
+        'email' => 'admin@gamail.com',
+    ]);
+    $mario = User::factory()->withRoles('admin')->create([
+        'name'  => 'Mario',
+        'email' => 'mario@gamail.com',
+    ]);
+
+    actingAs($admin);
+
+    Livewire::test(Index::class)
+        ->assertSet('users', function ($users) {
+            expect($users)
+                ->toHaveCount(2);
+
+            return true;
+        })
+        ->set('search', 'mar')
+        ->assertSet('users', function ($users) {
+            expect($users)
+                ->toHaveCount(1)
+                ->first()->name->toBe('Mario');
+
+            return true;
+        });
+});
+
+test('deve filtar os usuarios pelo nivel', function () {
+    $admin = User::factory()->withRoles('admin')->create([
+        'name'  => 'Admin',
+        'email' => 'admin@gamail.com',
+    ]);
+    $mario = User::factory()->create([
+        'name'  => 'Mario',
+        'email' => 'mario@gamail.com',
+    ]);
+
+    $roles = Role::where('role', '=', 'admin')->first();
+
+    actingAs($admin);
+
+    Livewire::test(Index::class)
+        ->assertSet('users', function ($users) {
+            expect($users)
+                ->toHaveCount(2);
+
+            return true;
+        })
+        ->set('search_role', [$roles->id])
+        ->assertSet('users', function ($users) {
+            expect($users)
+                ->toHaveCount(1)
+                ->first()->name->toBe('Admin');
+
+            return true;
+        });
 });
