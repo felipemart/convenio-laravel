@@ -21,7 +21,8 @@
         right
     >
 
-        <x-checkbox label="Buscar usuarios excluidos" wire:model="search_trash" hint="You agree with terms"/>
+        <x-checkbox label="Buscar pelo usuarios excluidos" wire:model.live.debounce="search_trash"
+                    hint="Ative para buscar usuarios excluidos"/>
         <x-input label="Nome" wire:model="nome" wire:model.live.debounce="nome"/>
         <x-input label="Email" wire:model="email" wire:model.live.debounce="email"/>
         <x-choices
@@ -36,8 +37,7 @@
 
 
         <x-slot:actions>
-            <x-button label="Cancel" @click="$wire.showDrawer3 = false"/>
-            <x-button label="Confirm" class="btn-primary" icon="o-check"/>
+            <x-button label="Filtar" class="btn-primary" icon="o-check"/>
         </x-slot:actions>
     </x-drawer>
 

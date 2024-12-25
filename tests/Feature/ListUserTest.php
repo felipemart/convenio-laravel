@@ -112,7 +112,7 @@ test('deve filtar os usuarios pelo nivel', function () {
 
             return true;
         })
-        ->set('search_role', [$roles->id])
+        ->set('searchRole', [$roles->id])
         ->assertSet('users', function ($users) {
             expect($users)
                 ->toHaveCount(1)
@@ -120,7 +120,7 @@ test('deve filtar os usuarios pelo nivel', function () {
 
             return true;
         })
-        ->set('search_role', [$roles->id, $roles2->id])
+        ->set('searchRole', [$roles->id, $roles2->id])
         ->assertSet('users', function ($users) {
             expect($users)
                 ->toHaveCount(2);
