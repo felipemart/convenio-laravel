@@ -41,6 +41,10 @@ class Index extends Component
         $this->filterRole();
 
     }
+    public function updatedPerPage($value): void
+    {
+        $this->resetPage();
+    }
 
     public function render(): View
     {
@@ -51,8 +55,10 @@ class Index extends Component
     public function users(): LengthAwarePaginator
     {
         $this->validate(['searchRole' => 'exists:roles,id']);
+        ds()->queriesOn();
 
         return User::query()
+            ->with('roles')
             ->when(
                 $this->search,
                 fn (Builder $q) => $q->where(
@@ -94,10 +100,10 @@ class Index extends Component
     public function headers(): array
     {
         return [
-            ['key' => 'id', 'label' => '#'],
+            ['key' => 'id', 'label' => '#', 'class' => 'w-16'],
             ['key' => 'name', 'label' => 'Name'],
             ['key' => 'email', 'label' => 'Email'],
-            ['key' => 'roles', 'label' => 'Nivel'],
+            ['key' => 'roles', 'label' => 'Nivel', 'sortable' => false],
         ];
     }
 
@@ -106,6 +112,12 @@ class Index extends Component
         $this->roleToSearch = Role::query()->when($value, fn (Builder $q) => $q->where('role', 'like', "%$value%"))
             ->orderBy('role')
             ->get();
+
+    }
+
+    public function delete(User $user): void
+    {
+        $user->softDeleted();
 
     }
 }

@@ -54,10 +54,10 @@ test('composente deve carregar todos os usuarios', function () {
 test('vefiricando ser a table tem formato', function () {
     Livewire::test(Index::class)
         ->assertSet('headers', [
-            ['key' => 'id', 'label' => '#'],
+            ['key' => 'id', 'label' => '#', 'class' => 'w-16'],
             ['key' => 'name', 'label' => 'Name'],
             ['key' => 'email', 'label' => 'Email'],
-            ['key' => 'roles', 'label' => 'Nivel'],
+            ['key' => 'roles', 'label' => 'Nivel', 'sortable' => false],
         ]);
 });
 
@@ -149,6 +149,53 @@ test('deve filtar os usuarios deletado', function () {
         ->assertSet('users', function ($users) {
             expect($users)
                 ->toHaveCount(2);
+
+            return true;
+        });
+});
+
+test('deve ordenar os usuarios', function () {
+    $admin = User::factory()->withRoles('admin')->create([
+        'name'  => 'Admin',
+        'email' => 'admin@gamail.com',
+    ]);
+    $mario = User::factory()->withRoles('test')->create([
+        'name'  => 'Mario',
+        'email' => 'mario@gamail.com',
+    ]);
+    actingAs($admin);
+    Livewire::test(Index::class)
+        ->set('sortBy', ['column' => 'name', 'direction' => 'asc'])
+        ->assertSet('users', function ($users) {
+            expect($users)
+                ->first()->name->toBe('Admin')
+                ->and($users)->last()->name->toBe('Mario');
+
+            return true;
+        })
+        ->set('sortBy', ['column' => 'name', 'direction' => 'desc'])
+        ->assertSet('users', function ($users) {
+            expect($users)
+                ->first()->name->toBe('Mario')
+                ->and($users)->last()->name->toBe('Admin');
+
+            return true;
+        });
+});
+
+test('paginacao dos resultados', function () {
+    $admin = User::factory()->withRoles('admin')->create([
+        'name'  => 'Admin',
+        'email' => 'admin@gamail.com',
+    ]);
+    User::factory()->withRoles('test')->count(50)->create();
+
+    actingAs($admin);
+    Livewire::test(Index::class)
+        ->set('perPage', 15)
+        ->assertSet('users', function (LengthAwarePaginator $users) {
+            expect($users)
+               ->toHaveCount(15);
 
             return true;
         });

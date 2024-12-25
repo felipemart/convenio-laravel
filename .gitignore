@@ -22,3 +22,5 @@ yarn-error.log
 /.vscode
 /.zed
 /storage/logs/*
+laradumps.yaml
+laradumps.yaml.backup
