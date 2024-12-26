@@ -114,9 +114,4 @@ class Index extends Component
 
     }
 
-    public function delete(User $user): void
-    {
-        $user->softDeleted();
-
-    }
 }
