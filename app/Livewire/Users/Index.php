@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
-use Livewire\{Component, WithPagination};
+use Livewire\{Attributes\On, Component, WithPagination};
 
 /**
  * @property-read LengthAwarePaginator | User[] $users
@@ -46,6 +46,7 @@ class Index extends Component
         $this->resetPage();
     }
 
+    #[On('user.deleted')]
     public function render(): View
     {
         return view('livewire.users.index');
@@ -111,6 +112,12 @@ class Index extends Component
         $this->roleToSearch = Role::query()->when($value, fn (Builder $q) => $q->where('role', 'like', "%$value%"))
             ->orderBy('role')
             ->get();
+
+    }
+
+    public function destroy(int $id): void
+    {
+        $this->dispatch('user.deletion', userId: $id)->to('users.delete');
 
     }
 

@@ -13,7 +13,7 @@ test('deve ser capaz de deletar um usuario', function () {
     actingAs($admin);
 
     Livewire::test(Delete::class, ['user' => $userDelete])
-        ->set('confirmDestroy_confirmation', 'DELETE')
+        ->set('confirmDestroy_confirmation', 'DELETAR')
         ->call('destroy')
         ->assertDispatched('user.deleted');
 
@@ -31,4 +31,16 @@ test('deve ter um confirmacao para excluir', function () {
         ->assertHasErrors(['confirmDestroy' => 'confirmed']);
 
     assertNotSoftDeleted('users', ['id' => $userDelete->id]);
+});
+test('Nao pode deletar o usuario que esta logado', function () {
+    $admin = User::factory()->withRoles('admin')->create();
+
+    actingAs($admin);
+
+    Livewire::test(Delete::class, ['user' => $admin])
+        ->set('confirmDestroy_confirmation', 'DELETAR')
+        ->call('destroy')
+        ->assertNotDispatched('user.deleted');
+
+    assertNotSoftDeleted('users', ['id' => $admin->id]);
 });

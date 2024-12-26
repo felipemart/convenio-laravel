@@ -10,7 +10,7 @@
 </head>
 
 <body class="font-sans antialiased">
-
+<x-toast/>
 {{-- The navbar with `sticky` and `full-width` --}}
 <x-nav sticky full-width>
 

@@ -35,7 +35,7 @@
             option-label="role"
             searchable/>
 
-      
+
         <x-slot:actions>
             <x-button label="Filtar" class="btn-primary" icon="o-check"/>
         </x-slot:actions>
@@ -53,14 +53,26 @@
             @permission('incluir')
             @scope('actions', $user)
             <span class="flex">
+
                         <x-button icon="o-document-magnifying-glass" wire:click="visiualizar({{ $user['id'] }})" spinner
                                   class="btn-ghost btn-sm text-white-500" tooltip="Visualizar"/>
+
+
                         <x-button icon="o-pencil-square" wire:click="editar({{ $user['id'] }})" spinner
                                   class="btn-ghost btn-sm text-white-500" tooltip="Editar"/>
 
-                    @unless($user->trashed())
-                    <x-button icon="o-trash" wire:click="delete({{ $user['id'] }})" spinner
-                              class="btn-ghost btn-sm text-red-500" tooltip="Apagar"/>
+
+                @unless($user->trashed())
+                    @unless($user->is(auth()->user()))
+                        <x-button
+                            id="delete-btn-{{ $user->id }}"
+                            wire:key="delete-btn-{{ $user->id }}"
+                            icon="o-trash"
+                            wire:click="destroy('{{ $user->id }}')"
+                            spinner
+                            class="btn-ghost btn-sm text-red-500" tooltip="Apagar"
+                        />
+                    @endif
                 @else
                     <x-button icon="o-arrow-path-rounded-square" wire:click="reativar({{ $user['id'] }})" spinner
                               class="btn-ghost btn-sm text-white-500" tooltip="Reativar"/>
@@ -75,4 +87,5 @@
 
     <!-- FILTER DRAWER -->
 
+    <livewire:users.delete/>
 </div>
