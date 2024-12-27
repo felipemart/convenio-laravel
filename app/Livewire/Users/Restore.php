@@ -8,7 +8,7 @@ use Livewire\Attributes\{On, Validate};
 use Livewire\Component;
 use Mary\Traits\Toast;
 
-class Delete extends Component
+class Restore extends Component
 {
     use Toast;
 
@@ -16,24 +16,24 @@ class Delete extends Component
 
     public bool $modal = false;
 
-    #[Validate(['required', 'confirmed'], message: ['required' => 'Para deletar o usuario digite "DELETAR"', 'confirmed' => 'Para deletar o usuario digite "DELETAR"'])]
-    public string $confirmDestroy = 'DELETAR';
+    #[Validate(['required', 'confirmed'], message: ['required' => 'Para restaurar o usuario digite "RESTAURAR"', 'confirmed' => 'Para restaurar o usuario digite "RESTAURAR"'])]
+    public string $confirmRestore = 'RESTAURAR';
 
-    public ?string $confirmDestroy_confirmation = null;
+    public ?string $confirmRestore_confirmation = null;
 
     public function render(): View
     {
-        return view('livewire.users.delete');
+        return view('livewire.users.restore');
     }
 
-    #[On('user.deletion')]
+    #[On('user.restoring')]
     public function openConfirmationfor(int $userId): void
     {
-        $this->user  = User::select('id', 'name', 'email')->find($userId);
+        $this->user  = User::select('id', 'name', 'email')->withTrashed()->find($userId);
         $this->modal = true;
     }
 
-    public function destroy(): void
+    public function restore(): void
     {
         $this->validate();
 
@@ -43,18 +43,20 @@ class Delete extends Component
             return;
         }
 
-        $this->user->delete();
-        $this->user->deleted_by = auth()->user()->id;
+        $this->user->restore();
+        $this->user->restored_at = now();
+        $this->user->restored_by = auth()->user()->id;
         $this->user->save();
+
         $this->success(
-            'Deletado com sucesso!',
+            'Restaurado com sucesso!',
             null,
             'toast-top toast-end',
             'o-information-circle',
             'alert-info',
             3000
         );
-        $this->dispatch('user.deleted');
+        $this->dispatch('user.restored');
         $this->reset('modal');
     }
 }

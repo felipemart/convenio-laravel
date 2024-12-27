@@ -74,8 +74,14 @@
                         />
                     @endif
                 @else
-                    <x-button icon="o-arrow-path-rounded-square" wire:click="reativar({{ $user['id'] }})" spinner
-                              class="btn-ghost btn-sm text-white-500" tooltip="Reativar"/>
+                    <x-button
+                        id="restore-btn-{{ $user->id }}"
+                        wire:key="restore-btn-{{ $user->id }}"
+                        icon="o-arrow-path-rounded-square"
+                        wire:click="restore('{{ $user->id }}')"
+                        spinner
+                        class="btn-ghost btn-sm text-white-500" tooltip="Reativar"
+                    />
                 @endunless
             </span>
             @endscope
@@ -88,4 +94,5 @@
     <!-- FILTER DRAWER -->
 
     <livewire:users.delete/>
+    <livewire:users.restore/>
 </div>

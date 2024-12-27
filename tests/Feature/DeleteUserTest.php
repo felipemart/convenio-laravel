@@ -18,6 +18,10 @@ test('deve ser capaz de deletar um usuario', function () {
         ->assertDispatched('user.deleted');
 
     assertSoftDeleted('users', ['id' => $userDelete->id]);
+
+    $userDelete->refresh();
+    expect($userDelete)
+        ->deletedBy->id->toBe($admin->id);
 });
 
 test('deve ter um confirmacao para excluir', function () {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,6 +20,9 @@ return new class () extends Migration {
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
+            $table->datetime('restored_at')->nullable();
+            $table->foreignIdFor(User::class, 'restored_by')->nullable();
+            $table->foreignIdFor(User::class, 'deleted_by')->nullable();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
