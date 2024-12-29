@@ -2,7 +2,6 @@
     <!-- HEADER -->
     <x-header title="Usuarios" separator progress-indicator>
         <x-slot:middle class="!justify-end">
-
             <x-input placeholder="Pesquisar..." wire:model.live.debounce="search" clearable icon="o-magnifying-glass"/>
         </x-slot:middle>
         <x-slot:actions>
@@ -37,7 +36,7 @@
 
 
         <x-slot:actions>
-            <x-button label="Filtar" class="btn-primary" icon="o-check"/>
+            <x-button label="Filtar" class="btn-primary" icon="o-check" @click="$wire.filtros = false"/>
         </x-slot:actions>
     </x-drawer>
 
@@ -54,12 +53,10 @@
             @scope('actions', $user)
             <span class="flex">
 
-                        <x-button icon="o-document-magnifying-glass" wire:click="visiualizar({{ $user['id'] }})" spinner
+                        <x-button icon="o-document-magnifying-glass" wire:navigate
+                                  href="{{ route('user.edit', ['id' => $user->id])  }}" spinner
                                   class="btn-ghost btn-sm text-white-500" tooltip="Visualizar"/>
 
-
-                        <x-button icon="o-pencil-square" wire:click="editar({{ $user['id'] }})" spinner
-                                  class="btn-ghost btn-sm text-white-500" tooltip="Editar"/>
 
 
                 @unless($user->trashed())

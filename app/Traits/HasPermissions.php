@@ -21,6 +21,20 @@ trait HasPermissions
         Cache::rememberForever($this->getKeyPermissions(), fn () => $this->permissions);
     }
 
+    public function givePermissionId(int $idPpermission): void
+    {
+        $this->permissions()->firstOrCreate(['id' => $idPpermission]);
+
+        Cache::forget($this->getKeyPermissions());
+        Cache::rememberForever($this->getKeyPermissions(), fn () => $this->permissions);
+    }
+
+    public function removePermission($idPermission): void
+    {
+        $this->permissions()->detach($idPermission);
+        Cache::forget($this->getKeyPermissions());
+        Cache::rememberForever($this->getKeyPermissions(), fn () => $this->permissions);
+    }
     public function hasPermission(string $permission): bool
     {
 

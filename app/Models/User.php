@@ -6,7 +6,7 @@ namespace App\Models;
 use App\Notifications\{EmailRecuperacaoSenha};
 use App\Traits\{HasPermissions, HasRoles};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\{BelongsTo};
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -33,6 +33,16 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function restoredBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'restored_by');
+
+    }
+    public function deletedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
+
+    }
     /**
      * @return string
      */
@@ -82,14 +92,4 @@ class User extends Authenticatable
         $this->deleteCacheRoles();
     }
 
-    public function restoredBy(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'restored_by');
-
-    }
-    public function deletedBy(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'deleted_by');
-
-    }
 }
