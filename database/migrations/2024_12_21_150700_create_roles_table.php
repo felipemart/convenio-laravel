@@ -12,15 +12,7 @@ return new class () extends Migration {
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('role');
-            $table->timestamps();
-        });
-
-        Schema::create('role_user', function (Blueprint $table) {
-            $table->foreignId('user_id');
-            $table->foreignId('role_id');
-            $table->index(['user_id', 'role_id']);
-            $table->unique(['user_id', 'role_id']);
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -31,6 +23,5 @@ return new class () extends Migration {
     public function down(): void
     {
         Schema::dropIfExists('roles');
-        Schema::dropIfExists('role_user');
     }
 };

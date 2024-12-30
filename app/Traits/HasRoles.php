@@ -2,40 +2,33 @@
 
 namespace App\Traits;
 
-use App\Enum\RoleEnum;
 use App\Models\Role;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 trait HasRoles
 {
-    public function roles(): BelongsToMany
+    public function role(): HasOne
     {
-        return $this->belongsToMany(Role::class);
+        return $this->hasOne(Role::class, 'id', 'role_id');
     }
 
-    public function giveRole(RoleEnum|string $role): void
+    public function giveRole(string $role): void
     {
-        $keyRole = $role instanceof RoleEnum ? $role->value : $role;
-
-        $this->roles()->firstOrCreate(['role' => $keyRole]);
-
-        Cache::forget($this->getKeyRole());
-        Cache::rememberForever($this->getKeyRole(), fn () => $this->roles);
+        $keyRole       = $role;
+        $role          = Role::firstOrCreate(['name' => $keyRole]);
+        $this->role_id = $role->id;
+        $this->save();
     }
 
-    public function removeRole(RoleEnum|string $role): void
+    public function removeRole(string $role): void
     {
-        $keyRole = $role instanceof RoleEnum ? $role->value : $role;
-        $this->roles()->detach($keyRole);
-        $this->deleteCacheRoles();
-        $this->cacheRoles();
-
+        $role = Role::firstOrCreate(['name' => $role]);
+        $this->role()->detach($role->id);
     }
 
-    public function hasRole(RoleEnum|string|array $role): bool
+    public function hasRole(string|array $role): bool
     {
+
         if (is_array($role)) {
             foreach ($role as $r) {
                 if ($this->hasRole($r)) {
@@ -46,22 +39,9 @@ trait HasRoles
             return false;
         }
 
-        $keyRole = $role instanceof RoleEnum ? $role->value : $role;
-        /** @var Collection $roles */
-        $roles = Cache::get($this->getKeyRole(), $this->roles);
+        $keyRole = $role;
 
-        return $roles->where('role', '=', $keyRole)->isNotEmpty();
-    }
-
-    public function cacheRoles()
-    {
-        Cache::forget($this->getKeyRole());
-        Cache::rememberForever($this->getKeyRole(), fn () => $this->roles);
-    }
-
-    public function deleteCacheRoles()
-    {
-        Cache::forget($this->getKeyRole());
+        return Role::where('name', '=', $keyRole)->count() ? true : false;
     }
 
 }

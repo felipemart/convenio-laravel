@@ -9,7 +9,7 @@ use function Pest\Laravel\actingAs;
 
 test('deve acessar o perfil do usuario', function () {
 
-    $admin = User::factory()->withRoles('admin')->create();
+    $admin = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
 
     $userEdit = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
 
@@ -17,7 +17,7 @@ test('deve acessar o perfil do usuario', function () {
     Livewire::test(DataUseser::class, ['id' => $userEdit->id])
         ->assertSee($userEdit->name)
         ->assertSee($userEdit->email)
-        ->assertSee($userEdit->created_at)
+        ->assertSee($userEdit->created_at->format('d/m/Y'))
        ->assertOk();
 });
 
@@ -35,9 +35,9 @@ test('deve acessar o perfil do usuario deletado deve aparacer o data de exclusao
     Livewire::test(DataUseser::class, ['id' => $userEdit->id])
         ->assertSee($userEdit->name)
         ->assertSee($userEdit->email)
-        ->assertSee($userEdit->roles[0]->name)
-        ->assertSee($userEdit->created_at)
-        ->assertSee($userEdit->restored_at)
+        ->assertSee($userEdit->role->name)
+        ->assertSee($userEdit->created_at->format('d/m/Y'))
+        ->assertSee($userEdit->restored_at->format('d/m/Y'))
         ->assertOk();
 });
 

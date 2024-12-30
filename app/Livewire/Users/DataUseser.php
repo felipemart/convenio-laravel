@@ -15,7 +15,9 @@ class DataUseser extends Component
 
     public Collection $roles;
 
-    public ?string $roleSelect = null;
+    public ?int $roleSelect = null;
+
+    public ?int $id = null;
 
     public string $selectedTab = 'users-tab';
 
@@ -27,13 +29,14 @@ class DataUseser extends Component
 
     public array $setPermissions = [];
 
-    public function mount(?int $id)
+    public function mount(int $id): void
     {
-        $this->user       = User::find($id);
-        $this->roles      = Role::query()->get();
-        $roletmp          = $this->user->roles->first();
-        $this->roleSelect = $roletmp ? $roletmp->id : null;
+        $this->user = User::withTrashed()->find($id);
         $this->updateSetPermissions();
+        $this->roles = Role::query()
+            ->orderBy('name')
+            ->get();
+        $this->roleSelect = $this->user->role_id;
 
     }
 

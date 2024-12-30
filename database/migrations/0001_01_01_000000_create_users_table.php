@@ -23,6 +23,8 @@ return new class () extends Migration {
             $table->datetime('restored_at')->nullable();
             $table->foreignIdFor(User::class, 'restored_by')->nullable();
             $table->foreignIdFor(User::class, 'deleted_by')->nullable();
+            $table->foreignId('role_id')->nullable();
+            $table->index(['id', 'role_id']);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

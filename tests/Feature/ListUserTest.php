@@ -34,7 +34,7 @@ test('nao pode ser acessada pelo que nao tem permissao', function () {
 
 test('composente deve carregar todos os usuarios', function () {
 
-    $users = User::factory()->count(10)->create();
+    $users = User::factory()->withRoles('test')->count(10)->create();
 
     $lw = Livewire::test(Index::class);
     $lw->assertSet('users', function ($users) {
@@ -100,8 +100,8 @@ test('deve filtar os usuarios pelo nivel', function () {
         'email' => 'mario@gamail.com',
     ]);
 
-    $roles  = Role::where('role', '=', 'admin')->first();
-    $roles2 = Role::where('role', '=', 'test')->first();
+    $roles  = Role::where('name', '=', 'admin')->first();
+    $roles2 = Role::where('name', '=', 'test')->first();
 
     actingAs($admin);
 
@@ -134,7 +134,7 @@ test('deve filtar os usuarios deletado', function () {
         'name'  => 'Admin',
         'email' => 'admin@gamail.com',
     ]);
-    $deleteUser = User::factory()->count(2)->create(['deleted_at' => now()]);
+    $deleteUser = User::factory()->withRoles('test')->count(2)->create(['deleted_at' => now()]);
 
     actingAs($admin);
 

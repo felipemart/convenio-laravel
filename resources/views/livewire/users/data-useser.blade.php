@@ -19,23 +19,26 @@
                             label="Nivel de acesso"
                             :options="$roles"
                             option-value="id"
-                            option-label="role"
+                            option-label="name"
                             placeholder="Selecionar"
                             placeholder-value="1"
                             wire:model="roleSelect" class="mb-2"/>
 
 
-                        <x-input label="Criado em" value="{{$user->created_at}}" class="mb-2" disabled/>
+                        <x-input label="Criado em" value="{{$user->created_at->format('d/m/Y')}}" class="mb-2"
+                                 disabled/>
                         @if($user->deleted_at)
-                            <x-input label="Deletado em" value="{{$user->deleted_at}}" class="mb-2" disabled/>
+                            <x-input label="Deletado em" value="{{$user->deleted_at->format('d/m/Y')}}" class="mb-2"
+                                     disabled/>
                         @endif
 
                         @if($user->restored_at)
-                            <x-input label="Restaurado em" value="{{$user->restored_at}}" class="mb-2" disabled/>
+                            <x-input label="Restaurado em" value="{{ $user->restored_at }}" class="mb-2"
+                                     disabled/>
                         @endif
 
                         <x-slot:actions>
-                            <x-button label="Cancel"/>
+
                             <x-button label="Atualizar dados" class="btn-primary" type="submit" spinner="save"/>
                         </x-slot:actions>
                     </x-form>
@@ -64,7 +67,8 @@
                 </div>
             </x-tab>
         </x-tabs>
-
+        <x-button wire:navigate href="{{ route('user.list')  }}"
+                  label="Voltar"/>
     </x-card>
 
     <!-- FILTER DRAWER -->

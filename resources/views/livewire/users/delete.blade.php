@@ -1,5 +1,5 @@
 <x-modal wire:model="modal" title="Deletar {{ $user?->name }}?" class="backdrop-blur">
-    @ds($user)
+   
     @error('confirmDestroy')
     <x-alert icon="o-exclamation-triangle" class="alert-warning">
         <span>{{ $message }}</span>

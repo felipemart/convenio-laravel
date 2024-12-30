@@ -31,7 +31,7 @@
             placeholder="Search ..."
             search-function="filterRole"
             no-result-text="Ops! Nothing here ..."
-            option-label="role"
+            option-label="name"
             searchable/>
 
 
@@ -45,18 +45,24 @@
         <x-table :headers="$this->headers" :rows="$this->users" with-pagination per-page="perPage"
                  :per-page-values="[3, 5, 10]" :sort-by="$sortBy">
             @scope('cell_roles', $user)
-            @foreach($user->roles as $role)
-                <x-badge :value="$role->role" class="badge-primary"/>
-            @endforeach
+            {{ $user->role->name }}
             @endscope
             @permission('incluir')
             @scope('actions', $user)
             <span class="flex">
 
-                        <x-button icon="o-document-magnifying-glass" wire:navigate
+                        <x-button icon="o-pencil-square" wire:navigate
                                   href="{{ route('user.edit', ['id' => $user->id])  }}" spinner
-                                  class="btn-ghost btn-sm text-white-500" tooltip="Visualizar"/>
+                                  class="btn-ghost btn-sm text-white-500" tooltip="Editar"/>
 
+                   <x-button
+                       id="view-btn-{{ $user->id }}"
+                       wire:key="view-btn-{{ $user->id }}"
+                       icon="o-document-magnifying-glass"
+                       wire:click="view('{{ $user->id }}')"
+                       spinner
+                       class="btn-ghost btn-sm text-white-500" tooltip="Visualizar"
+                   />
 
 
                 @unless($user->trashed())
@@ -92,4 +98,5 @@
 
     <livewire:users.delete/>
     <livewire:users.restore/>
+    <livewire:users.view/>
 </div>

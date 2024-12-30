@@ -59,7 +59,6 @@ class Index extends Component
         $this->validate(['searchRole' => 'exists:roles,id']);
 
         return User::query()
-            ->with('roles')
             ->when(
                 $this->search,
                 fn (Builder $q) => $q->where(
@@ -87,10 +86,7 @@ class Index extends Component
                 )
             )->when(
                 $this->searchRole,
-                fn (Builder $q) => $q->whereHas(
-                    'roles',
-                    fn (Builder $query) => $query->whereIn('id', $this->searchRole)
-                )
+                fn (Builder $query) => $query->whereIn('role_id', $this->searchRole)
             )
             ->when($this->search_trash, fn (Builder $q) => $q->onlyTrashed())
             ->orderBy(...array_values($this->sortBy))
@@ -110,8 +106,8 @@ class Index extends Component
 
     public function filterRole(?string $value = null): void
     {
-        $this->roleToSearch = Role::query()->when($value, fn (Builder $q) => $q->where('role', 'like', "%$value%"))
-            ->orderBy('role')
+        $this->roleToSearch = Role::query()->when($value, fn (Builder $q) => $q->where('name', 'like', "%$value%"))
+            ->orderBy('name')
             ->get();
 
     }
@@ -124,6 +120,12 @@ class Index extends Component
     public function restore(int $id): void
     {
         $this->dispatch('user.restoring', userId: $id)->to('users.restore');
+
+    }
+
+    public function view(int $id): void
+    {
+        $this->dispatch('user.viewing', userId: $id)->to('users.view');
 
     }
 

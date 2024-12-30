@@ -15,7 +15,6 @@ class Logout extends Component
     {
 
         auth()->user()->logoutCachePermissions();
-        auth()->user()->logoutCacheRoles();
         auth()->logout();
         session()->invalidate();
         session()->regenerateToken();

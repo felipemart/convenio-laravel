@@ -54,8 +54,6 @@ class Login extends Component
 
             return;
         }
-
-        auth()->user()->loginCacheRoles();
         auth()->user()->loginCachePermissions();
 
         $this->redirect(route('dashboard'));

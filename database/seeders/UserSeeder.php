@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Enum\RoleEnum;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -16,16 +15,22 @@ class UserSeeder extends Seeder
 
         User::factory()
             ->withPermissions('incluir')
-            ->withRoles(RoleEnum::ADMIN->value)
+            ->withRoles('admin')
             ->create([
                 'name'     => 'Admin',
                 'email'    => 'admin@localhost.com',
                 'password' => bcrypt('123'),
             ]);
 
-        User::factory()->count(50)->create();
-        User::factory()->count(50)->create([
-            'deleted_at' => now(),
-        ]);
+        User::factory()
+            ->count(50)
+            ->withRoles('test')
+            ->create();
+        User::factory()
+            ->count(50)
+            ->withRoles('test')
+            ->create([
+                'deleted_at' => now(),
+            ]);
     }
 }

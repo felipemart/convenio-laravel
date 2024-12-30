@@ -26,6 +26,7 @@ class User extends Authenticatable
         'restored_at',
         'restored_by',
         'deleted_by',
+        'role_id',
     ];
 
     protected $hidden = [
@@ -77,19 +78,9 @@ class User extends Authenticatable
         $this->cachePermissions();
     }
 
-    public function loginCacheRoles(): void
-    {
-        $this->cacheRoles();
-    }
-
     public function logoutCachePermissions(): void
     {
         $this->deleteCachePermissions();
-    }
-
-    public function logoutCacheRoles(): void
-    {
-        $this->deleteCacheRoles();
     }
 
 }
