@@ -123,9 +123,9 @@ class Index extends Component
 
     }
 
-    public function view(int $id): void
+    public function show(int $id): void
     {
-        $this->dispatch('user.viewing', userId: $id)->to('users.view');
+        $this->dispatch('user.showing', userId: $id)->to('users.show');
 
     }
 

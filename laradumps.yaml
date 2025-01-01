@@ -9,14 +9,14 @@ config:
   sleep: 0
   macos_auto_launch: false
 observers:
-  auto_invoke_app: false
-  enabled_in_testing: false
+  auto_invoke_app: true
+  enabled_in_testing: true
   dump: false
   original_dump: true
   queries: false
-  slow_queries: true
+  slow_queries: false
   mail: false
-  logs: false
+  logs: true
   http: false
   jobs: false
   commands: false

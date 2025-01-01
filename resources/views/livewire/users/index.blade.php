@@ -1,6 +1,7 @@
 <div>
     <!-- HEADER -->
     <x-header title="Usuarios" separator progress-indicator>
+
         <x-slot:middle class="!justify-end">
             <x-input placeholder="Pesquisar..." wire:model.live.debounce="search" clearable icon="o-magnifying-glass"/>
         </x-slot:middle>
@@ -42,6 +43,8 @@
 
     <!-- TABLE  -->
     <x-card>
+
+        <x-button label="Cadastra" class="btn-primary" icon="o-user-plus" @click=""/>
         <x-table :headers="$this->headers" :rows="$this->users" with-pagination per-page="perPage"
                  :per-page-values="[3, 5, 10]" :sort-by="$sortBy">
             @scope('cell_roles', $user)
@@ -56,10 +59,10 @@
                                   class="btn-ghost btn-sm text-white-500" tooltip="Editar"/>
 
                    <x-button
-                       id="view-btn-{{ $user->id }}"
-                       wire:key="view-btn-{{ $user->id }}"
+                       id="show-btn-{{ $user->id }}"
+                       wire:key="show-btn-{{ $user->id }}"
                        icon="o-document-magnifying-glass"
-                       wire:click="view('{{ $user->id }}')"
+                       wire:click="show('{{ $user->id }}')"
                        spinner
                        class="btn-ghost btn-sm text-white-500" tooltip="Visualizar"
                    />
@@ -98,5 +101,5 @@
 
     <livewire:users.delete/>
     <livewire:users.restore/>
-    <livewire:users.view/>
+    <livewire:users.show/>
 </div>
