@@ -24,3 +24,4 @@ yarn-error.log
 /storage/logs/*
 laradumps.yaml
 laradumps.yaml.backup
+./laradumps.yaml

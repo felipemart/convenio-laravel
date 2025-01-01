@@ -1,5 +1,4 @@
 <x-modal wire:model="modal" title="Restaurar o usuario {{ $user?->name }}?" class="backdrop-blur">
-    @ds($user)
     @error('confirmRestore')
     <x-alert icon="o-exclamation-triangle" class="alert-warning">
         <span>{{ $message }}</span>
