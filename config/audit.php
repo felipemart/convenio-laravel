@@ -165,7 +165,7 @@ return [
     'drivers' => [
         'database' => [
             'table'      => 'audits',
-            'connection' => 'mysql-auditing',
+            'connection' => null,
         ],
     ],
 

@@ -6,11 +6,14 @@ use App\Models\{Permission, Role, User};
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\{Builder, Collection};
 use Illuminate\Support\Facades\DB;
-use Livewire\Attributes\Computed;
+use Livewire\Attributes\{Computed};
 use Livewire\Component;
+use Mary\Traits\Toast;
 
-class DataUseser extends Component
+class Update extends Component
 {
+    use Toast;
+
     public User $user;
 
     public Collection $roles;
@@ -29,6 +32,10 @@ class DataUseser extends Component
 
     public array $setPermissions = [];
 
+    public string $name = '';
+
+    public string $email = '';
+
     public function mount(int $id): void
     {
         $this->user = User::withTrashed()->find($id);
@@ -37,12 +44,31 @@ class DataUseser extends Component
             ->orderBy('name')
             ->get();
         $this->roleSelect = $this->user->role_id;
+        $this->name       = $this->user->name;
+        $this->email      = $this->user->email;
 
     }
 
     public function render()
     {
-        return view('livewire.users.data-useser');
+        return view('livewire.users.update');
+    }
+
+    protected function rules()
+    {
+        return [
+            'name'       => 'required',
+            'email'      => 'required|email|unique:users,email,' . $this->id,
+            'roleSelect' => 'required |exists:roles,id',
+        ];
+    }
+
+    protected function messages()
+    {
+        return [
+            'required' => 'O campo :attribute é obrigatório.',
+            'email'    => 'O campo :attribute deve ser um e-mail válido.',
+        ];
     }
 
     #[Computed]
@@ -85,6 +111,36 @@ class DataUseser extends Component
         } else {
             $this->user->removePermission($idPermisson);
         }
+
+    }
+
+    public function save()
+    {
+        $this->validate();
+        $this->user->name    = $this->name;
+        $this->user->email   = $this->email;
+        $this->user->role_id = $this->roleSelect;
+
+        if ($this->user->save()) {
+            $this->success(
+                'Salvo com sucesso!',
+                null,
+                'toast-top toast-end',
+                'o-information-circle',
+                'alert-info',
+                3000
+            );
+
+            return true;
+        }
+        $this->error(
+            'Erro ao salvar!',
+            null,
+            'toast-top toast-end',
+            'o-exclamation-triangle',
+            'alert-info',
+            3000
+        );
 
     }
 

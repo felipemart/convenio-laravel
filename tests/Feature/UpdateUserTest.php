@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\Users\DataUseser;
+use App\Livewire\Users\Update;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
@@ -14,7 +14,7 @@ test('deve acessar o perfil do usuario', function () {
     $userEdit = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
 
     actingAs($admin);
-    Livewire::test(DataUseser::class, ['id' => $userEdit->id])
+    Livewire::test(Update::class, ['id' => $userEdit->id])
         ->assertSee($userEdit->name)
         ->assertSee($userEdit->email)
         ->assertSee($userEdit->created_at->format('d/m/Y'))
@@ -32,7 +32,7 @@ test('deve acessar o perfil do usuario deletado deve aparacer o data de exclusao
     );
 
     actingAs($admin);
-    Livewire::test(DataUseser::class, ['id' => $userEdit->id])
+    Livewire::test(Update::class, ['id' => $userEdit->id])
         ->assertSee($userEdit->name)
         ->assertSee($userEdit->email)
         ->assertSee($userEdit->role->name)
@@ -48,11 +48,11 @@ test('deve acessar o perfil do usuario remove a permissao ao usuario', function 
     $permmissionsTb = DB::table('permissions')->first();
 
     actingAs($admin);
-    Livewire::test(DataUseser::class, ['id' => $userEdit->id])
+    Livewire::test(Update::class, ['id' => $userEdit->id])
         ->assertSet('setPermissions', [$permmissionsTb->id => true])
         ->assertOk();
 
-    Livewire::test(DataUseser::class, ['id' => $userEdit->id])
+    Livewire::test(Update::class, ['id' => $userEdit->id])
         ->set('setPermissions', [$permmissionsTb->id => false])
         ->call('updatePermissions', $permmissionsTb->id)
         ->assertOk();
@@ -70,11 +70,11 @@ test('deve acessar o perfil do usuario adicionar a permissao ao usuario', functi
     $permmissionsTb = DB::table('permissions')->first();
 
     actingAs($admin);
-    Livewire::test(DataUseser::class, ['id' => $userEdit->id])
+    Livewire::test(Update::class, ['id' => $userEdit->id])
         ->assertSet('setPermissions', [])
         ->assertOk();
 
-    Livewire::test(DataUseser::class, ['id' => $userEdit->id])
+    Livewire::test(Update::class, ['id' => $userEdit->id])
         ->set('setPermissions', [$permmissionsTb->id => true])
         ->call('updatePermissions', $permmissionsTb->id)
         ->assertOk();

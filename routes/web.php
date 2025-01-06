@@ -1,7 +1,7 @@
 <?php
 
 use App\Livewire\Auth\{Login, Logout, Password\Recovery, Password\Reset, Register};
-use App\Livewire\Users\{DataUseser, Index};
+use App\Livewire\Users\{Create, Index, Update};
 use App\Livewire\Welcome;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +16,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/', Welcome::class)->name('dashboard');
     Route::get('/register', Register::class)->name('auth.register');
     Route::get('/logout', [Logout::class, 'logout'])->name('logout');
-    Route::get('/user/edit/{id}', DataUseser::class)->name('user.edit');
+    Route::get('/user/edit/{id}', Update::class)->name('user.edit');
+    Route::get('/user/create', Create::class)->name('user.create');
 
     //region Admin
     Route::middleware('role:admin|operadora')->group(function () {

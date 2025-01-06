@@ -80,7 +80,7 @@ class Index extends Component
             )->when(
                 $this->email,
                 fn (Builder $q) => $q->where(
-                    DB::raw('lower(name)'),
+                    DB::raw('lower(email)'),
                     'like',
                     "%" . strtolower($this->email) . "%"
                 )
@@ -97,8 +97,8 @@ class Index extends Component
     public function headers(): array
     {
         return [
-            ['key' => 'id', 'label' => '#', 'class' => 'w-16'],
-            ['key' => 'name', 'label' => 'Name'],
+            ['key' => 'id', 'label' => 'id', 'class' => 'w-16'],
+            ['key' => 'name', 'label' => 'Nome'],
             ['key' => 'email', 'label' => 'Email'],
             ['key' => 'roles', 'label' => 'Nivel', 'sortable' => false],
         ];

@@ -6,8 +6,10 @@
             <x-input placeholder="Pesquisar..." wire:model.live.debounce="search" clearable icon="o-magnifying-glass"/>
         </x-slot:middle>
         <x-slot:actions>
-            <x-button label="Filters" @click="$wire.filtros = true" responsive icon="o-funnel" class="btn-primary"/>
-
+            <x-button @click="$wire.filtros = true" responsive icon="o-funnel" class="btn-primary"
+                      icon="o-funnel" tooltip-bottom="Filtros"/>
+            <x-button icon="o-plus" class="btn-primary" wire:navigate href="{{ route('user.create') }}"
+                      tooltip-bottom="Cadastrar"/>
         </x-slot:actions>
     </x-header>
 
@@ -44,7 +46,6 @@
     <!-- TABLE  -->
     <x-card>
 
-        <x-button label="Cadastra" class="btn-primary" icon="o-user-plus" @click=""/>
         <x-table :headers="$this->headers" :rows="$this->users" with-pagination per-page="perPage"
                  :per-page-values="[3, 5, 10]" :sort-by="$sortBy">
             @scope('cell_roles', $user)

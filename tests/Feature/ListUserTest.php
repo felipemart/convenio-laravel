@@ -54,8 +54,8 @@ test('composente deve carregar todos os usuarios', function () {
 test('vefiricando ser a table tem formato', function () {
     Livewire::test(Index::class)
         ->assertSet('headers', [
-            ['key' => 'id', 'label' => '#', 'class' => 'w-16'],
-            ['key' => 'name', 'label' => 'Name'],
+            ['key' => 'id', 'label' => 'id', 'class' => 'w-16'],
+            ['key' => 'name', 'label' => 'Nome'],
             ['key' => 'email', 'label' => 'Email'],
             ['key' => 'roles', 'label' => 'Nivel', 'sortable' => false],
         ]);
