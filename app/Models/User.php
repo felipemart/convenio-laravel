@@ -37,6 +37,11 @@ class User extends Authenticatable implements Auditable
         'remember_token',
     ];
 
+    public function empresa(): BelongsTo
+    {
+        return $this->belongsTo(Empresa::class);
+    }
+
     public function restoredBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'restored_by');

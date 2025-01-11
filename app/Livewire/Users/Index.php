@@ -38,6 +38,7 @@ class Index extends Component
 
     public function mount(): void
     {
+        ds(auth()->user()->empresa);
         $this->filterRole();
 
     }
