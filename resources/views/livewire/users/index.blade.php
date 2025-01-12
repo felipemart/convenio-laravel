@@ -51,6 +51,9 @@
             @scope('cell_roles', $user)
             {{ $user->role->name }}
             @endscope
+            @scope('cell_empresa', $user)
+            {{ $user->empresa->nome_fantasia }}
+            @endscope
             @permission('incluir')
             @scope('actions', $user)
             <span class="flex">

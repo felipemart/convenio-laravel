@@ -38,7 +38,6 @@ class Index extends Component
 
     public function mount(): void
     {
-        ds(auth()->user()->empresa);
         $this->filterRole();
 
     }
@@ -59,7 +58,42 @@ class Index extends Component
     {
         $this->validate(['searchRole' => 'exists:roles,id']);
 
+        ds(User::query()
+            ->when(
+                $this->search,
+                fn (Builder $q) => $q->where(
+                    DB::raw('lower(name)'),
+                    'like',
+                    "%" . strtolower($this->search) . "%"
+                )->orWhere(
+                    DB::raw('lower(email)'),
+                    'like',
+                    "%" . strtolower($this->search) . "%"
+                )
+            )->when(
+                $this->nome,
+                fn (Builder $q) => $q->where(
+                    DB::raw('lower(name)'),
+                    'like',
+                    "%" . strtolower($this->nome) . "%"
+                )
+            )->when(
+                $this->email,
+                fn (Builder $q) => $q->where(
+                    DB::raw('lower(email)'),
+                    'like',
+                    "%" . strtolower($this->email) . "%"
+                )
+            )->when(
+                $this->searchRole,
+                fn (Builder $query) => $query->whereIn('role_id', $this->searchRole)
+            )
+            ->when($this->search_trash, fn (Builder $q) => $q->onlyTrashed())
+            ->orderBy(...array_values($this->sortBy))
+            ->paginate($this->perPage));
+
         return User::query()
+            ->with('empresa')
             ->when(
                 $this->search,
                 fn (Builder $q) => $q->where(
@@ -101,6 +135,7 @@ class Index extends Component
             ['key' => 'id', 'label' => 'id', 'class' => 'w-16'],
             ['key' => 'name', 'label' => 'Nome'],
             ['key' => 'email', 'label' => 'Email'],
+            ['key' => 'empresa', 'label' => 'Empresa', 'sortable' => false],
             ['key' => 'roles', 'label' => 'Nivel', 'sortable' => false],
         ];
     }

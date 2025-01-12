@@ -57,6 +57,7 @@ test('vefiricando ser a table tem formato', function () {
             ['key' => 'id', 'label' => 'id', 'class' => 'w-16'],
             ['key' => 'name', 'label' => 'Nome'],
             ['key' => 'email', 'label' => 'Email'],
+            ['key' => 'empresa', 'label' => 'Empresa'],
             ['key' => 'roles', 'label' => 'Nivel', 'sortable' => false],
         ]);
 });

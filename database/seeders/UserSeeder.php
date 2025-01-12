@@ -29,13 +29,13 @@ class UserSeeder extends Seeder
         ]);
 
         User::factory()
-            ->count(10)
+            ->count(3)
             ->withRoles('Operadora')
             ->create([
                 'empresa_id' => $empresa->id,
             ]);
         User::factory()
-            ->count(10)
+            ->count(3)
             ->withRoles('Operadora')
             ->create([
                 'empresa_id' => $empresa->id,
@@ -48,13 +48,13 @@ class UserSeeder extends Seeder
             'convenio_id'  => $convenio->id,
         ]);
         User::factory()
-            ->count(10)
+            ->count(3)
             ->withRoles('Convenio')
             ->create([
                 'empresa_id' => $empresa->id,
             ]);
         User::factory()
-            ->count(10)
+            ->count(3)
             ->withRoles('Convenio')
             ->create([
                 'empresa_id' => $empresa->id,
@@ -69,13 +69,13 @@ class UserSeeder extends Seeder
             'conveniada_id' => $conveniada->id,
         ]);
         User::factory()
-            ->count(10)
+            ->count(3)
             ->withRoles('Conveniada')
             ->create([
                 'empresa_id' => $empresa->id,
             ]);
         User::factory()
-            ->count(10)
+            ->count(3)
             ->withRoles('Conveniada')
             ->create([
                 'empresa_id' => $empresa->id,
