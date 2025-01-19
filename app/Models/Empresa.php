@@ -48,4 +48,10 @@ class Empresa extends Model
         return $this->belongsTo(Conveniada::class);
 
     }
+
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+
 }

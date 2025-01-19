@@ -58,40 +58,6 @@ class Index extends Component
     {
         $this->validate(['searchRole' => 'exists:roles,id']);
 
-        ds(User::query()
-            ->when(
-                $this->search,
-                fn (Builder $q) => $q->where(
-                    DB::raw('lower(name)'),
-                    'like',
-                    "%" . strtolower($this->search) . "%"
-                )->orWhere(
-                    DB::raw('lower(email)'),
-                    'like',
-                    "%" . strtolower($this->search) . "%"
-                )
-            )->when(
-                $this->nome,
-                fn (Builder $q) => $q->where(
-                    DB::raw('lower(name)'),
-                    'like',
-                    "%" . strtolower($this->nome) . "%"
-                )
-            )->when(
-                $this->email,
-                fn (Builder $q) => $q->where(
-                    DB::raw('lower(email)'),
-                    'like',
-                    "%" . strtolower($this->email) . "%"
-                )
-            )->when(
-                $this->searchRole,
-                fn (Builder $query) => $query->whereIn('role_id', $this->searchRole)
-            )
-            ->when($this->search_trash, fn (Builder $q) => $q->onlyTrashed())
-            ->orderBy(...array_values($this->sortBy))
-            ->paginate($this->perPage));
-
         return User::query()
             ->with('empresa')
             ->when(
@@ -145,7 +111,6 @@ class Index extends Component
         $this->roleToSearch = Role::query()->when($value, fn (Builder $q) => $q->where('name', 'like', "%$value%"))
             ->orderBy('name')
             ->get();
-
     }
 
     public function destroy(int $id): void

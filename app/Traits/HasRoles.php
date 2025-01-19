@@ -39,9 +39,7 @@ trait HasRoles
             return false;
         }
 
-        $keyRole = $role;
-
-        return Role::where('name', '=', $keyRole)->count() ? true : false;
+        return auth()->user()->role()->where('name', '=', $role)->exists() ? true : false;
     }
 
 }

@@ -64,12 +64,13 @@
             <x-menu-item title="Operadora1" icon="o-sparkles" link="/"/>
             @endpermission
 
-            @role(['admin2', 'operadora'])
+            @role(['admin', 'operadora'])
             <x-menu-item title="Operadora2" icon="o-sparkles" link="/"/>
             @endrole
 
 
             <x-menu-item title="Usuarios" icon="o-sparkles" link="{{ route('user.list') }}"/>
+            <x-menu-item title="Operadoras" icon="o-sparkles" link="{{ route('operadora.list') }}"/>
 
         </x-menu>
     </x-slot:sidebar>

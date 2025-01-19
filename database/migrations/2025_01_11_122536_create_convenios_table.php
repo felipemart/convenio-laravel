@@ -13,6 +13,7 @@ return new class () extends Migration {
         Schema::create('convenios', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

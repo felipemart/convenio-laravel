@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Users;
 
-use App\Models\{Permission, Role, User};
+use App\Models\{Empresa, Permission, Role, User};
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\{Builder, Collection};
 use Illuminate\Support\Facades\DB;
@@ -18,7 +18,11 @@ class Create extends Component
 
     public Collection $roles;
 
+    public array $empresa = [];
+
     public ?int $roleSelect = null;
+
+    public ?int $empresaSelect = null;
 
     public ?int $id = null;
 
@@ -100,6 +104,16 @@ class Create extends Component
             $this->user->permissions()->each(function ($permission) {
                 $this->setPermissions[$permission->id] = true;
             });
+        }
+
+    }
+
+    public function changeEmpresa(): void
+    {
+        $this->empresa = [];
+
+        if (!empty($this->roleSelect)) {
+            $this->empresa = Empresa::where('role_id', $this->roleSelect)->get()->toArray();
         }
 
     }
