@@ -53,24 +53,24 @@
 
         {{-- Activates the menu item when a route matches the `link` property --}}
         <x-menu activate-by-route>
-            <x-menu-item title="Home" icon="o-home" link="###"/>
-            <x-menu-item title="Messages" icon="o-envelope" link="###"/>
-            <x-menu-sub title="Settings" icon="o-cog-6-tooth">
-                <x-menu-item title="Wifi" icon="o-wifi" link="####"/>
-                <x-menu-item title="Archives" icon="o-archive-box" link="####"/>
-            </x-menu-sub>
+            {{--            <x-menu-item title="Home" icon="o-home" link="###"/>--}}
+            {{--            <x-menu-item title="Messages" icon="o-envelope" link="###"/>--}}
+            {{--            <x-menu-sub title="Settings" icon="o-cog-6-tooth">--}}
+            {{--                <x-menu-item title="Wifi" icon="o-wifi" link="####"/>--}}
+            {{--                <x-menu-item title="Archives" icon="o-archive-box" link="####"/>--}}
+            {{--            </x-menu-sub>--}}
 
-            @permission('acessar_operadora')
-            <x-menu-item title="Operadora1" icon="o-sparkles" link="/"/>
-            @endpermission
+            {{--            @permission('acessar_operadora')--}}
+            {{--            <x-menu-item title="Operadora1" icon="o-sparkles" link="/"/>--}}
+            {{--            @endpermission--}}
 
-            @role(['admin', 'operadora'])
-            <x-menu-item title="Operadora2" icon="o-sparkles" link="/"/>
-            @endrole
+            {{--            @role(['admin', 'operadora'])--}}
+            {{--            <x-menu-item title="Operadora2" icon="o-sparkles" link="/"/>--}}
+            {{--            @endrole--}}
 
 
             <x-menu-item title="Usuarios" icon="o-sparkles" link="{{ route('user.list') }}"/>
-            <x-menu-item title="Operadoras" icon="o-sparkles" link="{{ route('operadora.list') }}"/>
+            <x-menu-item title="Empresas" icon="o-sparkles" link="{{ route('empresas.list') }}"/>
 
         </x-menu>
     </x-slot:sidebar>

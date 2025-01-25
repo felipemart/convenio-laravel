@@ -10,7 +10,7 @@ test('deve conceder papel ao usuário', function () {
     $user = User::factory()->create();
 
     $user->giveRole('admin');
-
+    actingAs($user);
     expect($user->hasRole('admin'))->toBeTrue();
 
     assertDatabaseHas('roles', [

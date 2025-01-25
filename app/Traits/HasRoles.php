@@ -28,7 +28,6 @@ trait HasRoles
 
     public function hasRole(string|array $role): bool
     {
-
         if (is_array($role)) {
             foreach ($role as $r) {
                 if ($this->hasRole($r)) {

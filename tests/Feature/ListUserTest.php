@@ -16,7 +16,7 @@ test('deve ser acessada somente pelos usaurios papeis', function () {
         ->assertOk();
 
     actingAs(
-        User::factory()->withRoles('operadora')->create()
+        User::factory()->withRoles('empresas')->create()
     );
 
     get(route('user.list'))
@@ -57,7 +57,7 @@ test('vefiricando ser a table tem formato', function () {
             ['key' => 'id', 'label' => 'id', 'class' => 'w-16'],
             ['key' => 'name', 'label' => 'Nome'],
             ['key' => 'email', 'label' => 'Email'],
-            ['key' => 'empresa', 'label' => 'Empresa'],
+            ['key' => 'empresa', 'label' => 'Empresa', 'sortable' => false],
             ['key' => 'roles', 'label' => 'Nivel', 'sortable' => false],
         ]);
 });

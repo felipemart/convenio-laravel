@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Operadora;
+namespace App\Livewire\Empresas;
 
 use App\Models\Empresa;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -28,7 +28,7 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.operadora.index');
+        return view('livewire.empresas.index');
     }
     public function updatedPerPage($value): void
     {
@@ -41,13 +41,14 @@ class Index extends Component
         return [
             ['key' => 'id', 'label' => 'id', 'class' => 'w-16'],
             ['key' => 'razao_social', 'label' => 'Razão Social'],
+            ['key' => 'nome_fantasia', 'label' => 'Nome Fantasia'],
+            ['key' => 'role_id', 'label' => 'Tipo empresa'],
         ];
     }
     #[Computed]
-    public function operadoras(): LengthAwarePaginator
+    public function empresas(): LengthAwarePaginator
     {
         return Empresa::query()
-            ->with('operadora')
             ->when(
                 $this->search,
                 fn (Builder $q) => $q->where(
@@ -79,9 +80,18 @@ class Index extends Component
                 )
             )
             ->when($this->search_trash, fn (Builder $q) => $q->onlyTrashed())
-            ->Where('role_id', '=', 2)
             ->orderBy(...array_values($this->sortBy))
             ->paginate($this->perPage);
     }
+    public function destroy(int $id): void
+    {
+        $this->dispatch('empresas.deletion', empresaId: $id)->to('empresas.delete');
 
+    }
+
+    public function restore(int $id): void
+    {
+        $this->dispatch('empresas.restoring', empresaId: $id)->to('empresas.restore');
+
+    }
 }

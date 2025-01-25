@@ -1,7 +1,7 @@
 <?php
 
 use App\Livewire\Auth\{Login, Logout, Password\Recovery, Password\Reset, Register};
-use App\Livewire\{Operadora, Users, Welcome};
+use App\Livewire\{Empresas, Users, Welcome};
 use Illuminate\Support\Facades\Route;
 
 //region login
@@ -19,11 +19,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/create', Users\Create::class)->name('user.create');
 
     //region Admin
-    Route::middleware('role:admin|operadora')->group(function () {
+    Route::middleware('role:admin|empresas')->group(function () {
         Route::get('/dashboard', fn () => 'admin dashboard')->name('admin.dashboard');
         Route::get('/users', Users\Index::class)->name('user.list');
-        Route::get('/operadoras', Operadora\Index::class)->name('operadora.list');
-        Route::get('/operadoras/show/{id}', Operadora\Show::class)->name('operadora.show');
+        Route::get('/emppresas', Empresas\Index::class)->name('empresas.list');
+        Route::get('/emppresa/show/{id}', Empresas\Show::class)->name('empresas.show');
     });
     //endregion
 
