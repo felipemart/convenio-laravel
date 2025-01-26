@@ -50,9 +50,24 @@ class Empresa extends Model
 
     }
 
-    public function role(): BelongsTo
+    public function giveOperadora(Operadora $operadora): void
     {
-        return $this->belongsTo(Role::class);
+        $this->operadora_id = $operadora->id;
+        $this->save();
+
+    }
+
+    public function giveConvenio(Convenio $convenio): void
+    {
+
+        $this->convenio_id = $convenio->id;
+        $this->save();
+    }
+
+    public function giveConveniada(Conveniada $conveniada): void
+    {
+        $this->conveniada_id = $conveniada->id;
+        $this->save();
     }
 
 }

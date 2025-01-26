@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\{Convenio, Empresa, Operadora};
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -35,5 +36,23 @@ class EmpresaFactory extends Factory
             'inscricao_estadual'  => fake()->unique()->numerify('##############'),
             'inscricao_municipal' => fake()->unique()->numerify('##############'),
         ];
+    }
+    public function withOperadora(Operadora $operadora): static
+    {
+        return $this->afterCreating(function (Empresa $empresa) use ($operadora) {
+            $empresa->giveOperadora($operadora);
+        });
+    }
+    public function withConvenio(Convenio $convenio): static
+    {
+        return $this->afterCreating(function (Empresa $empresa) use ($convenio) {
+            $empresa->giveConvenio($convenio);
+        });
+    }
+    public function withConveniada(Conveniada $conveniada): static
+    {
+        return $this->afterCreating(function (Empresa $empresa) use ($conveniada) {
+            $empresa->giveConveniada($conveniada);
+        });
     }
 }

@@ -12,25 +12,22 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $empresa = Empresa::factory()->create([
-            'role_id' => 1,
-        ]);
+        //admin
         User::factory()
             ->withPermissions('incluir')
             ->withRoles('Admin')
             ->create([
-                'name'       => 'Admin',
-                'email'      => 'admin@localhost.com',
-                'password'   => bcrypt('123'),
-                'empresa_id' => $empresa->id,
+                'name'     => 'Admin',
+                'email'    => 'admin@localhost.com',
+                'password' => bcrypt('123'),
             ]);
 
+        $empresa = Empresa::factory()->create([
+            'role_id' => 2,
+        ]);
         $operadora = Operadora::create();
 
-        $empresa = Empresa::factory()->create([
-            'operadora_id' => $operadora->id,
-            'role_id'      => 2,
-        ]);
+        $empresa->giveOperadora($operadora);
 
         User::factory()
             ->count(3)
@@ -45,13 +42,15 @@ class UserSeeder extends Seeder
                 'empresa_id' => $empresa->id,
                 'deleted_at' => now(),
             ]);
+
+        $empresa = Empresa::factory()->create([
+            'role_id' => 3,
+        ]);
         $convenio = Convenio::create();
 
-        $empresa = Empresa::factory()->create([
-            'operadora_id' => $operadora->id,
-            'convenio_id'  => $convenio->id,
-            'role_id'      => 3,
-        ]);
+        $empresa->giveOperadora($operadora);
+        $empresa->giveConvenio($convenio);
+
         User::factory()
             ->count(3)
             ->withRoles('Convenio')
@@ -66,14 +65,15 @@ class UserSeeder extends Seeder
                 'deleted_at' => now(),
             ]);
 
+        //conveniada
+
+        $empresa = Empresa::factory()->create([
+            'role_id' => 4,
+        ]);
         $conveniada = Conveniada::create();
-
-        $empresa = Empresa::factory()->create([
-            'operadora_id'  => $operadora->id,
-            'convenio_id'   => $convenio->id,
-            'conveniada_id' => $conveniada->id,
-            'role_id'       => 4,
-        ]);
+        $empresa->giveOperadora($operadora);
+        $empresa->giveConvenio($convenio);
+        $empresa->giveConveniada($conveniada);
         User::factory()
             ->count(3)
             ->withRoles('Conveniada')
@@ -87,6 +87,110 @@ class UserSeeder extends Seeder
                 'empresa_id' => $empresa->id,
                 'deleted_at' => now(),
             ]);
+
+        //conveniada 2
+        $conveniada2 = Conveniada::create();
+        $empresa2    = Empresa::factory()->create([
+            'role_id' => 4,
+        ]);
+
+        $empresa2->giveOperadora($operadora);
+        $empresa2->giveConvenio($convenio);
+        $empresa2->giveConveniada($conveniada2);
+
+        User::factory()
+            ->count(3)
+            ->withRoles('Conveniada')
+            ->create([
+                'empresa_id' => $empresa2->id,
+            ]);
+        User::factory()
+            ->count(3)
+            ->withRoles('Conveniada')
+            ->create([
+                'empresa_id' => $empresa2->id,
+                'deleted_at' => now(),
+            ]);
+
+        //convenio2
+        $convenio3 = Convenio::create();
+        $empresa3  = Empresa::factory()->create([
+            'role_id' => 3,
+        ]);
+        $empresa3->giveOperadora($operadora);
+        $empresa3->giveConvenio($convenio3);
+
+        User::factory()
+            ->count(3)
+            ->withRoles('Convenio')
+            ->create([
+                'empresa_id' => $empresa3->id,
+            ]);
+        User::factory()
+            ->count(3)
+            ->withRoles('Convenio')
+            ->create([
+                'empresa_id' => $empresa3->id,
+                'deleted_at' => now(),
+            ]);
+
+        //conveniada
+        $conveniada3 = Conveniada::create();
+
+        $empresa3 = Empresa::factory()->create([
+            'role_id' => 4,
+        ]);
+        $empresa3->giveOperadora($operadora);
+        $empresa3->giveConvenio($convenio3);
+        $empresa3->giveConveniada($conveniada3);
+        User::factory()
+            ->count(3)
+            ->withRoles('Conveniada')
+            ->create([
+                'empresa_id' => $empresa3->id,
+            ]);
+        User::factory()
+            ->count(3)
+            ->withRoles('Conveniada')
+            ->create([
+                'empresa_id' => $empresa3->id,
+                'deleted_at' => now(),
+            ]);
+
+        //conveniada 2
+        $conveniada4 = Conveniada::create();
+        $empresa4    = Empresa::factory()->create([
+            'role_id' => 4,
+        ]);
+
+        $empresa4->giveOperadora($operadora);
+        $empresa4->giveConvenio($convenio3);
+        $empresa4->giveConveniada($conveniada4);
+
+        User::factory()
+            ->count(3)
+            ->withRoles('Conveniada')
+            ->create([
+                'empresa_id' => $empresa4->id,
+            ]);
+        User::factory()
+            ->count(3)
+            ->withRoles('Conveniada')
+            ->create([
+                'empresa_id' => $empresa4->id,
+                'deleted_at' => now(),
+            ]);
+
+        $empresaTudo = Empresa::factory()->create([
+            'role_id' => 2,
+        ]);
+        $operadoraTudo  = Operadora::create();
+        $convenioTudo   = Convenio::create();
+        $conveniadaTudo = Conveniada::create();
+
+        $empresaTudo->giveOperadora($operadoraTudo);
+        $empresaTudo->giveConvenio($convenioTudo);
+        $empresaTudo->giveConveniada($conveniadaTudo);
 
     }
 }

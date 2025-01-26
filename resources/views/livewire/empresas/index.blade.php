@@ -48,8 +48,17 @@
                 <x-badge value="Admin" class="badge-primary"/>
             @elseif($empresa->role_id == 2)
                 <x-badge value="Operadora" class="bg-purple-500/50"/>
+                @if($empresa->convenio)
+                    <x-badge value="Convenio" class="bg-blue-300/30"/>
+                @endif
+                @if($empresa->conveniada)
+                    <x-badge value="Conveniada" class="bg-green-300/30"/>
+                @endif
             @elseif($empresa->role_id == 3)
                 <x-badge value="Convenio" class="bg-blue-300/30"/>
+                @if($empresa->conveniada)
+                    <x-badge value="Conveniada" class="bg-green-300/30"/>
+                @endif
             @elseif($empresa->role_id == 4)
                 <x-badge value="Conveniada" class="bg-green-300/30"/>
             @endif

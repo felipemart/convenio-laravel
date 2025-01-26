@@ -22,7 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:admin|empresas')->group(function () {
         Route::get('/dashboard', fn () => 'admin dashboard')->name('admin.dashboard');
         Route::get('/users', Users\Index::class)->name('user.list');
-        Route::get('/emppresas', Empresas\Index::class)->name('empresas.list');
+        Route::get('/empresas', Empresas\Index::class)->name('empresas.list');
         Route::get('/emppresa/show/{id}', Empresas\Show::class)->name('empresas.show');
     });
     //endregion
