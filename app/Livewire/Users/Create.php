@@ -184,7 +184,7 @@ class Create extends Component
                 3000
             );
 
-            return true;
+            return;
         }
         $this->error(
             'Erro ao salvar!',
