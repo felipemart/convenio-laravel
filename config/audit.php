@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'implementation' => OwenIt\Auditing\Models\Audit::class,
+    //'implementation' => OwenIt\Auditing\Models\Audit::class,
+    'implementation' => App\Models\MongoAudit::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -165,7 +166,7 @@ return [
     'drivers' => [
         'database' => [
             'table'      => 'audits',
-            'connection' => null,
+            'connection' => 'mongodb',
         ],
     ],
 

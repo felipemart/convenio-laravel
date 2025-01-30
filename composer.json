@@ -13,6 +13,7 @@
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
+        "mongodb/laravel-mongodb": "^5.1",
         "owen-it/laravel-auditing": "^13.6",
         "predis/predis": "^2.3",
         "robsontenorio/mary": "^1.41",
