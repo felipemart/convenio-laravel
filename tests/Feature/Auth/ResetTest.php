@@ -18,14 +18,14 @@ test('precisa receber um token validos', function () {
         ->call('recuperacaoSenha');
 
     Notification::assertSentTo($user, EmailRecuperacaoSenha::class, function (EmailRecuperacaoSenha $notification) {
-        get(route('password.reset') . '?token=' . $notification->token)
-            ->assertSuccessful();
+    get(route('password.reset') . '?token=' . $notification->token)
+    ->assertSuccessful();
 
         get(route('password.reset') . '?token=invalido-token')
             ->assertRedirect(route('login'));
 
         return true;
-    });
+        });
 
 });
 

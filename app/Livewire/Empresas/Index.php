@@ -48,6 +48,10 @@ class Index extends Component
     #[Computed]
     public function empresas(): LengthAwarePaginator
     {
+
+        $role    = auth()->user()->role_id;
+        $empresa = auth()->user()->empresa_id;
+
         return Empresa::query()
             ->when(
                 $this->search,
@@ -78,6 +82,31 @@ class Index extends Component
                     'like',
                     "%" . strtolower($this->razao_social) . "%"
                 )
+            )->when(
+                ($role == 2),
+                fn (Builder $q) => $q->where(
+                    DB::raw('operadora_id'),
+                    '=',
+                    $empresa
+                )
+            )->when(
+                ($role == 3),
+                fn (Builder $q) => $q->where(
+                    DB::raw('convenio_id'),
+                    '=',
+                    $empresa
+                )
+            )->when(
+                ($role == 4),
+                fn (Builder $q) => $q->where(
+                    DB::raw('conveniada_id'),
+                    '=',
+                    $empresa
+                )
+            )->where(
+                DB::raw('role_id'),
+                '<>',
+                $role
             )
             ->when($this->search_trash, fn (Builder $q) => $q->onlyTrashed())
             ->orderBy(...array_values($this->sortBy))

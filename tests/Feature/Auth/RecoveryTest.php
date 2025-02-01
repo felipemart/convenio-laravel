@@ -9,10 +9,10 @@ use Livewire\Livewire;
 use function Pest\Laravel\{assertDatabaseCount, assertDatabaseHas, get};
 
 test('precisa ter uma rota para recuperação de senha', function () {
-    get(route('password.recovery'))
-        ->assertSeeLivewire('auth.password.recovery')
-        ->assertOk();
-});
+get(route('password.recovery'))
+->assertSeeLivewire('auth.password.recovery')
+->assertOk();
+    });
 
 test('deve ser capaz de recuperar a senha', function () {
     Notification::fake();
