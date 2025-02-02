@@ -1,6 +1,9 @@
 <?php
 
-use App\Livewire\Users\{Index, Show};
+declare(strict_types = 1);
+
+use App\Livewire\Users\Index;
+use App\Livewire\Users\Show;
 use App\Models\User;
 use Livewire\Livewire;
 
@@ -55,11 +58,9 @@ test('deve ser capaz de abrir o modal por evendo', function () {
     Livewire::test(Index::class)
         ->call('show', $user->id)
         ->assertDispatched('user.showing', userId: $user->id);
-
 });
 
 test('loadUser tenha o atributo on livewire ', function () {
-
     $livewireClass = new Show();
     $reflection    = new ReflectionClass($livewireClass);
     $atributes     = $reflection->getMethod('loadUser')->getAttributes();
@@ -70,5 +71,4 @@ test('loadUser tenha o atributo on livewire ', function () {
     expect($atribute->getName())->toBe('Livewire\Attributes\On')
         ->and($atribute->getArguments())->toHaveCount(1)
         ->and($atribute->getArguments()[0])->toBe('user.showing');
-
 });

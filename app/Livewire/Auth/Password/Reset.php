@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Livewire\Auth\Password;
 
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\{DB, Hash, Password};
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -29,8 +33,8 @@ class Reset extends Component
             session()->flash('status', 'Token inválido.');
             $this->redirectRoute('login');
         }
-
     }
+
     protected function rules()
     {
         return [
@@ -48,11 +52,13 @@ class Reset extends Component
             'email'     => 'O campo :attribute deve ser um e-mail válido.',
         ];
     }
+
     public function render(): View
     {
         return view('livewire.auth.password.reset-senha')
             ->layout('components.layouts.guest', ['title' => 'Reset de senha']);
     }
+
     private function tokenInvalido(): bool
     {
         $tokens = DB::table('password_reset_tokens')->get(['token']);
@@ -64,12 +70,10 @@ class Reset extends Component
         }
 
         return true;
-
     }
 
     public function resetarSenha(): void
     {
-
         $this->validate();
 
         $status = Password::reset(
@@ -95,13 +99,11 @@ class Reset extends Component
 
         session()->flash('status', 'Senha resetada com sucesso.');
         $this->redirect(route('login'));
-
     }
 
     #[Computed]
     public function obfuscarEmail(): string
     {
         return obfuscar_email($this->email);
-
     }
 }

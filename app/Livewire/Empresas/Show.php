@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Livewire\Empresas;
 
-use App\Models\{Empresa};
+use App\Models\Empresa;
 use Livewire\Component;
 
 class Show extends Component
@@ -20,5 +22,4 @@ class Show extends Component
     {
         return view('livewire.empresas.show');
     }
-
 }

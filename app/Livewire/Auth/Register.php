@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Livewire\Auth;
 
 use App\Models\User;
@@ -19,6 +21,7 @@ class Register extends Component
 
     #[Rule(['required'])]
     public ?string $password = null;
+
     public function render()
     {
         return view('livewire.auth.registro');
@@ -36,6 +39,5 @@ class Register extends Component
         ]);
 
         $user->notify(new BemVindoNotification());
-
     }
 }

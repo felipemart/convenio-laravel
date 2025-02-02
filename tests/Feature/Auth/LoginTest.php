@@ -1,7 +1,9 @@
 <?php
 
+declare(strict_types = 1);
+
 use App\Livewire\Auth\Login;
-use App\Models\{User};
+use App\Models\User;
 use Livewire\Livewire;
 
 it('renders successfully', function () {
@@ -24,7 +26,6 @@ it('should be able to login', function () {
 
     expect(auth()->check())->toBeTrue()
         ->and(auth()->user())->id->toBe($user->id);
-
 });
 
 it('should make sure the email and password', function () {
@@ -34,7 +35,6 @@ it('should make sure the email and password', function () {
         ->call('lgoin')
         ->assertHasErrors(['crendenciaisInvalidas'])
         ->assertSee('Credenciais inválidas.');
-
 });
 
 it('should make sure that rate limiter is working', function () {
@@ -53,5 +53,4 @@ it('should make sure that rate limiter is working', function () {
         ->set('password', 'wrong-password')
         ->call('lgoin')
         ->assertHasErrors(['rateLimiter']);
-
 });

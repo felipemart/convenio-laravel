@@ -10,7 +10,7 @@
 </head>
 
 <body class="font-sans antialiased">
-<x-toast/>
+
 {{-- The navbar with `sticky` and `full-width` --}}
 <x-nav sticky full-width>
 
@@ -34,11 +34,9 @@
 
 {{-- The main content with `full-width` --}}
 <x-main with-nav full-width>
-
     {{-- This is a sidebar that works also as a drawer on small screens --}}
     {{-- Notice the `main-drawer` reference here --}}
     <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-200">
-
         {{-- User --}}
         @if($user = auth()->user())
             <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover class="pt-2">
@@ -47,10 +45,8 @@
                               link="/logout"/>
                 </x-slot:actions>
             </x-list-item>
-
             <x-menu-separator/>
         @endif
-
         {{-- Activates the menu item when a route matches the `link` property --}}
         <x-menu activate-by-route>
             {{--            <x-menu-item title="Home" icon="o-home" link="###"/>--}}
@@ -71,7 +67,6 @@
 
             <x-menu-item title="Usuarios" icon="o-sparkles" link="{{ route('user.list') }}"/>
             <x-menu-item title="Empresas" icon="o-sparkles" link="{{ route('empresas.list') }}"/>
-
         </x-menu>
     </x-slot:sidebar>
 
@@ -80,7 +75,6 @@
         {{ $slot }}
     </x-slot:content>
 </x-main>
-
 {{--  TOAST area --}}
 <x-toast/>
 </body>

@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Livewire\Users;
 
 use App\Models\User;
 use Illuminate\Contracts\View\View;
-use Livewire\Attributes\{On, Validate};
+use Livewire\Attributes\On;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Mary\Traits\Toast;
 

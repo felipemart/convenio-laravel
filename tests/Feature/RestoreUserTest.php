@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
 use App\Livewire\Users\Restore;
 use App\Models\User;
 use Livewire\Livewire;
 
-use function Pest\Laravel\{actingAs, assertNotSoftDeleted, assertSoftDeleted};
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertNotSoftDeleted;
+use function Pest\Laravel\assertSoftDeleted;
 
 test('deve ser capaz de restaurar  um usuario', function () {
     $admin       = User::factory()->withRoles('admin')->create();
@@ -39,5 +43,4 @@ test('deve ter um confirmacao para restaurar', function () {
         ->assertNotDispatched('user.restored');
 
     assertSoftDeleted('users', ['id' => $userRestore->id]);
-
 });

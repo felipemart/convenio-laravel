@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Livewire\Empresas;
 
 use App\Models\Empresa;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
-use Livewire\{Attributes\Computed, Component, WithPagination};
+use Livewire\Attributes\Computed;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
@@ -30,6 +34,7 @@ class Index extends Component
     {
         return view('livewire.empresas.index');
     }
+
     public function updatedPerPage($value): void
     {
         $this->resetPage();
@@ -45,10 +50,10 @@ class Index extends Component
             ['key' => 'role_id', 'label' => 'Tipo empresa'],
         ];
     }
+
     #[Computed]
     public function empresas(): LengthAwarePaginator
     {
-
         $role    = auth()->user()->role_id;
         $empresa = auth()->user()->empresa_id;
 
@@ -112,15 +117,14 @@ class Index extends Component
             ->orderBy(...array_values($this->sortBy))
             ->paginate($this->perPage);
     }
+
     public function destroy(int $id): void
     {
         $this->dispatch('empresas.deletion', empresaId: $id)->to('empresas.delete');
-
     }
 
     public function restore(int $id): void
     {
         $this->dispatch('empresas.restoring', empresaId: $id)->to('empresas.restore');
-
     }
 }

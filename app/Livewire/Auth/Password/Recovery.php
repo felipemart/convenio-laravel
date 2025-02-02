@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Livewire\Auth\Password;
 
 use Illuminate\Support\Facades\Password;
@@ -34,7 +36,6 @@ class Recovery extends Component
 
     public function recuperacaoSenha()
     {
-
         $this->validate();
         Password::sendResetLink($this->only('email'));
 

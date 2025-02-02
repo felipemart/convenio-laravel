@@ -1,12 +1,17 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Livewire\Users;
 
-use App\Models\{Permission, Role, User};
+use App\Models\Permission;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\{Builder, Collection};
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
-use Livewire\Attributes\{Computed};
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
@@ -46,7 +51,6 @@ class Update extends Component
         $this->roleSelect = $this->user->role_id;
         $this->name       = $this->user->name;
         $this->email      = $this->user->email;
-
     }
 
     public function render()
@@ -78,6 +82,7 @@ class Update extends Component
             ['key' => 'permission', 'label' => 'Permissão'],
         ];
     }
+
     #[Computed]
     public function permissions(): LengthAwarePaginator
     {
@@ -96,22 +101,18 @@ class Update extends Component
 
     public function updateSetPermissions(): void
     {
-
         $this->user->permissions()->each(function ($permission) {
             $this->setPermissions[$permission->id] = true;
         });
-
     }
 
     public function updatePermissions($idPermisson): void
     {
-
         if ($this->setPermissions[$idPermisson]) {
             $this->user->givePermissionId($idPermisson);
         } else {
             $this->user->removePermission($idPermisson);
         }
-
     }
 
     public function save()
@@ -141,7 +142,5 @@ class Update extends Component
             'alert-info',
             3000
         );
-
     }
-
 }

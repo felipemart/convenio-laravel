@@ -1,10 +1,16 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Livewire\Users;
 
-use App\Models\{Empresa, Permission, Role, User};
+use App\Models\Empresa;
+use App\Models\Permission;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\{Builder, Collection};
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -48,8 +54,8 @@ class Create extends Component
         $this->roles = Role::query()
             ->orderBy('name')
             ->get();
-
     }
+
     public function render()
     {
         return view('livewire.users.create');
@@ -82,6 +88,7 @@ class Create extends Component
             ['key' => 'permission', 'label' => 'Permissão'],
         ];
     }
+
     #[Computed]
     public function permissions(): LengthAwarePaginator
     {
@@ -105,22 +112,19 @@ class Create extends Component
                 $this->setPermissions[$permission->id] = true;
             });
         }
-
     }
 
     public function changeEmpresa(): void
     {
         $this->empresa = [];
 
-        if (!empty($this->roleSelect)) {
+        if (! empty($this->roleSelect)) {
             $this->empresa = Empresa::where('role_id', $this->roleSelect)->get()->toArray();
         }
-
     }
 
     public function updatePermissions($idPermisson): void
     {
-
         if ($this->user) {
             if ($this->setPermissions[$idPermisson]) {
                 $this->user->givePermissionId($idPermisson);
@@ -138,12 +142,11 @@ class Create extends Component
                 3000
             );
         }
-
     }
 
     public function next()
     {
-        if (!$this->saveOnly && $this->step == 1 && !$this->save()) {
+        if (! $this->saveOnly && $this->step == 1 && ! $this->save()) {
             return false;
         }
 
@@ -174,7 +177,7 @@ class Create extends Component
 
         ]);
 
-        if ($this->user) {
+        if ($this->user->name) {
             $this->success(
                 'Salvo com sucesso!',
                 null,
@@ -194,6 +197,5 @@ class Create extends Component
             'alert-info',
             3000
         );
-
     }
 }

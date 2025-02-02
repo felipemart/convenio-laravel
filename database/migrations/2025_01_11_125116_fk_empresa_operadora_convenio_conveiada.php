@@ -1,11 +1,14 @@
 <?php
 
-use App\Models\{Conveniada, Convenio, Empresa, Operadora, Role};
+declare(strict_types = 1);
+
+use App\Models\Empresa;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class () extends Migration {
+return new class () extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -13,12 +16,6 @@ return new class () extends Migration {
     {
         Schema::table('users', function (Blueprint $table) {
             $table->foreignIdFor(Empresa::class, 'empresa_id');
-        });
-        Schema::table('empresas', function (Blueprint $table) {
-            $table->foreignIdFor(Role::class, 'role_id')->nullable();
-            $table->foreignIdFor(Operadora::class, 'operadora_id')->nullable();
-            $table->foreignIdFor(Convenio::class, 'convenio_id')->nullable();
-            $table->foreignIdFor(Conveniada::class, 'conveniada_id')->nullable();
         });
     }
 
@@ -29,12 +26,6 @@ return new class () extends Migration {
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('empresa_id');
-        });
-        Schema::table('empresas', function (Blueprint $table) {
-            $table->dropColumn('role_id');
-            $table->dropColumn('operadora_id');
-            $table->dropColumn('convenio_id');
-            $table->dropColumn('conveniada_id');
         });
     }
 };

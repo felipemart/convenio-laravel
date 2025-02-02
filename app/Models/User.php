@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Notifications\{EmailRecuperacaoSenha};
-use App\Traits\{HasPermissions, HasRoles};
+use App\Notifications\EmailRecuperacaoSenha;
+use App\Traits\HasPermissions;
+use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -45,13 +48,13 @@ class User extends Authenticatable implements Auditable
     public function restoredBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'restored_by');
-
     }
+
     public function deletedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'deleted_by');
-
     }
+
     /**
      * @return string
      */
@@ -90,5 +93,4 @@ class User extends Authenticatable implements Auditable
     {
         $this->deleteCachePermissions();
     }
-
 }

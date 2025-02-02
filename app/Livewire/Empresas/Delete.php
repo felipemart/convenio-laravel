@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Livewire\Empresas;
 
-use App\Models\{Empresa};
-use Livewire\Attributes\{On, Validate};
+use App\Models\Empresa;
+use Livewire\Attributes\On;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Mary\Traits\Toast;
 

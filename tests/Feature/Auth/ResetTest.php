@@ -1,9 +1,13 @@
 <?php
 
-use App\Livewire\Auth\Password\{Reset, recovery};
+declare(strict_types = 1);
+
+use App\Livewire\Auth\Password\recovery;
+use App\Livewire\Auth\Password\Reset;
 use App\Models\User;
 use App\Notifications\EmailRecuperacaoSenha;
-use Illuminate\Support\Facades\{Hash, Notification};
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 
 use function Pest\Laravel\get;
@@ -26,7 +30,6 @@ test('precisa receber um token validos', function () {
 
         return true;
         });
-
 });
 
 test('teste possivel de resetar a senha', function () {
@@ -41,7 +44,6 @@ test('teste possivel de resetar a senha', function () {
         $user,
         EmailRecuperacaoSenha::class,
         function (EmailRecuperacaoSenha $notification) use ($user) {
-
             Livewire::test(Reset::class, ['token' => $notification->token, 'email' => $user->email])
                 ->set('password', 'new-password')
                 ->set('password_confirmation', 'new-password')
@@ -88,7 +90,6 @@ test('certificando-se de que o e-mail é real', function ($f) {
 ]);
 
 test('certificar que funcao obfuscar_email ', function () {
-
     $email         = 'johndoe@example.com';
     $obfuscarEmail = obfuscar_email($email);
     expect($obfuscarEmail)->toBe('jo*****@example.com');
@@ -110,5 +111,4 @@ test('certificar que funcao obfuscar_email ', function () {
             return true;
         }
     );
-
 });

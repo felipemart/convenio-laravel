@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Livewire\Auth;
 
-use Illuminate\Support\Facades\{Auth, RateLimiter};
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -36,18 +39,16 @@ class Login extends Component
 
     public function lgoin(): void
     {
-
         $this->validate();
 
         if ($this->virificaRateLimiter()) {
             return;
         };
 
-        if (!Auth::attempt([
+        if (! Auth::attempt([
             'email'    => $this->email,
             'password' => $this->password,
         ])) {
-
             RateLimiter::hit($this->keyLimiter());
 
             $this->addError('crendenciaisInvalidas', 'Credenciais inválidas.');
@@ -73,7 +74,6 @@ class Login extends Component
     private function virificaRateLimiter(): bool
     {
         if (RateLimiter::tooManyAttempts($this->keyLimiter(), 5)) {
-
             $this->addError('rateLimiter', 'Ultrapassou o limite de tentativas. Tente novamente em ' . RateLimiter::availableIn($this->keyLimiter()) . ' segundos.');
 
             return true;

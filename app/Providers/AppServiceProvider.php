@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Providers;
 
 use App\Enum\RoleEnum;
-use Illuminate\Support\Facades\{Gate};
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 
@@ -23,10 +25,12 @@ class AppServiceProvider extends ServiceProvider
             );
         }
     }
+
     public static function bladeMethodWrapper($method, $role, $guard = null): bool
     {
         return auth($guard)->check() && auth($guard)->user()->{$method}($role);
     }
+
     protected function registerBladeExtensions(BladeCompiler $bladeCompiler): void
     {
         // permission checks
@@ -40,5 +44,4 @@ class AppServiceProvider extends ServiceProvider
         //        $bladeCompiler->if('hasexactroles', fn () => $this->bladeMethodWrapper('hasExactRoles', ...func_get_args()));
         $bladeCompiler->directive('endunlessrole', fn () => '<?php endif; ?>');
     }
-
 }

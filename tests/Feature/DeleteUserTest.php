@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
 use App\Livewire\Users\Delete;
 use App\Models\User;
 use Livewire\Livewire;
 
-use function Pest\Laravel\{actingAs, assertNotSoftDeleted, assertSoftDeleted};
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertNotSoftDeleted;
+use function Pest\Laravel\assertSoftDeleted;
 
 test('deve ser capaz de deletar um usuario', function () {
     $admin      = User::factory()->withRoles('admin')->create();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Traits;
 
 use App\Models\Permission;
@@ -13,6 +15,7 @@ trait HasPermissions
     {
         return $this->belongsToMany(Permission::class);
     }
+
     public function givePermission(string $permission): void
     {
         $this->permissions()->firstOrCreate(['permission' => $permission]);
@@ -35,14 +38,13 @@ trait HasPermissions
         Cache::forget($this->getKeyPermissions());
         Cache::rememberForever($this->getKeyPermissions(), fn () => $this->permissions);
     }
+
     public function hasPermission(string $permission): bool
     {
-
         /** @var Collection $permissions */
         $permissions = Cache::get($this->getKeyPermissions(), $this->permissions);
 
         return $permissions->where('permission', '=', $permission)->isNotEmpty();
-
     }
 
     public function cachePermissions(): void

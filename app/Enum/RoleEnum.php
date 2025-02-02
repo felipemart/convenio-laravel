@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Enum;
 
 enum RoleEnum: string
@@ -8,5 +10,4 @@ enum RoleEnum: string
     case OPERADORA  = 'empresas';
     case CONVENIO   = 'convenio';
     case CONVENIADA = 'conveniada';
-
 }

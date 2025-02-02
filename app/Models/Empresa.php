@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
-use Illuminate\Database\Eloquent\{Model, SoftDeletes};
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Empresa extends Model
 {
@@ -36,38 +40,33 @@ class Empresa extends Model
     public function operadora(): BelongsTo
     {
         return $this->belongsTo(Operadora::class);
-
     }
 
     public function convenio(): BelongsTo
     {
         return $this->belongsTo(Convenio::class);
-
     }
+
     public function conveniada(): BelongsTo
     {
         return $this->belongsTo(Conveniada::class);
-
     }
 
-    public function giveOperadora(Operadora $operadora): void
+    public function giveOperadora(Empresa $empresa): void
     {
-        $this->operadora_id = $operadora->id;
-        $this->save();
-
-    }
-
-    public function giveConvenio(Convenio $convenio): void
-    {
-
-        $this->convenio_id = $convenio->id;
+        $this->operadora_id = $empresa->id;
         $this->save();
     }
 
-    public function giveConveniada(Conveniada $conveniada): void
+    public function giveConvenio(Empresa $empresa): void
     {
-        $this->conveniada_id = $conveniada->id;
+        $this->convenio_id = $empresa->id;
         $this->save();
     }
 
+    public function giveConveniada(Empresa $empresa): void
+    {
+        $this->conveniada_id = $empresa->id;
+        $this->save();
+    }
 }

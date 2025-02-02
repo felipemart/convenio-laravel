@@ -1,7 +1,15 @@
 <?php
 
-use App\Livewire\Auth\{Login, Logout, Password\Recovery, Password\Reset, Register};
-use App\Livewire\{Empresas, Users, Welcome};
+declare(strict_types = 1);
+
+use App\Livewire\Auth\Login;
+use App\Livewire\Auth\Logout;
+use App\Livewire\Auth\Password\Recovery;
+use App\Livewire\Auth\Password\Reset;
+use App\Livewire\Auth\Register;
+use App\Livewire\Empresas;
+use App\Livewire\Users;
+use App\Livewire\Welcome;
 use Illuminate\Support\Facades\Route;
 
 //region login
@@ -24,8 +32,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/users', Users\Index::class)->name('user.list');
         Route::get('/empresas', Empresas\Index::class)->name('empresas.list');
         Route::get('/emppresa/show/{id}', Empresas\Show::class)->name('empresas.show');
+        Route::get('/emppresa/create', Empresas\Create::class)->name('empresas.create');
     });
     //endregion
-
 });
 //endregion

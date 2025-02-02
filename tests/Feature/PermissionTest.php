@@ -1,13 +1,17 @@
 <?php
 
-use App\Models\{Permission, User};
-use Database\Seeders\{PermissionSeeder, UserSeeder};
+declare(strict_types = 1);
+
+use App\Models\Permission;
+use App\Models\User;
+use Database\Seeders\PermissionSeeder;
+use Database\Seeders\UserSeeder;
 use Illuminate\Support\Facades\DB;
 
-use function Pest\Laravel\{assertDatabaseHas, seed};
+use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\seed;
 
 test('Deve conceder permissão ao usuário', function () {
-
     $user = User::factory()->create();
 
     $user->givePermission('incluir');
@@ -25,7 +29,6 @@ test('Deve conceder permissão ao usuário', function () {
 });
 
 test('permissao deve ter seeder', function () {
-
     $this->seed(PermissionSeeder::class);
 
     assertDatabaseHas(
@@ -37,7 +40,6 @@ test('permissao deve ter seeder', function () {
 });
 
 test('seeder deve dar permissao ao usuário', function () {
-
     seed([PermissionSeeder::class, UserSeeder::class]);
 
     assertDatabaseHas(
@@ -61,7 +63,6 @@ test('ter certeza que os permissao estao em cache', function () {
     $keyCache = "user:{$user->id}:permissions";
     expect(Cache::has($keyCache))->toBeTrue('checando se chave existe')
         ->and(Cache::get($keyCache))->toBe($user->permissions);
-
 });
 
 test('checando ser esta  usando cache para permissao', function () {
@@ -74,5 +75,4 @@ test('checando ser esta  usando cache para permissao', function () {
     $user->hasPermission('incluir');
 
     expect(true)->toBeTrue();
-
 });

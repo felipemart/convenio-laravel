@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types = 1);
+
 use App\Livewire\Users\Index;
-use App\Models\{Role, User};
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Livewire;
 
-use function Pest\Laravel\{actingAs, get};
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
 
 test('deve ser acessada somente pelos usaurios papeis', function () {
-
     actingAs(
         User::factory()->withRoles('admin')->create()
     );
@@ -29,11 +32,9 @@ test('nao pode ser acessada pelo que nao tem permissao', function () {
     );
     get(route('user.list'))
         ->assertForbidden();
-
 });
 
 test('composente deve carregar todos os usuarios', function () {
-
     $users = User::factory()->withRoles('test')->count(10)->create();
 
     $lw = Livewire::test(Index::class);
@@ -48,7 +49,6 @@ test('composente deve carregar todos os usuarios', function () {
     foreach ($users as $user) {
         $lw->assertSee($user->name);
     }
-
 });
 
 test('vefiricando ser a table tem formato', function () {
@@ -196,7 +196,7 @@ test('paginacao dos resultados', function () {
         ->set('perPage', 15)
         ->assertSet('users', function (LengthAwarePaginator $users) {
             expect($users)
-               ->toHaveCount(15);
+                ->toHaveCount(15);
 
             return true;
         });

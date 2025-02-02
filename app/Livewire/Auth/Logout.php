@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Livewire\Auth;
 
 use Livewire\Component;
@@ -13,7 +15,6 @@ class Logout extends Component
 
     public function logout(): void
     {
-
         auth()->user()->logoutCachePermissions();
         auth()->logout();
         session()->invalidate();

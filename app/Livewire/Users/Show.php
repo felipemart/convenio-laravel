@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Livewire\Users;
 
 use App\Models\User;
@@ -23,5 +25,4 @@ class Show extends Component
         $this->user  = User::withTrashed()->find($userId);
         $this->modal = true;
     }
-
 }

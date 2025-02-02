@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -11,7 +13,7 @@ class RoleMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next, string $role): Response
     {
@@ -28,5 +30,4 @@ class RoleMiddleware
     {
         return auth($guard)->check() && auth($guard)->user()->{$method}($role);
     }
-
 }

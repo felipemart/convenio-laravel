@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types = 1);
+
 use App\Livewire\Auth\Register;
 use App\Models\User;
 use App\Notifications\BemVindoNotification;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 
-use function Pest\Laravel\{assertDatabaseCount, assertDatabaseHas};
+use function Pest\Laravel\assertDatabaseCount;
+use function Pest\Laravel\assertDatabaseHas;
 
 test('renderizar a view do livewire', function () {
     Livewire::test(Register::class)
@@ -68,5 +71,4 @@ test('deve ser capaz de confirmar o e-mail', function () {
     $user = User::where('email', 'johndoe@example.com')->first();
 
     Notification::assertSentTo($user, BemVindoNotification::class);
-
 });

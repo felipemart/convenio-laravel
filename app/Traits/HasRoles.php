@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Traits;
 
 use App\Models\Role;
@@ -26,7 +28,7 @@ trait HasRoles
         $this->role()->detach($role->id);
     }
 
-    public function hasRole(string|array $role): bool
+    public function hasRole(string | array $role): bool
     {
         if (is_array($role)) {
             foreach ($role as $r) {
@@ -40,5 +42,4 @@ trait HasRoles
 
         return auth()->user()->role()->where('name', '=', $role)->exists() ? true : false;
     }
-
 }

@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
+use App\Models\Empresa;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class () extends Migration {
+return new class () extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -12,6 +16,7 @@ return new class () extends Migration {
     {
         Schema::create('conveniadas', function (Blueprint $table) {
             $table->id();
+            $table->ForeignIdFor(Empresa::class, 'empresa_id');
             $table->timestamps();
             $table->softDeletes();
         });

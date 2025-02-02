@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 function obfuscar_email(?string $email): string
 {
     if (empty($email)) {

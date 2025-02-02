@@ -1,12 +1,17 @@
 <?php
 
-use App\Models\{Role, User};
-use Database\Seeders\{RoleSeeder, UserSeeder};
+declare(strict_types = 1);
 
-use function Pest\Laravel\{actingAs, assertDatabaseHas, seed};
+use App\Models\Role;
+use App\Models\User;
+use Database\Seeders\RoleSeeder;
+use Database\Seeders\UserSeeder;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\seed;
 
 test('deve conceder papel ao usuário', function () {
-
     $user = User::factory()->create();
 
     $user->giveRole('admin');
@@ -23,7 +28,6 @@ test('deve conceder papel ao usuário', function () {
     ]);
 });
 test('papeis deve ter seeder', function () {
-
     $this->seed(RoleSeeder::class);
 
     assertDatabaseHas(
@@ -34,7 +38,6 @@ test('papeis deve ter seeder', function () {
 });
 
 test('seeder deve dar papel ao usuário', function () {
-
     seed([RoleSeeder::class, UserSeeder::class]);
 
     assertDatabaseHas(
@@ -51,11 +54,9 @@ test('seeder deve dar papel ao usuário', function () {
 });
 
 test('deve bloquear acesso para usuário sem papel de admin', function () {
-
     $user = User::factory()->create();
 
     actingAs($user)
         ->get(route('admin.dashboard'))
         ->assertForbidden();
-
 });

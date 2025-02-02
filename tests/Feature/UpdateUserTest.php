@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 use App\Livewire\Users\Update;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -8,7 +10,6 @@ use Livewire\Livewire;
 use function Pest\Laravel\actingAs;
 
 test('deve acessar o perfil do usuario', function () {
-
     $admin = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
 
     $userEdit = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
@@ -18,11 +19,10 @@ test('deve acessar o perfil do usuario', function () {
         ->assertSee($userEdit->name)
         ->assertSee($userEdit->email)
         ->assertSee($userEdit->created_at->format('d/m/Y'))
-       ->assertOk();
+        ->assertOk();
 });
 
 test('deve acessar o perfil do usuario deletado deve aparacer o data de exclusao', function () {
-
     $admin = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
 
     $userEdit = User::factory()->withRoles('admin')->withPermissions('incluir')->create(
@@ -59,7 +59,6 @@ test('deve acessar o perfil do usuario remove a permissao ao usuario', function 
 
     $userEdit->refresh();
     expect($userEdit->permissions)->toHaveCount(0);
-
 });
 
 test('deve acessar o perfil do usuario adicionar a permissao ao usuario', function () {
@@ -81,5 +80,4 @@ test('deve acessar o perfil do usuario adicionar a permissao ao usuario', functi
 
     $userEdit->refresh();
     expect($userEdit->permissions)->toHaveCount(1);
-
 });

@@ -1,15 +1,20 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Livewire\Users;
 
-use App\Models\{Role, User};
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
-use Livewire\{Attributes\On, Component, WithPagination};
+use Livewire\Attributes\On;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 /**
  * @property-read LengthAwarePaginator | User[] $users
@@ -39,8 +44,8 @@ class Index extends Component
     public function mount(): void
     {
         $this->filterRole();
-
     }
+
     public function updatedPerPage($value): void
     {
         $this->resetPage();
@@ -116,18 +121,15 @@ class Index extends Component
     public function destroy(int $id): void
     {
         $this->dispatch('user.deletion', userId: $id)->to('users.delete');
-
     }
+
     public function restore(int $id): void
     {
         $this->dispatch('user.restoring', userId: $id)->to('users.restore');
-
     }
 
     public function show(int $id): void
     {
         $this->dispatch('user.showing', userId: $id)->to('users.show');
-
     }
-
 }

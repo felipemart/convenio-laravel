@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types = 1);
+
 use App\Livewire\Auth\Password\recovery;
 use App\Models\User;
 use App\Notifications\EmailRecuperacaoSenha;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 
-use function Pest\Laravel\{assertDatabaseCount, assertDatabaseHas, get};
+use function Pest\Laravel\assertDatabaseCount;
+use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\get;
 
 test('precisa ter uma rota para recuperação de senha', function () {
 get(route('password.recovery'))
@@ -26,11 +30,9 @@ test('deve ser capaz de recuperar a senha', function () {
         ->assertSee('Email enviado com processo de recuperação de senha.');
 
     Notification::assertSentTo($user, EmailRecuperacaoSenha::class);
-
 });
 
 test('certificando-se de que o e-mail é real', function ($value, $rule) {
-
     Livewire::test(recovery::class)
         ->set('email', $value)
         ->call('recuperacaoSenha')
@@ -51,5 +53,4 @@ test('precisa criar recuperação de token', function () {
     assertDatabaseHas('password_reset_tokens', [
         'email' => $user->email,
     ]);
-
 });
