@@ -4,7 +4,7 @@
 
     </x-header>
     <x-form wire:submit="save">
-        <x-input label="CNPJ" wire:model="cnpj" class="mb-2"/>
+        <x-input label="CNPJ" wire:model="cnpj" wire:change="cnpjCarregaDados" class="mb-2"/>
         <x-input label="Nome Fantasia" wire:model="nome_fantasia"/>
         <x-input label="Razao Social" wire:model="razao_social" class="mb-2"/>
         <x-input label="Logradouro" wire:model="logradouro" class="mb-2"/>
@@ -24,12 +24,12 @@
             wire:change="changeRoles"
             wire:model="roleSelect"/>
 
-        @if($roleSelect > 3)
+        @if($roleSelect > 3 || ($roleUser == 1 && $roleSelect == 3))
             <x-select
                 label="Selectionar empresa"
                 :options="$empresas"
                 option-value="id"
-                option-label="nome_fantasia"
+                option-label="descricao_empresa"
                 placeholder="Selecionar um nivel"
                 placeholder-value="0"
                 wire:model="empresaSelect"/>

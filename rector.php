@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use Rector\Config\RectorConfig;
+use Rector\ValueObject\PhpVersion;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -21,4 +22,5 @@ return RectorConfig::configure()
         privatization: true,
         earlyReturn: true,
         strictBooleans: true,
-    );
+    )
+    ->withPhpVersion(PhpVersion::PHP_84);
