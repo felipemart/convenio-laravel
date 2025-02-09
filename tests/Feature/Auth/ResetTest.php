@@ -13,7 +13,7 @@ use Livewire\Livewire;
 use function Pest\Laravel\get;
 use function PHPUnit\Framework\assertTrue;
 
-test('precisa receber um token validos', function () {
+test('precisa receber um token validos', function (): void {
     Notification::fake();
     $user = User::factory()->create();
 
@@ -21,7 +21,7 @@ test('precisa receber um token validos', function () {
         ->set('email', $user->email)
         ->call('recuperacaoSenha');
 
-    Notification::assertSentTo($user, EmailRecuperacaoSenha::class, function (EmailRecuperacaoSenha $notification) {
+    Notification::assertSentTo($user, EmailRecuperacaoSenha::class, function (EmailRecuperacaoSenha $notification): true {
     get(route('password.reset') . '?token=' . $notification->token)
     ->assertSuccessful();
 
@@ -32,7 +32,7 @@ test('precisa receber um token validos', function () {
         });
 });
 
-test('teste possivel de resetar a senha', function () {
+test('teste possivel de resetar a senha', function (): void {
     Notification::fake();
     $user = User::factory()->create();
 
@@ -43,7 +43,7 @@ test('teste possivel de resetar a senha', function () {
     Notification::assertSentTo(
         $user,
         EmailRecuperacaoSenha::class,
-        function (EmailRecuperacaoSenha $notification) use ($user) {
+        function (EmailRecuperacaoSenha $notification) use ($user): true {
             Livewire::test(Reset::class, ['token' => $notification->token, 'email' => $user->email])
                 ->set('password', 'new-password')
                 ->set('password_confirmation', 'new-password')
@@ -61,7 +61,7 @@ test('teste possivel de resetar a senha', function () {
         }
     );
 });
-test('certificando-se de que o e-mail é real', function ($f) {
+test('certificando-se de que o e-mail é real', function ($f): void {
     Notification::fake();
     $user = User::factory()->create();
 
@@ -72,7 +72,7 @@ test('certificando-se de que o e-mail é real', function ($f) {
     Notification::assertSentTo(
         $user,
         EmailRecuperacaoSenha::class,
-        function (EmailRecuperacaoSenha $notification) use ($user, $f) {
+        function (EmailRecuperacaoSenha $notification) use ($user, $f): true {
             Livewire::test(Reset::class, ['token' => $notification->token, 'email' => $user->email])
                 ->set($f->field, $f->value)
                 ->call('resetarSenha')
@@ -89,7 +89,7 @@ test('certificando-se de que o e-mail é real', function ($f) {
     'password::confirmed' => (object)['field' => 'password', 'value' => 'password-not-confirmed', 'rule' => 'confirmed'],
 ]);
 
-test('certificar que funcao obfuscar_email ', function () {
+test('certificar que funcao obfuscar_email ', function (): void {
     $email         = 'johndoe@example.com';
     $obfuscarEmail = obfuscar_email($email);
     expect($obfuscarEmail)->toBe('jo*****@example.com');
@@ -104,7 +104,7 @@ test('certificar que funcao obfuscar_email ', function () {
     Notification::assertSentTo(
         $user,
         EmailRecuperacaoSenha::class,
-        function (EmailRecuperacaoSenha $notification) use ($user) {
+        function (EmailRecuperacaoSenha $notification) use ($user): true {
             Livewire::test(Reset::class, ['token' => $notification->token, 'email' => $user->email])
                 ->assertSet('obfuscarEmail', obfuscar_email($user->email));
 

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\seed;
 
-test('Deve conceder permissão ao usuário', function () {
+test('Deve conceder permissão ao usuário', function (): void {
     $user = User::factory()->create();
 
     $user->givePermission('incluir');
@@ -28,7 +28,7 @@ test('Deve conceder permissão ao usuário', function () {
     ]);
 });
 
-test('permissao deve ter seeder', function () {
+test('permissao deve ter seeder', function (): void {
     $this->seed(PermissionSeeder::class);
 
     assertDatabaseHas(
@@ -39,7 +39,7 @@ test('permissao deve ter seeder', function () {
     );
 });
 
-test('seeder deve dar permissao ao usuário', function () {
+test('seeder deve dar permissao ao usuário', function (): void {
     seed([PermissionSeeder::class, UserSeeder::class]);
 
     assertDatabaseHas(
@@ -55,7 +55,7 @@ test('seeder deve dar permissao ao usuário', function () {
     ]);
 });
 
-test('ter certeza que os permissao estao em cache', function () {
+test('ter certeza que os permissao estao em cache', function (): void {
     $user = User::factory()->create();
 
     $user->givePermission('incluir');
@@ -65,7 +65,7 @@ test('ter certeza que os permissao estao em cache', function () {
         ->and(Cache::get($keyCache))->toBe($user->permissions);
 });
 
-test('checando ser esta  usando cache para permissao', function () {
+test('checando ser esta  usando cache para permissao', function (): void {
     $user = User::factory()->create();
 
     $user->givePermission('incluir');

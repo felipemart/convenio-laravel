@@ -35,7 +35,7 @@ class Reset extends Component
         }
     }
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'password' => 'required|confirmed|min:8',
@@ -43,7 +43,7 @@ class Reset extends Component
         ];
     }
 
-    protected function messages()
+    protected function messages(): array
     {
         return [
             'required'  => 'O campo :attribute é obrigatório.',
@@ -78,7 +78,7 @@ class Reset extends Component
 
         $status = Password::reset(
             $this->only('email', 'password', 'password_confirmation', 'token'),
-            function (User $user, $password) {
+            function (User $user, $password): void {
                 $user->password       = $password;
                 $user->remember_token = Str::random(60);
                 $user->save();

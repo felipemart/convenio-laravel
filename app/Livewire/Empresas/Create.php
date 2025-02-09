@@ -38,7 +38,7 @@ class Create extends Component
             ->get()->toArray();
     }
 
-    public function changeRoles()
+    public function changeRoles(): void
     {
         $this->empresas = Empresa::query()
             ->when(

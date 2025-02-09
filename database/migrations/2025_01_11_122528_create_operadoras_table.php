@@ -14,7 +14,7 @@ return new class () extends Migration
      */
     public function up(): void
     {
-        Schema::create('operadoras', function (Blueprint $table) {
+        Schema::create('operadoras', function (Blueprint $table): void {
             $table->id();
             $table->ForeignIdFor(Empresa::class, 'empresa_id');
             $table->timestamps();

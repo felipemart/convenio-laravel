@@ -19,14 +19,14 @@ class Recovery extends Component
             ->layout('components.layouts.guest', ['title' => 'Recuperar senha']);
     }
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'email' => 'required|email',
         ];
     }
 
-    protected function messages()
+    protected function messages(): array
     {
         return [
             'required' => 'O campo :attribute é obrigatório.',
@@ -34,7 +34,7 @@ class Recovery extends Component
         ];
     }
 
-    public function recuperacaoSenha()
+    public function recuperacaoSenha(): void
     {
         $this->validate();
         Password::sendResetLink($this->only('email'));

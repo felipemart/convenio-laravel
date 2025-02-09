@@ -9,7 +9,7 @@ use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
 
-test('deve acessar o perfil do usuario', function () {
+test('deve acessar o perfil do usuario', function (): void {
     $admin = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
 
     $userEdit = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
@@ -22,7 +22,7 @@ test('deve acessar o perfil do usuario', function () {
         ->assertOk();
 });
 
-test('deve acessar o perfil do usuario deletado deve aparacer o data de exclusao', function () {
+test('deve acessar o perfil do usuario deletado deve aparacer o data de exclusao', function (): void {
     $admin = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
 
     $userEdit = User::factory()->withRoles('admin')->withPermissions('incluir')->create(
@@ -41,7 +41,7 @@ test('deve acessar o perfil do usuario deletado deve aparacer o data de exclusao
         ->assertOk();
 });
 
-test('deve acessar o perfil do usuario remove a permissao ao usuario', function () {
+test('deve acessar o perfil do usuario remove a permissao ao usuario', function (): void {
     $admin = User::factory()->withRoles('admin')->create();
 
     $userEdit       = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
@@ -61,7 +61,7 @@ test('deve acessar o perfil do usuario remove a permissao ao usuario', function 
     expect($userEdit->permissions)->toHaveCount(0);
 });
 
-test('deve acessar o perfil do usuario adicionar a permissao ao usuario', function () {
+test('deve acessar o perfil do usuario adicionar a permissao ao usuario', function (): void {
     $admin = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
 
     $userEdit = User::factory()->create();

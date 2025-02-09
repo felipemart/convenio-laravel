@@ -40,6 +40,6 @@ trait HasRoles
             return false;
         }
 
-        return auth()->user()->role()->where('name', '=', $role)->exists() ? true : false;
+        return (bool) auth()->user()->role()->where('name', '=', $role)->exists();
     }
 }

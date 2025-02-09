@@ -11,7 +11,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\seed;
 
-test('deve conceder papel ao usuário', function () {
+test('deve conceder papel ao usuário', function (): void {
     $user = User::factory()->create();
 
     $user->giveRole('admin');
@@ -27,7 +27,7 @@ test('deve conceder papel ao usuário', function () {
         'role_id' => Role::where('name', '=', 'admin')->first()->id,
     ]);
 });
-test('papeis deve ter seeder', function () {
+test('papeis deve ter seeder', function (): void {
     $this->seed(RoleSeeder::class);
 
     assertDatabaseHas(
@@ -37,7 +37,7 @@ test('papeis deve ter seeder', function () {
     );
 });
 
-test('seeder deve dar papel ao usuário', function () {
+test('seeder deve dar papel ao usuário', function (): void {
     seed([RoleSeeder::class, UserSeeder::class]);
 
     assertDatabaseHas(
@@ -53,7 +53,7 @@ test('seeder deve dar papel ao usuário', function () {
     ]);
 });
 
-test('deve bloquear acesso para usuário sem papel de admin', function () {
+test('deve bloquear acesso para usuário sem papel de admin', function (): void {
     $user = User::factory()->create();
 
     actingAs($user)

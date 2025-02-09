@@ -6,12 +6,12 @@ use App\Livewire\Auth\Login;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('renders successfully', function () {
+it('renders successfully', function (): void {
     Livewire::test(Login::class)
         ->assertOk();
 });
 
-it('should be able to login', function () {
+it('should be able to login', function (): void {
     $user = User::factory()->create([
         'email'    => 'johndoe@example.com',
         'password' => 'password',
@@ -28,7 +28,7 @@ it('should be able to login', function () {
         ->and(auth()->user())->id->toBe($user->id);
 });
 
-it('should make sure the email and password', function () {
+it('should make sure the email and password', function (): void {
     Livewire::test(Login::class)
         ->set('email', 'johndoe@example.com')
         ->set('password', 'password')
@@ -37,7 +37,7 @@ it('should make sure the email and password', function () {
         ->assertSee('Credenciais inválidas.');
 });
 
-it('should make sure that rate limiter is working', function () {
+it('should make sure that rate limiter is working', function (): void {
     $usrer = User::factory()->create();
 
     for ($i = 0; $i < 5; $i++) {

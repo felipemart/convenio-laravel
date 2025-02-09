@@ -9,7 +9,7 @@ use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
 
-test('deve ser capaz de ver o perfil do usuario', function () {
+test('deve ser capaz de ver o perfil do usuario', function (): void {
     $admin = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
     $user  = User::factory()->withRoles('test')->withPermissions('incluir')->create();
 
@@ -25,7 +25,7 @@ test('deve ser capaz de ver o perfil do usuario', function () {
         ->assertDontSee($user->deleted_at);
 });
 
-test('deve ser capaz de ver o perfil do usuario deletado', function () {
+test('deve ser capaz de ver o perfil do usuario deletado', function (): void {
     $admin = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
     $user  = User::factory()->withRoles('test')->withPermissions('incluir')->create([
         'deleted_at' => now(),
@@ -45,7 +45,7 @@ test('deve ser capaz de ver o perfil do usuario deletado', function () {
         ->assertSee($user->deletedBy->name);
 });
 
-test('deve ser capaz de abrir o modal por evendo', function () {
+test('deve ser capaz de abrir o modal por evendo', function (): void {
     $admin = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
     $user  = User::factory()->withRoles('test')->withPermissions('incluir')->create();
 
@@ -60,7 +60,7 @@ test('deve ser capaz de abrir o modal por evendo', function () {
         ->assertDispatched('user.showing', userId: $user->id);
 });
 
-test('loadUser tenha o atributo on livewire ', function () {
+test('loadUser tenha o atributo on livewire ', function (): void {
     $livewireClass = new Show();
     $reflection    = new ReflectionClass($livewireClass);
     $atributes     = $reflection->getMethod('loadUser')->getAttributes();

@@ -21,7 +21,7 @@ class Login extends Component
             ->layout('components.layouts.guest', ['title' => 'Login']);
     }
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'email'    => 'required|email',
@@ -29,7 +29,7 @@ class Login extends Component
         ];
     }
 
-    protected function messages()
+    protected function messages(): array
     {
         return [
             'required' => 'O campo :attribute é obrigatório.',

@@ -48,28 +48,28 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn (array $attributes): array => [
             'email_verified_at' => null,
         ]);
     }
 
     public function withPermissions(string $permissions): static
     {
-        return $this->afterCreating(function (User $user) use ($permissions) {
+        return $this->afterCreating(function (User $user) use ($permissions): void {
             $user->givePermission($permissions);
         });
     }
 
     public function withRoles(string $roles): static
     {
-        return $this->afterCreating(function (User $user) use ($roles) {
+        return $this->afterCreating(function (User $user) use ($roles): void {
             $user->giveRole($roles);
         });
     }
 
     public function deleted(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn (array $attributes): array => [
             'deleted_at' => now(),
         ]);
     }

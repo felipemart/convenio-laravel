@@ -61,7 +61,7 @@ class Create extends Component
         return view('livewire.users.create');
     }
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'name'       => 'required',
@@ -70,7 +70,7 @@ class Create extends Component
         ];
     }
 
-    protected function messages()
+    protected function messages(): array
     {
         return [
             'roleSelect.required' => 'O campo Nivel de acesso é obrigatório.',
@@ -107,8 +107,8 @@ class Create extends Component
 
     public function updateSetPermissions(): void
     {
-        if ($this->user) {
-            $this->user->permissions()->each(function ($permission) {
+        if ($this->user instanceof User) {
+            $this->user->permissions()->each(function ($permission): void {
                 $this->setPermissions[$permission->id] = true;
             });
         }
@@ -118,14 +118,14 @@ class Create extends Component
     {
         $this->empresa = [];
 
-        if (! empty($this->roleSelect)) {
+        if ($this->roleSelect !== null && $this->roleSelect !== 0) {
             $this->empresa = Empresa::where('role_id', $this->roleSelect)->get()->toArray();
         }
     }
 
     public function updatePermissions($idPermisson): void
     {
-        if ($this->user) {
+        if ($this->user instanceof User) {
             if ($this->setPermissions[$idPermisson]) {
                 $this->user->givePermissionId($idPermisson);
             } else {
@@ -144,7 +144,7 @@ class Create extends Component
         }
     }
 
-    public function next()
+    public function next(): ?bool
     {
         if (! $this->saveOnly && $this->step == 1 && ! $this->save()) {
             return false;
@@ -164,9 +164,11 @@ class Create extends Component
 
         $this->saveOnly = true;
         $this->step     = 2;
+
+        return null;
     }
 
-    public function save()
+    public function save(): void
     {
         $this->validate();
         $this->user = User::create([

@@ -11,12 +11,12 @@ use Livewire\Livewire;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
 
-test('renderizar a view do livewire', function () {
+test('renderizar a view do livewire', function (): void {
     Livewire::test(Register::class)
         ->assertStatus(200);
 });
 
-test('Devera ser capaz de registrar um novo usuário no sistema', function () {
+test('Devera ser capaz de registrar um novo usuário no sistema', function (): void {
     Livewire::test(Register::class)
         ->set('name', 'John Doe')
         ->set('email', 'johndoe@example.com')
@@ -33,7 +33,7 @@ test('Devera ser capaz de registrar um novo usuário no sistema', function () {
     assertDatabaseCount('users', 1);
 });
 
-test('Regras de validacao', function ($f) {
+test('Regras de validacao', function ($f): void {
     if ($f->rule == 'unique') {
         User::factory()->create([$f->field => $f->value]);
     }
@@ -52,13 +52,13 @@ test('Regras de validacao', function ($f) {
     'name::max:255'      => (object)['field' => 'name', 'value' => str_repeat('*', 256), 'rule' => 'max'],
     'email::required'    => (object)['field' => 'email', 'value' => '', 'rule' => 'required'],
     'email::email'       => (object)['field' => 'email', 'value' => 'not-an-email', 'rule' => 'email'],
-    'email::max:255'     => (object)['field' => 'email', 'value' => str_repeat('*' . '@doe.com', 256), 'rule' => 'max'],
+    'email::max:255'     => (object)['field' => 'email', 'value' => str_repeat('*@doe.com', 256), 'rule' => 'max'],
     'email::confirmed'   => (object)['field' => 'email', 'value' => 'joe@doe.com', 'rule' => 'confirmed'],
     'email::unique'      => (object)['field' => 'email', 'value' => 'joe@doe.com', 'rule' => 'unique', 'aField' => 'email_confirmation', 'aValue' => 'joe@doe.com'],
     'password::required' => (object)['field' => 'password', 'value' => '', 'rule' => 'required'],
 ]);
 
-test('deve ser capaz de confirmar o e-mail', function () {
+test('deve ser capaz de confirmar o e-mail', function (): void {
     Notification::fake();
 
     Livewire::test(Register::class)

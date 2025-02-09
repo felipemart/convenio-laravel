@@ -27,7 +27,7 @@ class Register extends Component
         return view('livewire.auth.registro');
     }
 
-    public function registrarUsuario()
+    public function registrarUsuario(): void
     {
         $this->validate();
 

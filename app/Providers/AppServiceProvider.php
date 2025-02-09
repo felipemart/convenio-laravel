@@ -34,14 +34,14 @@ class AppServiceProvider extends ServiceProvider
     protected function registerBladeExtensions(BladeCompiler $bladeCompiler): void
     {
         // permission checks
-        $bladeCompiler->if('haspermission', fn () => $this->bladeMethodWrapper('hasPermission', ...func_get_args()));
-        $bladeCompiler->if('permission', fn () => $this->bladeMethodWrapper('hasPermission', ...func_get_args()));
+        $bladeCompiler->if('haspermission', fn (): bool => $this->bladeMethodWrapper('hasPermission', ...func_get_args()));
+        $bladeCompiler->if('permission', fn (): bool => $this->bladeMethodWrapper('hasPermission', ...func_get_args()));
         // role checks
-        $bladeCompiler->if('role', fn () => $this->bladeMethodWrapper('hasRole', ...func_get_args()));
-        $bladeCompiler->if('hasrole', fn () => $this->bladeMethodWrapper('hasRole', ...func_get_args()));
+        $bladeCompiler->if('role', fn (): bool => $this->bladeMethodWrapper('hasRole', ...func_get_args()));
+        $bladeCompiler->if('hasrole', fn (): bool => $this->bladeMethodWrapper('hasRole', ...func_get_args()));
         //        $bladeCompiler->if('hasanyrole', fn () => $this->bladeMethodWrapper('hasAnyRole', ...func_get_args()));
         //        $bladeCompiler->if('hasallroles', fn () => $this->bladeMethodWrapper('hasAllRoles', ...func_get_args()));
         //        $bladeCompiler->if('hasexactroles', fn () => $this->bladeMethodWrapper('hasExactRoles', ...func_get_args()));
-        $bladeCompiler->directive('endunlessrole', fn () => '<?php endif; ?>');
+        $bladeCompiler->directive('endunlessrole', fn (): string => '<?php endif; ?>');
     }
 }

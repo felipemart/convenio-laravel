@@ -44,21 +44,21 @@ class EmpresaFactory extends Factory
 
     public function withOperadora(Operadora $operadora): static
     {
-        return $this->afterCreating(function (Empresa $empresa) use ($operadora) {
+        return $this->afterCreating(function (Empresa $empresa) use ($operadora): void {
             $empresa->giveOperadora($operadora);
         });
     }
 
     public function withConvenio(Convenio $convenio): static
     {
-        return $this->afterCreating(function (Empresa $empresa) use ($convenio) {
+        return $this->afterCreating(function (Empresa $empresa) use ($convenio): void {
             $empresa->giveConvenio($convenio);
         });
     }
 
     public function withConveniada(Conveniada $conveniada): static
     {
-        return $this->afterCreating(function (Empresa $empresa) use ($conveniada) {
+        return $this->afterCreating(function (Empresa $empresa) use ($conveniada): void {
             $empresa->giveConveniada($conveniada);
         });
     }

@@ -58,7 +58,7 @@ class Update extends Component
         return view('livewire.users.update');
     }
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'name'       => 'required',
@@ -67,7 +67,7 @@ class Update extends Component
         ];
     }
 
-    protected function messages()
+    protected function messages(): array
     {
         return [
             'required' => 'O campo :attribute é obrigatório.',
@@ -101,7 +101,7 @@ class Update extends Component
 
     public function updateSetPermissions(): void
     {
-        $this->user->permissions()->each(function ($permission) {
+        $this->user->permissions()->each(function ($permission): void {
             $this->setPermissions[$permission->id] = true;
         });
     }
@@ -115,7 +115,7 @@ class Update extends Component
         }
     }
 
-    public function save()
+    public function save(): ?bool
     {
         $this->validate();
         $this->user->name    = $this->name;
@@ -142,5 +142,7 @@ class Update extends Component
             'alert-info',
             3000
         );
+
+        return null;
     }
 }

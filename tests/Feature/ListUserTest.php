@@ -11,7 +11,7 @@ use Livewire\Livewire;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
-test('deve ser acessada somente pelos usaurios papeis', function () {
+test('deve ser acessada somente pelos usaurios papeis', function (): void {
     actingAs(
         User::factory()->withRoles('admin')->create()
     );
@@ -26,7 +26,7 @@ test('deve ser acessada somente pelos usaurios papeis', function () {
         ->assertOk();
 });
 
-test('nao pode ser acessada pelo que nao tem permissao', function () {
+test('nao pode ser acessada pelo que nao tem permissao', function (): void {
     actingAs(
         User::factory()->create()
     );
@@ -34,11 +34,11 @@ test('nao pode ser acessada pelo que nao tem permissao', function () {
         ->assertForbidden();
 });
 
-test('composente deve carregar todos os usuarios', function () {
+test('composente deve carregar todos os usuarios', function (): void {
     $users = User::factory()->withRoles('test')->count(10)->create();
 
     $lw = Livewire::test(Index::class);
-    $lw->assertSet('users', function ($users) {
+    $lw->assertSet('users', function ($users): true {
         expect($users)
             ->toBeInstanceOf(LengthAwarePaginator::class)
             ->toHaveCount(10);
@@ -51,7 +51,7 @@ test('composente deve carregar todos os usuarios', function () {
     }
 });
 
-test('vefiricando ser a table tem formato', function () {
+test('vefiricando ser a table tem formato', function (): void {
     Livewire::test(Index::class)
         ->assertSet('headers', [
             ['key' => 'id', 'label' => 'id', 'class' => 'w-16'],
@@ -62,7 +62,7 @@ test('vefiricando ser a table tem formato', function () {
         ]);
 });
 
-test('deve filtar os usuarios por nome e email', function () {
+test('deve filtar os usuarios por nome e email', function (): void {
     $admin = User::factory()->withRoles('admin')->create([
         'name'  => 'Admin',
         'email' => 'admin@gamail.com',
@@ -75,14 +75,14 @@ test('deve filtar os usuarios por nome e email', function () {
     actingAs($admin);
 
     Livewire::test(Index::class)
-        ->assertSet('users', function ($users) {
+        ->assertSet('users', function ($users): true {
             expect($users)
                 ->toHaveCount(2);
 
             return true;
         })
         ->set('search', 'mar')
-        ->assertSet('users', function ($users) {
+        ->assertSet('users', function ($users): true {
             expect($users)
                 ->toHaveCount(1)
                 ->first()->name->toBe('Mario');
@@ -91,7 +91,7 @@ test('deve filtar os usuarios por nome e email', function () {
         });
 });
 
-test('deve filtar os usuarios pelo nivel', function () {
+test('deve filtar os usuarios pelo nivel', function (): void {
     $admin = User::factory()->withRoles('admin')->create([
         'name'  => 'Admin',
         'email' => 'admin@gamail.com',
@@ -107,14 +107,14 @@ test('deve filtar os usuarios pelo nivel', function () {
     actingAs($admin);
 
     Livewire::test(Index::class)
-        ->assertSet('users', function ($users) {
+        ->assertSet('users', function ($users): true {
             expect($users)
                 ->toHaveCount(2);
 
             return true;
         })
         ->set('searchRole', [$roles->id])
-        ->assertSet('users', function ($users) {
+        ->assertSet('users', function ($users): true {
             expect($users)
                 ->toHaveCount(1)
                 ->first()->name->toBe('Admin');
@@ -122,7 +122,7 @@ test('deve filtar os usuarios pelo nivel', function () {
             return true;
         })
         ->set('searchRole', [$roles->id, $roles2->id])
-        ->assertSet('users', function ($users) {
+        ->assertSet('users', function ($users): true {
             expect($users)
                 ->toHaveCount(2);
 
@@ -130,7 +130,7 @@ test('deve filtar os usuarios pelo nivel', function () {
         });
 });
 
-test('deve filtar os usuarios deletado', function () {
+test('deve filtar os usuarios deletado', function (): void {
     $admin = User::factory()->withRoles('admin')->create([
         'name'  => 'Admin',
         'email' => 'admin@gamail.com',
@@ -140,14 +140,14 @@ test('deve filtar os usuarios deletado', function () {
     actingAs($admin);
 
     Livewire::test(Index::class)
-        ->assertSet('users', function ($users) {
+        ->assertSet('users', function ($users): true {
             expect($users)
                 ->toHaveCount(1);
 
             return true;
         })
         ->set('search_trash', true)
-        ->assertSet('users', function ($users) {
+        ->assertSet('users', function ($users): true {
             expect($users)
                 ->toHaveCount(2);
 
@@ -155,7 +155,7 @@ test('deve filtar os usuarios deletado', function () {
         });
 });
 
-test('deve ordenar os usuarios', function () {
+test('deve ordenar os usuarios', function (): void {
     $admin = User::factory()->withRoles('admin')->create([
         'name'  => 'Admin',
         'email' => 'admin@gamail.com',
@@ -167,7 +167,7 @@ test('deve ordenar os usuarios', function () {
     actingAs($admin);
     Livewire::test(Index::class)
         ->set('sortBy', ['column' => 'name', 'direction' => 'asc'])
-        ->assertSet('users', function ($users) {
+        ->assertSet('users', function ($users): true {
             expect($users)
                 ->first()->name->toBe('Admin')
                 ->and($users)->last()->name->toBe('Mario');
@@ -175,7 +175,7 @@ test('deve ordenar os usuarios', function () {
             return true;
         })
         ->set('sortBy', ['column' => 'name', 'direction' => 'desc'])
-        ->assertSet('users', function ($users) {
+        ->assertSet('users', function ($users): true {
             expect($users)
                 ->first()->name->toBe('Mario')
                 ->and($users)->last()->name->toBe('Admin');
@@ -184,7 +184,7 @@ test('deve ordenar os usuarios', function () {
         });
 });
 
-test('paginacao dos resultados', function () {
+test('paginacao dos resultados', function (): void {
     $admin = User::factory()->withRoles('admin')->create([
         'name'  => 'Admin',
         'email' => 'admin@gamail.com',
@@ -194,7 +194,7 @@ test('paginacao dos resultados', function () {
     actingAs($admin);
     Livewire::test(Index::class)
         ->set('perPage', 15)
-        ->assertSet('users', function (LengthAwarePaginator $users) {
+        ->assertSet('users', function (LengthAwarePaginator $users): true {
             expect($users)
                 ->toHaveCount(15);
 

@@ -19,7 +19,7 @@ Route::get('/password/reset', Reset::class)->name('password.reset');
 //endregion
 
 //region Auth
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function (): void {
     Route::get('/', Welcome::class)->name('dashboard');
     Route::get('/register', Register::class)->name('auth.register');
     Route::get('/logout', [Logout::class, 'logout'])->name('logout');
@@ -27,8 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/create', Users\Create::class)->name('user.create');
 
     //region Admin
-    Route::middleware('role:admin|empresas')->group(function () {
-        Route::get('/dashboard', fn () => 'admin dashboard')->name('admin.dashboard');
+    Route::middleware('role:admin|empresas')->group(function (): void {
+        Route::get('/dashboard', fn (): string => 'admin dashboard')->name('admin.dashboard');
         Route::get('/users', Users\Index::class)->name('user.list');
         Route::get('/empresas', Empresas\Index::class)->name('empresas.list');
         Route::get('/emppresa/show/{id}', Empresas\Show::class)->name('empresas.show');

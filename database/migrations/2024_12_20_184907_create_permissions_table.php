@@ -13,13 +13,13 @@ return new class () extends Migration
      */
     public function up(): void
     {
-        Schema::create('permissions', function (Blueprint $table) {
+        Schema::create('permissions', function (Blueprint $table): void {
             $table->id();
             $table->string('permission');
             $table->timestamps();
         });
 
-        Schema::create('permission_user', function (Blueprint $table) {
+        Schema::create('permission_user', function (Blueprint $table): void {
             $table->foreignId('user_id');
             $table->foreignId('permission_id');
             $table->index(['user_id', 'permission_id']);
