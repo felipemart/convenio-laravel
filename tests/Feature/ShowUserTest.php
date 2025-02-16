@@ -68,7 +68,7 @@ test('loadUser tenha o atributo on livewire ', function (): void {
     /** @var @var ReflectionAttribute $atribute */
     $atribute = $atributes[0];
 
-    expect($atribute->getName())->toBe('Livewire\Attributes\On')
+    expect($atribute->getName())->toBe(\Livewire\Attributes\On::class)
         ->and($atribute->getArguments())->toHaveCount(1)
         ->and($atribute->getArguments()[0])->toBe('user.showing');
 });

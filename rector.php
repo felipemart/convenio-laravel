@@ -3,7 +3,6 @@
 declare(strict_types = 1);
 
 use Rector\Config\RectorConfig;
-use Rector\ValueObject\PhpVersion;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -17,10 +16,11 @@ return RectorConfig::configure()
     ])
     // here we can define, what prepared sets of rules will be applied
     ->withPreparedSets(
+        deadCode: true,
         codeQuality: true,
         typeDeclarations: true,
         privatization: true,
         earlyReturn: true,
         strictBooleans: true,
     )
-    ->withPhpVersion(PhpVersion::PHP_84);
+    ->withPhpSets();

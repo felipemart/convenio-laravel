@@ -19,7 +19,7 @@ class RoleMiddleware
     {
         $role = explode('|', $role);
 
-        if ($this->checkRole('hasRole', $role)) {
+        if (static::checkRole('hasRole', $role)) {
             return $next($request);
         }
 

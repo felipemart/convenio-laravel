@@ -70,25 +70,25 @@ class Index extends Component
                 fn (Builder $q) => $q->where(
                     DB::raw('lower(name)'),
                     'like',
-                    "%" . strtolower($this->search) . "%"
+                    "%" . strtolower((string) $this->search) . "%"
                 )->orWhere(
                     DB::raw('lower(email)'),
                     'like',
-                    "%" . strtolower($this->search) . "%"
+                    "%" . strtolower((string) $this->search) . "%"
                 )
             )->when(
                 $this->nome,
                 fn (Builder $q) => $q->where(
                     DB::raw('lower(name)'),
                     'like',
-                    "%" . strtolower($this->nome) . "%"
+                    "%" . strtolower((string) $this->nome) . "%"
                 )
             )->when(
                 $this->email,
                 fn (Builder $q) => $q->where(
                     DB::raw('lower(email)'),
                     'like',
-                    "%" . strtolower($this->email) . "%"
+                    "%" . strtolower((string) $this->email) . "%"
                 )
             )->when(
                 $this->searchRole,

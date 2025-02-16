@@ -10,7 +10,7 @@ return new class () extends Migration
 {
     public function up(): void
     {
-        Schema::create('convenios', function (Blueprint $table) {
+        Schema::create('convenios', function (Blueprint $table): void {
             $table->id();
             $table->unsignedBigInteger('operadora_id'); // Chave estrangeira para operadoras
             $table->unsignedBigInteger('empresa_id'); // Chave estrangeira para empresas (convênios)

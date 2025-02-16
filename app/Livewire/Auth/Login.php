@@ -60,17 +60,11 @@ class Login extends Component
         $this->redirect(route('dashboard'));
     }
 
-    /**
-     * @return string
-     */
     private function keyLimiter(): string
     {
         return base64_encode(Str::transliterate(Str::lower($this->email)) . ':' . request()->ip());
     }
 
-    /**
-     * @return bool
-     */
     private function virificaRateLimiter(): bool
     {
         if (RateLimiter::tooManyAttempts($this->keyLimiter(), 5)) {

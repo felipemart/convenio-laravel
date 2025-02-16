@@ -63,15 +63,15 @@ class Index extends Component
                 fn (Builder $q) => $q->where(
                     DB::raw('lower(razao_social)'),
                     'like',
-                    "%" . strtolower($this->search) . "%"
+                    "%" . strtolower((string) $this->search) . "%"
                 )->orWhere(
                     DB::raw('lower(nome_fantasia)'),
                     'like',
-                    "%" . strtolower($this->search) . "%"
+                    "%" . strtolower((string) $this->search) . "%"
                 )->orWhere(
                     DB::raw('lower(cnpj)'),
                     'like',
-                    "%" . strtolower($this->search) . "%"
+                    "%" . strtolower((string) $this->search) . "%"
                 )
             )->when(
                 $this->cnpj,
@@ -85,18 +85,18 @@ class Index extends Component
                 fn (Builder $q) => $q->where(
                     DB::raw('lower(razao_social)'),
                     'like',
-                    "%" . strtolower($this->razao_social) . "%"
+                    "%" . strtolower((string) $this->razao_social) . "%"
                 )
             )
-            ->where(function ($query) use ($role, $empresa) {
+            ->where(function ($query) use ($role, $empresa): void {
                 if ($role == 2) { // Operadora
-                    $query->whereExists(function ($q) use ($empresa) {
+                    $query->whereExists(function ($q) use ($empresa): void {
                         $q->select(DB::raw(1))
                             ->from('convenios')
                             ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
                             ->whereColumn('convenios.empresa_id', 'empresas.id')
                             ->where('operadoras.empresa_id', $empresa);
-                    })->orWhereExists(function ($q) use ($empresa) {
+                    })->orWhereExists(function ($q) use ($empresa): void {
                         $q->select(DB::raw(1))
                             ->from('conveniadas')
                             ->join('convenios', 'conveniadas.convenio_id', '=', 'convenios.id')
@@ -105,13 +105,13 @@ class Index extends Component
                             ->where('operadoras.empresa_id', $empresa);
                     });
                 } elseif ($role == 3) { // Convênio
-                    $query->whereExists(function ($q) use ($empresa) {
+                    $query->whereExists(function ($q) use ($empresa): void {
                         $q->select(DB::raw(1))
                             ->from('convenios')
                             ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
                             ->whereColumn('convenios.empresa_id', 'empresas.id')
                             ->where('convenios.empresa_id', $empresa);
-                    })->orWhereExists(function ($q) use ($empresa) {
+                    })->orWhereExists(function ($q) use ($empresa): void {
                         $q->select(DB::raw(1))
                             ->from('conveniadas')
                             ->join('convenios', 'conveniadas.convenio_id', '=', 'convenios.id')
@@ -120,7 +120,7 @@ class Index extends Component
                             ->where('convenios.empresa_id', $empresa);
                     });
                 } elseif ($role == 4) { // Conveniada
-                    $query->whereExists(function ($q) use ($empresa) {
+                    $query->whereExists(function ($q) use ($empresa): void {
                         $q->select(DB::raw(1))
                             ->from('conveniadas')
                             ->join('convenios', 'conveniadas.convenio_id', '=', 'convenios.id')
@@ -130,7 +130,7 @@ class Index extends Component
                     });
                 }
             })
-            ->when($this->search_trash, function (Builder $q) { /* ... */ })
+            ->when($this->search_trash, fn (Builder $q) => $q->onlyTrashed())
             ->orderBy(...array_values($this->sortBy))
             ->paginate($this->perPage);
     }

@@ -12,16 +12,13 @@ class EmailRecuperacaoSenha extends Notification
 {
     use Queueable;
 
-    public $token;
-
     public static $createUrlCallback;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($token)
+    public function __construct(public $token)
     {
-        $this->token = $token;
     }
 
     /**

@@ -98,7 +98,7 @@ class Create extends Component
                 fn (Builder $q) => $q->where(
                     DB::raw('lower(permission)'),
                     'like',
-                    "%" . strtolower($this->search) . "%"
+                    "%" . strtolower((string) $this->search) . "%"
                 )
             )
             ->orderBy(...array_values($this->sortBy))

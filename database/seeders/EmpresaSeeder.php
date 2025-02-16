@@ -35,11 +35,9 @@ class EmpresaSeeder extends Seeder
 
     public function configure()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                // outros campos
-            ];
-        })->afterCreating(function (Empresa $empresa) {
+        return $this->state(fn (array $attributes): array => [
+            // outros campos
+        ])->afterCreating(function (Empresa $empresa): void {
             if (isset($attributes['is_operadora']) && $attributes['is_operadora'] === true) {
                 Operadora::factory()->create(['empresa_id' => $empresa->id]);
             }
