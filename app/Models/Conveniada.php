@@ -6,7 +6,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Conveniada extends Model
@@ -16,8 +15,19 @@ class Conveniada extends Model
 
     protected $fillable = ['id'];
 
-    public function empresas(): HasOne
+    /**
+     * Get the convenio that owns the conveniada.
+     */
+    public function convenio()
     {
-        return $this->hasOne(Empresa::class);
+        return $this->belongsTo(Convenio::class);
+    }
+
+    /**
+     * Get the empresa that owns the conveniada.
+     */
+    public function empresa()
+    {
+        return $this->belongsTo(Empresa::class);
     }
 }

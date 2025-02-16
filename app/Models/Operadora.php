@@ -6,7 +6,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Operadora extends Model
@@ -16,8 +15,13 @@ class Operadora extends Model
 
     protected $fillable = ['id'];
 
-    public function empresas(): HasOne
+    public function empresa()
     {
-        return $this->hasOne(Empresa::class);
+        return $this->belongsTo(Empresa::class, 'empresa_id', 'id');
+    }
+
+    public function convenios()
+    {
+        return $this->hasMany(Convenio::class);
     }
 }

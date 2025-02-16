@@ -44,23 +44,39 @@
             @endscope
             @scope('cell_role_id', $empresa)
 
-            @if($empresa->role_id == 1)
-                <x-badge value="Admin" class="badge-primary"/>
-            @elseif($empresa->role_id == 2)
+            @if ($empresa->operadora->isNotEmpty())
+                {{-- Verifica se a empresa é uma operadora --}}
                 <x-badge value="Operadora" class="bg-purple-500/50"/>
-                @if($empresa->convenio)
-                    <x-badge value="Convenio" class="bg-blue-300/30"/>
+                @if ($empresa->convenios->isNotEmpty())
+                    {{-- Verifica se a operadora tem convênios --}}
+                    @foreach ($empresa->convenios as $convenio)
+                        <x-badge value="Convênio" class="bg-blue-300/30"/>
+                    @endforeach
                 @endif
-                @if($empresa->conveniada)
-                    <x-badge value="Conveniada" class="bg-green-300/30"/>
+                @if ($empresa->conveniadas->isNotEmpty())
+                    {{-- Verifica se a operadora tem conveniadas --}}
+                    @foreach ($empresa->conveniadas as $conveniada)
+                        <x-badge value="Conveniada" class="bg-green-300/30"/>
+                    @endforeach
                 @endif
-            @elseif($empresa->role_id == 3)
-                <x-badge value="Convenio" class="bg-blue-300/30"/>
-                @if($empresa->conveniada)
-                    <x-badge value="Conveniada" class="bg-green-300/30"/>
+            @elseif ($empresa->convenios->isNotEmpty())
+                {{-- Verifica se a empresa é um convênio --}}
+                <x-badge value="Convênio" class="bg-blue-300/30"/>
+                @if ($empresa->conveniadas->isNotEmpty())
+                    {{-- Verifica se o convênio tem conveniadas --}}
+                    @foreach ($empresa->conveniadas as $conveniada)
+                        <x-badge value="Conveniada" class="bg-green-300/30"/>
+                    @endforeach
                 @endif
-            @elseif($empresa->role_id == 4)
+            @elseif ($empresa->conveniadas->isNotEmpty())
+                {{-- Verifica se a empresa é uma conveniada --}}
                 <x-badge value="Conveniada" class="bg-green-300/30"/>
+            @endif
+
+            {{--  Tratamento para Admin (se necessário) --}}
+            @if ($empresa->id === 1)
+                {{-- Ou outra condição que identifique o admin --}}
+                <x-badge value="Admin" class="badge-primary"/>
             @endif
 
             @endscope

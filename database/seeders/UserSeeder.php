@@ -15,10 +15,10 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        //admin
+        // Admin
         User::factory()
-            ->withPermissions('incluir')
-            ->withRoles('Admin')
+            ->withPermissions('incluir') // Adapte conforme suas permissões
+            ->withRoles('Admin')         // Adapte conforme seus roles
             ->create([
                 'name'     => 'Admin',
                 'email'    => 'admin@localhost.com',
@@ -26,179 +26,77 @@ class UserSeeder extends Seeder
             ]);
 
         for ($i = 0; $i < 4; $i++) {
-            $empresaOperadora = Empresa::factory()->create([
-                'role_id' => 2,
-            ]);
-            $operadora = Operadora::create([
-                'empresa_id' => $empresaOperadora->id,
-            ]);
+            // Empresa (Operadora)
+            $empresaOperadora = Empresa::factory()->create();
+            $operadora        = Operadora::create(['empresa_id' => $empresaOperadora->id]);
 
-            $empresaOperadora->giveOperadora($empresaOperadora);
+            // Usuários da Operadora
+            User::factory(3)->withRoles('Operadora')->create(['empresa_id' => $empresaOperadora->id]);
+            User::factory(3)->withRoles('Operadora')->create(['empresa_id' => $empresaOperadora->id, 'deleted_at' => now()]); // Usuários deletados
 
-            User::factory()
-                ->count(3)
-                ->withRoles('Operadora')
-                ->create([
-                    'empresa_id' => $empresaOperadora->id,
-                ]);
-            User::factory()
-                ->count(3)
-                ->withRoles('Operadora')
-                ->create([
-                    'empresa_id' => $empresaOperadora->id,
-                    'deleted_at' => now(),
-                ]);
-
-            $empresaConvenio = Empresa::factory()->create([
-                'role_id' => 3,
-            ]);
-            $convenio = Convenio::create([
-                'empresa_id' => $empresaConvenio->id,
+            // Empresa (Convênio)
+            $empresaConvenio = Empresa::factory()->create();
+            $convenio        = Convenio::create([
+                'operadora_id' => $operadora->id,
+                'empresa_id'   => $empresaConvenio->id,
             ]);
 
-            $empresaConvenio->giveOperadora($empresaOperadora);
-            $empresaConvenio->giveConvenio($empresaConvenio);
+            // Usuários do Convênio
+            User::factory(3)->withRoles('Convenio')->create(['empresa_id' => $empresaConvenio->id]);
+            User::factory(3)->withRoles('Convenio')->create(['empresa_id' => $empresaConvenio->id, 'deleted_at' => now()]); // Usuários deletados
 
-            User::factory()
-                ->count(3)
-                ->withRoles('Convenio')
-                ->create([
-                    'empresa_id' => $empresaConvenio->id,
-                ]);
-            User::factory()
-                ->count(3)
-                ->withRoles('Convenio')
-                ->create([
-                    'empresa_id' => $empresaConvenio->id,
-                    'deleted_at' => now(),
-                ]);
-
-            //conveniada 1
-
-            $empresaConveniada = Empresa::factory()->create([
-                'role_id' => 4,
-            ]);
-            $conveniada = Conveniada::create([
-                'empresa_id' => $empresaConveniada->id,
-            ]);
-            $empresaConveniada->giveOperadora($empresaOperadora);
-            $empresaConveniada->giveConvenio($empresaConvenio);
-            $empresaConveniada->giveConveniada($empresaConveniada);
-            User::factory()
-                ->count(3)
-                ->withRoles('Conveniada')
-                ->create([
-                    'empresa_id' => $empresaConveniada->id,
-                ]);
-            User::factory()
-                ->count(3)
-                ->withRoles('Conveniada')
-                ->create([
-                    'empresa_id' => $empresaConveniada->id,
-                    'deleted_at' => now(),
-                ]);
-
-            //conveniada 2
-            $empresaConveniada2 = Empresa::factory()->create([
-                'role_id' => 4,
-            ]);
-            $conveniada2 = Conveniada::create([
-                'empresa_id' => $empresaConveniada2->id,
+            // Empresas (Conveniadas)
+            $empresaConveniada1 = Empresa::factory()->create();
+            $conveniada1        = Conveniada::create([
+                'convenio_id' => $convenio->id,
+                'empresa_id'  => $empresaConveniada1->id,
             ]);
 
-            $empresaConveniada2->giveOperadora($empresaOperadora);
-            $empresaConveniada2->giveConvenio($empresaConvenio);
-            $empresaConveniada2->giveConveniada($empresaConveniada2);
+            // Usuários da Conveniada 1
+            User::factory(3)->withRoles('Conveniada')->create(['empresa_id' => $empresaConveniada1->id]);
+            User::factory(3)->withRoles('Conveniada')->create(['empresa_id' => $empresaConveniada1->id, 'deleted_at' => now()]); // Usuários deletados
 
-            User::factory()
-                ->count(3)
-                ->withRoles('Conveniada')
-                ->create([
-                    'empresa_id' => $empresaConveniada2->id,
-                ]);
-            User::factory()
-                ->count(3)
-                ->withRoles('Conveniada')
-                ->create([
-                    'empresa_id' => $empresaConveniada2->id,
-                    'deleted_at' => now(),
-                ]);
-
-            //convenio2
-            $empresaConvenio2 = Empresa::factory()->create([
-                'role_id' => 3,
+            $empresaConveniada2 = Empresa::factory()->create();
+            $conveniada2        = Conveniada::create([
+                'convenio_id' => $convenio->id,
+                'empresa_id'  => $empresaConveniada2->id,
             ]);
 
-            $convenio = Convenio::create([
-                'empresa_id' => $empresaConvenio2->id,
-            ]);
-            $empresaConvenio2->giveOperadora($empresaOperadora);
-            $empresaConvenio2->giveConvenio($empresaConvenio2);
+            // Usuários da Conveniada 2
+            User::factory(3)->withRoles('Conveniada')->create(['empresa_id' => $empresaConveniada2->id]);
+            User::factory(3)->withRoles('Conveniada')->create(['empresa_id' => $empresaConveniada2->id, 'deleted_at' => now()]); // Usuários deletados
 
-            User::factory()
-                ->count(3)
-                ->withRoles('Convenio')
-                ->create([
-                    'empresa_id' => $empresaConvenio2->id,
-                ]);
-            User::factory()
-                ->count(3)
-                ->withRoles('Convenio')
-                ->create([
-                    'empresa_id' => $empresaConvenio2->id,
-                    'deleted_at' => now(),
-                ]);
-
-            //conveniada
-            $empresaConveniada3 = Empresa::factory()->create([
-                'role_id' => 4,
-            ]);
-            $conveniada3 = Conveniada::create([
-                'empresa_id' => $empresaConveniada3->id,
+            // Outra Empresa (Convênio) - Mesmo Operadora
+            $empresaConvenio2 = Empresa::factory()->create();
+            $convenio2        = Convenio::create([
+                'operadora_id' => $operadora->id,
+                'empresa_id'   => $empresaConvenio2->id,
             ]);
 
-            $empresaConveniada3->giveOperadora($empresaOperadora);
-            $empresaConveniada3->giveConvenio($empresaConvenio2);
-            $empresaConveniada3->giveConveniada($empresaConveniada3);
-            User::factory()
-                ->count(3)
-                ->withRoles('Conveniada')
-                ->create([
-                    'empresa_id' => $empresaConveniada3->id,
-                ]);
-            User::factory()
-                ->count(3)
-                ->withRoles('Conveniada')
-                ->create([
-                    'empresa_id' => $empresaConveniada3->id,
-                    'deleted_at' => now(),
-                ]);
+            // Usuários do Convênio 2
+            User::factory(3)->withRoles('Convenio')->create(['empresa_id' => $empresaConvenio2->id]);
+            User::factory(3)->withRoles('Convenio')->create(['empresa_id' => $empresaConvenio2->id, 'deleted_at' => now()]); // Usuários deletados
 
-            //conveniada 2
-
-            $empresaConveniada4 = Empresa::factory()->create([
-                'role_id' => 4,
+            // Outras Empresas (Conveniadas) - Mesmo Convênio 2
+            $empresaConveniada3 = Empresa::factory()->create();
+            $conveniada3        = Conveniada::create([
+                'convenio_id' => $convenio2->id,
+                'empresa_id'  => $empresaConveniada3->id,
             ]);
-            $conveniada4 = Conveniada::create([
-                'empresa_id' => $empresaConveniada4->id,
-            ]);
-            $empresaConveniada4->giveOperadora($empresaOperadora);
-            $empresaConveniada4->giveConvenio($empresaConvenio2);
-            $empresaConveniada4->giveConveniada($empresaConveniada4);
 
-            User::factory()
-                ->count(3)
-                ->withRoles('Conveniada')
-                ->create([
-                    'empresa_id' => $empresaConveniada4->id,
-                ]);
-            User::factory()
-                ->count(3)
-                ->withRoles('Conveniada')
-                ->create([
-                    'empresa_id' => $empresaConveniada4->id,
-                    'deleted_at' => now(),
-                ]);
+            // Usuários da Conveniada 3
+            User::factory(3)->withRoles('Conveniada')->create(['empresa_id' => $empresaConveniada3->id]);
+            User::factory(3)->withRoles('Conveniada')->create(['empresa_id' => $empresaConveniada3->id, 'deleted_at' => now()]); // Usuários deletados
+
+            $empresaConveniada4 = Empresa::factory()->create();
+            $conveniada4        = Conveniada::create([
+                'convenio_id' => $convenio2->id,
+                'empresa_id'  => $empresaConveniada4->id,
+            ]);
+
+            // Usuários da Conveniada 4
+            User::factory(3)->withRoles('Conveniada')->create(['empresa_id' => $empresaConveniada4->id]);
+            User::factory(3)->withRoles('Conveniada')->create(['empresa_id' => $empresaConveniada4->id, 'deleted_at' => now()]); // Usuários deletados
         }
     }
 }

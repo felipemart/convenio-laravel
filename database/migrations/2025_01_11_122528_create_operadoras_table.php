@@ -2,29 +2,23 @@
 
 declare(strict_types = 1);
 
-use App\Models\Empresa;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('operadoras', function (Blueprint $table): void {
+        Schema::create('operadoras', function (Blueprint $table) {
             $table->id();
-            $table->ForeignIdFor(Empresa::class, 'empresa_id');
+            $table->unsignedBigInteger('empresa_id'); // Chave estrangeira para empresas (operadoras)
             $table->timestamps();
-            $table->softDeletes();
+            $table->softDeletes(); // Soft delete, se necessário
+            $table->foreign('empresa_id')->references('id')->on('empresas');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('operadoras');

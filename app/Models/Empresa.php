@@ -6,8 +6,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Empresa extends Model
@@ -32,24 +30,24 @@ class Empresa extends Model
 
     ];
 
-    public function users(): HasMany
+    public function operadora()
+    {
+        return $this->hasMany(Operadora::class);
+    }
+
+    public function convenios()
+    {
+        return $this->hasMany(Convenio::class);
+    }
+
+    public function conveniadas()
+    {
+        return $this->hasMany(Conveniada::class);
+    }
+
+    public function usuarios()
     {
         return $this->hasMany(User::class);
-    }
-
-    public function operadora(): BelongsTo
-    {
-        return $this->belongsTo(Operadora::class);
-    }
-
-    public function convenio(): BelongsTo
-    {
-        return $this->belongsTo(Convenio::class);
-    }
-
-    public function conveniada(): BelongsTo
-    {
-        return $this->belongsTo(Conveniada::class);
     }
 
     public function giveOperadora(Empresa $empresa): void

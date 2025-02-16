@@ -87,33 +87,50 @@ class Index extends Component
                     'like',
                     "%" . strtolower($this->razao_social) . "%"
                 )
-            )->when(
-                ($role == 2),
-                fn (Builder $q) => $q->where(
-                    DB::raw('operadora_id'),
-                    '=',
-                    $empresa
-                )
-            )->when(
-                ($role == 3),
-                fn (Builder $q) => $q->where(
-                    DB::raw('convenio_id'),
-                    '=',
-                    $empresa
-                )
-            )->when(
-                ($role == 4),
-                fn (Builder $q) => $q->where(
-                    DB::raw('conveniada_id'),
-                    '=',
-                    $empresa
-                )
-            )->where(
-                DB::raw('role_id'),
-                '<>',
-                $role
             )
-            ->when($this->search_trash, fn (Builder $q) => $q->onlyTrashed())
+            ->where(function ($query) use ($role, $empresa) {
+                if ($role == 2) { // Operadora
+                    $query->whereExists(function ($q) use ($empresa) {
+                        $q->select(DB::raw(1))
+                            ->from('convenios')
+                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                            ->whereColumn('convenios.empresa_id', 'empresas.id')
+                            ->where('operadoras.empresa_id', $empresa);
+                    })->orWhereExists(function ($q) use ($empresa) {
+                        $q->select(DB::raw(1))
+                            ->from('conveniadas')
+                            ->join('convenios', 'conveniadas.convenio_id', '=', 'convenios.id')
+                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                            ->whereColumn('conveniadas.empresa_id', 'empresas.id')
+                            ->where('operadoras.empresa_id', $empresa);
+                    });
+                } elseif ($role == 3) { // Convênio
+                    $query->whereExists(function ($q) use ($empresa) {
+                        $q->select(DB::raw(1))
+                            ->from('convenios')
+                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                            ->whereColumn('convenios.empresa_id', 'empresas.id')
+                            ->where('convenios.empresa_id', $empresa);
+                    })->orWhereExists(function ($q) use ($empresa) {
+                        $q->select(DB::raw(1))
+                            ->from('conveniadas')
+                            ->join('convenios', 'conveniadas.convenio_id', '=', 'convenios.id')
+                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                            ->whereColumn('conveniadas.empresa_id', 'empresas.id')
+                            ->where('convenios.empresa_id', $empresa);
+                    });
+                } elseif ($role == 4) { // Conveniada
+                    $query->whereExists(function ($q) use ($empresa) {
+                        $q->select(DB::raw(1))
+                            ->from('conveniadas')
+                            ->join('convenios', 'conveniadas.convenio_id', '=', 'convenios.id')
+                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                            ->whereColumn('conveniadas.empresa_id', 'empresas.id')
+                            ->where('conveniadas.empresa_id', $empresa);
+                    });
+                }
+            })
+            ->when($this->search_trash, function (Builder $q) { /* ... */ })
             ->orderBy(...array_values($this->sortBy))
             ->paginate($this->perPage);
     }
