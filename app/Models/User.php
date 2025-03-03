@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\EmailRecuperacaoSenha;
+use App\Notifications\VerifyEmail;
 use App\Traits\HasPermissions;
 use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,6 +33,7 @@ class User extends Authenticatable implements Auditable
         'restored_by',
         'deleted_by',
         'role_id',
+        'empresa_id',
     ];
 
     protected $hidden = [
@@ -78,13 +79,8 @@ class User extends Authenticatable implements Auditable
         $this->notify(new EmailRecuperacaoSenha($token));
     }
 
-    public function loginCachePermissions(): void
+    public function sendEmailVerificationNotification(): void
     {
-        $this->cachePermissions();
-    }
-
-    public function logoutCachePermissions(): void
-    {
-        $this->deleteCachePermissions();
+        $this->notify(new VerifyEmail());
     }
 }

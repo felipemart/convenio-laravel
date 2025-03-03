@@ -28,7 +28,7 @@ test('deve ser acessada somente pelos usaurios papeis', function (): void {
 
 test('nao pode ser acessada pelo que nao tem permissao', function (): void {
     actingAs(
-        User::factory()->create()
+        User::factory()->withRoles('test')->create()
     );
     get(route('user.list'))
         ->assertForbidden();

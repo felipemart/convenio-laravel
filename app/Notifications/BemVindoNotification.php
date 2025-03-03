@@ -36,8 +36,12 @@ class BemVindoNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage())
-            ->line('Bem vindo ao convenio!')
-            ->line('Obrigado por se cadastrar!');
+            ->subject('Email de boas vindas')
+            ->greeting('Seja bem vindo!')
+            ->line('Obrigado por ser registrar!')
+            ->line('logo recebera um email para verificar seu endereço de email')
+            ->salutation('Atenciosamente')
+            ->attach(public_path('tmp/teste.pdf'));
     }
 
     /**

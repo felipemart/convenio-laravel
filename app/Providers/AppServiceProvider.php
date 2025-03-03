@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace App\Providers;
 
-use App\Enum\RoleEnum;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 
@@ -19,12 +17,12 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        foreach (RoleEnum::cases() as $role) {
-            Gate::define(
-                $role->value,
-                fn ($user) => $user->hasRole($role)
-            );
-        }
+        //        foreach (RoleEnum::cases() as $role) {
+        //            Gate::define(
+        //                $role->value,
+        //                fn ($user) => $user->hasRole($role)
+        //            );
+        //        }
     }
 
     public static function bladeMethodWrapper($method, $role, $guard = null): bool

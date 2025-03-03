@@ -43,7 +43,7 @@ class Login extends Component
 
         if ($this->virificaRateLimiter()) {
             return;
-        };
+        }
 
         if (! Auth::attempt([
             'email'    => $this->email,
@@ -55,7 +55,9 @@ class Login extends Component
 
             return;
         }
-        auth()->user()->loginCachePermissions();
+        auth()->user()->makeSessionPermissions();
+
+        auth()->user()->makeSessionRoles();
 
         $this->redirect(route('dashboard'));
     }
@@ -71,7 +73,7 @@ class Login extends Component
             $this->addError('rateLimiter', 'Ultrapassou o limite de tentativas. Tente novamente em ' . RateLimiter::availableIn($this->keyLimiter()) . ' segundos.');
 
             return true;
-        };
+        }
 
         return false;
     }

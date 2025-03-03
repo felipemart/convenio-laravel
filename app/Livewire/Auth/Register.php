@@ -32,12 +32,16 @@ class Register extends Component
         $this->validate();
 
         $user = User::query()->create([
-            'name'     => $this->name,
-            'email'    => $this->email,
-            'password' => $this->password,
+            'name'       => $this->name,
+            'email'      => $this->email,
+            'password'   => $this->password,
+            'empresa_id' => 1,
 
         ]);
 
         $user->notify(new BemVindoNotification());
+        $user->sendEmailVerificationNotification();
+
+        $this->redirect(route('dashboard'));
     }
 }

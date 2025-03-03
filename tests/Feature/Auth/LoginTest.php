@@ -16,6 +16,7 @@ it('should be able to login', function (): void {
         'email'    => 'johndoe@example.com',
         'password' => 'password',
     ]);
+    $user->giveRole('guest');
 
     Livewire::test(Login::class)
         ->set('email', 'johndoe@example.com')

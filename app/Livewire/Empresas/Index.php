@@ -54,8 +54,10 @@ class Index extends Component
     #[Computed]
     public function empresas(): LengthAwarePaginator
     {
-        $role    = auth()->user()->role_id;
-        $empresa = auth()->user()->empresa_id;
+        $role    = 2;// auth()->user()->role_id;
+        $empresa = 2; //auth()->user()->empresa_id;
+
+        $this->resetPage();
 
         return Empresa::query()
             ->when(

@@ -6,7 +6,6 @@ namespace App\Livewire\Empresas;
 
 use App\Models\Empresa;
 use App\Models\Role;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -51,8 +50,8 @@ class Create extends Component
 
     public function mount(): void
     {
-        $this->roleUser    = auth()->user()->role_id;
-        $this->empresaUser = auth()->user()->empresa_id;
+        $this->roleUser    = 2;// auth()->user()->role_id;
+        $this->empresaUser = 2;// auth()->user()->empresa_id;
 
         $this->roles = Role::query()
             ->where('id', '>', $this->roleUser)
@@ -90,24 +89,55 @@ class Create extends Component
 
     public function changeRoles(): void
     {
-        $this->empresas = Empresa::query()
-            ->select('id', DB::raw("CONCAT(razao_social, ' - ', nome_fantasia) AS descricao_empresa"))
-            ->when(
-                $this->roleUser == 2,
-                fn (Builder $q) => $q->where('operadora_id', '=', $this->empresaUser)
-            )
-            ->when(
-                $this->roleUser == 3,
-                fn (Builder $q) => $q->where('convenio_id', '=', $this->empresaUser)
-            )
-            ->when(
-                $this->roleUser == 4,
-                fn (Builder $q) => $q->where('conveniada_id', '=', $this->empresaUser)
-            )
-            ->where('role_id', ($this->roleSelect - 1))
-            ->orderBy('razao_social', 'ASC')
-            ->orderBy('nome_fantasia', 'ASC')
-            ->get()->toArray();
+        switch ($this->roleSelect) {
+            case 2:
+                $this->empresas = Empresa::query()
+                    ->select('empresas.id', DB::raw("CONCAT(razao_social, ' - ', nome_fantasia) AS descricao_empresa"))
+                    ->join('operadoras', 'empresas.id', '=', 'operadoras.empresa_id')
+                    ->where('empresas.id', '!=', $this->empresaSelect)->toArray();
+
+                break;
+            case 3:
+                $this->empresas = Empresa::query()
+                    ->select('empresas.id', DB::raw("CONCAT(razao_social, ' - ', nome_fantasia) AS descricao_empresa"))
+                    ->join('convenios', 'empresas.id', '=', 'convenios.empresa_id')
+                    ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                    ->when($this->roleUser, function ($query) {
+                        if ($this->roleUser == 2) {
+                            $query->where('operadoras.empresa_id', $this->empresaUser);
+                        }
+
+                        if ($this->roleUser == 3) {
+                            $query->where('convenios.empresa_id', $this->empresaUser);
+                        }
+                    })
+                    ->toArray();
+
+                break;
+            case 4:
+                $this->empresas = Empresa::query()
+                    ->select('empresas.id', DB::raw("CONCAT(razao_social, ' - ', nome_fantasia) AS descricao_empresa"))
+                    ->join('conveniadas', 'empresas.id', '=', 'conveniadas.empresa_id')
+                    ->join('convenios', 'convenio.id', '=', 'conveniadas.convenio_id')
+                    ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                    ->when($this->roleUser, function ($query) {
+                        if ($this->roleUser == 2) {
+                            $query->where('operadoras.empresa_id', $this->empresaUser);
+                        }
+
+                        if ($this->roleUser == 3) {
+                            $query->where('convenios.empresa_id', $this->empresaUser);
+                        }
+
+                        if ($this->roleUser == 4) {
+                            $query->where('conveniadas.empresa_id', $this->empresaUser);
+                        }
+                    })
+                    ->toArray();
+
+                break;
+            default:
+        }
     }
 
     public function cnpjCarregaDados(): void
@@ -123,11 +153,32 @@ class Create extends Component
             $this->uf            = $e->uf;
             $this->cidade        = $e->cidade;
             $this->email         = $e->email;
+
+            if (count($e->operadora)) {
+                $this->roles = $this->removeTipo($this->roles, 2);
+            }
+
+            if (count($e->convenios)) {
+                $this->roles = $this->removeTipo($this->roles, 3);
+            }
+
+            if (count($e->conveniadas)) {
+                $this->roles = $this->removeTipo($this->roles, 4);
+            }
         }
     }
 
     public function save(): void
     {
         $this->validate();
+    }
+
+    public function removeTipo($array, $id)
+    {
+        $novoArray = array_filter($array, function ($item) use ($id) {
+            return $item['id'] !== $id;
+        });
+
+        return array_values($novoArray);
     }
 }

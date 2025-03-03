@@ -18,6 +18,16 @@ Route::get('/password/recovery', Recovery::class)->name('password.recovery');
 Route::get('/password/reset', Reset::class)->name('password.reset');
 //endregion
 
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
 //region Auth
 Route::middleware('auth')->group(function (): void {
     Route::get('/', Welcome::class)->name('dashboard');

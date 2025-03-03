@@ -8,20 +8,28 @@ use App\Models\Permission;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Cache;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 trait HasPermissions
 {
+    private function getKeySession(): string
+    {
+        $k = "user:" . $this->id . ".permissions";
+
+        return $k;
+    }
+
+    /** @return BelongsToMany<Permission, $this> */
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class);
     }
 
-    public function givePermission(string $permission): void
+    public function givePermission(string $key): void
     {
-        $this->permissions()->firstOrCreate(['permission' => $permission]);
-
-        Cache::forget($this->getKeyPermissions());
-        Cache::rememberForever($this->getKeyPermissions(), fn () => $this->permissions);
+        $this->permissions()->firstOrCreate(['permission' => $key]);
+        $this->makeSessionPermissions();
     }
 
     public function givePermissionId(int $idPpermission): void
@@ -39,22 +47,48 @@ trait HasPermissions
         Cache::rememberForever($this->getKeyPermissions(), fn () => $this->permissions);
     }
 
-    public function hasPermission(string $permission): bool
+    /**
+     * @param string|array<string> $key
+     * @return bool
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function hasPermission(string | array $key): bool
     {
-        /** @var Collection $permissions */
-        $permissions = Cache::get($this->getKeyPermissions(), $this->permissions);
+        if (is_array($key)) {
+            foreach ($key as $k) {
+                if ($this->hasPermission($k)) {
+                    return true;
+                }
+            }
 
-        return $permissions->where('permission', '=', $permission)->isNotEmpty();
+            return false;
+        }
+
+        $k = $this->getKeySession();
+
+        if (! session()->has($k)) {
+            $this->makeSessionPermissions();
+        }
+        /** @var Collection<int, Permission> */
+        $permissons = session()->get($k);
+
+        return  $permissons->where('permission', '=', $key)->isNotEmpty();
     }
 
-    public function cachePermissions(): void
+    /**
+     * @param string $key
+     * @return void
+     */
+    public function revokePermission(string $key): void
     {
-        Cache::forget($this->getKeyPermissions());
-        Cache::rememberForever($this->getKeyPermissions(), fn () => $this->permissions);
+        $this->permissons()->where('key', '=', $key)->delete();
+        $this->makeSessionPermissions();
     }
 
-    public function deleteCachePermissions(): void
+    public function makeSessionPermissions(): void
     {
-        Cache::forget($this->getKeyPermissions());
+        $k = $this->getKeySession();
+        session([$k => $this->permissions]);
     }
 }
