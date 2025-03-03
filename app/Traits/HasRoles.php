@@ -57,7 +57,7 @@ trait HasRoles
         /** @var Collection<int, Role> */
         $role = session()->get($k);
 
-        return  $role->where('name', '=', $key)->isNotEmpty();
+        return  $role->where('name', '=', ucfirst($key))->isNotEmpty();
     }
 
     public function makeSessionRoles(): void
