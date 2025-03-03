@@ -40,8 +40,7 @@ class BemVindoNotification extends Notification
             ->greeting('Seja bem vindo!')
             ->line('Obrigado por ser registrar!')
             ->line('logo recebera um email para verificar seu endereço de email')
-            ->salutation('Atenciosamente')
-            ->attach(public_path('tmp/teste.pdf'));
+            ->salutation('Atenciosamente');
     }
 
     /**

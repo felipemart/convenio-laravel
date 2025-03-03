@@ -8,6 +8,7 @@ use App\Models\Empresa;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use App\Notifications\BemVindoNotification;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -50,8 +51,11 @@ class Create extends Component
 
     public function mount(): void
     {
+        $role = auth()->user()->role_id;
+
         $this->updateSetPermissions();
         $this->roles = Role::query()
+            ->where('id', '>=', $role)
             ->orderBy('name')
             ->get();
     }
@@ -116,10 +120,54 @@ class Create extends Component
 
     public function changeEmpresa(): void
     {
+        $role          = $this->roleSelect;
+        $empresa       = auth()->user()->empresa_id;
         $this->empresa = [];
 
         if ($this->roleSelect !== null && $this->roleSelect !== 0) {
-            $this->empresa = Empresa::where('role_id', $this->roleSelect)->get()->toArray();
+            $this->empresa = Empresa::where(function ($query) use ($role, $empresa): void {
+                if ($role == 2) { // Operadora
+                    $query->whereExists(function ($q) use ($empresa): void {
+                        $q->select(DB::raw(1))
+                            ->from('convenios')
+                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                            ->whereColumn('convenios.empresa_id', 'empresas.id')
+                            ->where('operadoras.empresa_id', $empresa);
+                    })->orWhereExists(function ($q) use ($empresa): void {
+                        $q->select(DB::raw(1))
+                            ->from('conveniadas')
+                            ->join('convenios', 'conveniadas.convenio_id', '=', 'convenios.id')
+                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                            ->whereColumn('conveniadas.empresa_id', 'empresas.id')
+                            ->where('operadoras.empresa_id', $empresa);
+                    });
+                } elseif ($role == 3) { // Convênio
+                    $query->whereExists(function ($q) use ($empresa): void {
+                        $q->select(DB::raw(1))
+                            ->from('convenios')
+                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                            ->whereColumn('convenios.empresa_id', 'empresas.id')
+                            ->where('convenios.empresa_id', $empresa);
+                    })->orWhereExists(function ($q) use ($empresa): void {
+                        $q->select(DB::raw(1))
+                            ->from('conveniadas')
+                            ->join('convenios', 'conveniadas.convenio_id', '=', 'convenios.id')
+                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                            ->whereColumn('conveniadas.empresa_id', 'empresas.id')
+                            ->where('convenios.empresa_id', $empresa);
+                    });
+                } elseif ($role == 4) { // Conveniada
+                    $query->whereExists(function ($q) use ($empresa): void {
+                        $q->select(DB::raw(1))
+                            ->from('conveniadas')
+                            ->join('convenios', 'conveniadas.convenio_id', '=', 'convenios.id')
+                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                            ->whereColumn('conveniadas.empresa_id', 'empresas.id')
+                            ->where('conveniadas.empresa_id', $empresa);
+                    });
+                }
+            })
+                ->get()->toArray();
         }
     }
 
@@ -168,16 +216,19 @@ class Create extends Component
         return null;
     }
 
-    public function save(): void
+    public function save(): bool
     {
         $this->validate();
         $this->user = User::create([
-            'name'     => $this->name,
-            'email'    => $this->email,
-            'password' => bcrypt('123456'),
-            'role_id'  => $this->roleSelect,
+            'name'       => $this->name,
+            'email'      => $this->email,
+            'password'   => bcrypt(str()->random(10)),
+            'empresa_id' => $this->empresaSelect,
 
         ]);
+
+        $this->user->notify(new BemVindoNotification());
+        $this->user->sendEmailVerificationNotification();
 
         if ($this->user->name) {
             $this->success(
@@ -189,7 +240,7 @@ class Create extends Component
                 3000
             );
 
-            return;
+            return true;
         }
         $this->error(
             'Erro ao salvar!',
@@ -199,5 +250,7 @@ class Create extends Component
             'alert-info',
             3000
         );
+
+        return false;
     }
 }

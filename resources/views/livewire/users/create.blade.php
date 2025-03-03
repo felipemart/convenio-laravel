@@ -6,7 +6,6 @@
     </x-header>
     <!-- TABLE  -->
     <x-card>
-
         <x-steps wire:model="step" class=" my-5 p-5">
             <x-step step="1" text="Register">
                 <div>
@@ -36,7 +35,7 @@
                     </x-form>
                 </div>
             </x-step>
-            <x-step step="2" text="Payment">
+            <x-step step="2" text="Permissão">
                 <div>
                     <x-input placeholder="Pesquisar..." wire:model.live.debounce="search" clearable
                              icon="o-magnifying-glass"/>
