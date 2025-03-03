@@ -17,8 +17,8 @@ class UserSeeder extends Seeder
     {
         // Admin
         User::factory()
-            ->withPermissions('incluir') // Adapte conforme suas permissões
-            ->withRoles('Admin')         // Adapte conforme seus roles
+            ->withPermissions('incluir')
+            ->withRoles('Admin')
             ->create([
                 'name'     => 'Admin',
                 'email'    => 'admin@localhost.com',
@@ -98,5 +98,37 @@ class UserSeeder extends Seeder
             User::factory(3)->withRoles('Conveniada')->create(['empresa_id' => $empresaConveniada4->id]);
             User::factory(3)->withRoles('Conveniada')->create(['empresa_id' => $empresaConveniada4->id, 'deleted_at' => now()]); // Usuários deletados
         }
+
+        // Usuários operadora
+        User::factory()
+            ->withPermissions('incluir')
+            ->withRoles('operadora')
+            ->create([
+                'name'       => 'Operadora',
+                'email'      => 'operadora@localhost.com',
+                'empresa_id' => 2,
+                'password'   => bcrypt('123'),
+            ]);
+        // Usuários Convenio
+        User::factory()
+            ->withPermissions('incluir')
+            ->withRoles('convenio')
+            ->create([
+                'name'       => 'Convenio',
+                'email'      => 'convenio@localhost.com',
+                'empresa_id' => 3,
+                'password'   => bcrypt('123'),
+            ]);
+
+        // Usuários Conveniada
+        User::factory()
+            ->withPermissions('incluir')
+            ->withRoles('conveniada')
+            ->create([
+                'name'       => 'Conveniada',
+                'email'      => 'conveniada@localhost.com',
+                'empresa_id' => 4,
+                'password'   => bcrypt('123'),
+            ]);
     }
 }

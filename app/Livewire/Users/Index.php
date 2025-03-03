@@ -63,6 +63,9 @@ class Index extends Component
     {
         $this->validate(['searchRole' => 'exists:roles,id']);
 
+        $role    = auth()->user()->role_id;
+        $empresa = auth()->user()->empresa_id;
+
         return User::query()
             ->with('empresa')
             ->when(
@@ -94,6 +97,53 @@ class Index extends Component
                 $this->searchRole,
                 fn (Builder $query) => $query->whereIn('role_id', $this->searchRole)
             )
+            ->where(function ($query) use ($role, $empresa): void {
+                if ($role == 2) { // Operadora
+                    $query->whereExists(function ($q) use ($empresa): void {
+                        $q->select(DB::raw(1))
+                            ->from('convenios')
+                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                            ->whereColumn('convenios.empresa_id', 'users.empresa_id')
+                            ->where('operadoras.empresa_id', $empresa);
+                    })->orWhereExists(function ($q) use ($empresa): void {
+                        $q->select(DB::raw(1))
+                            ->from('conveniadas')
+                            ->join('convenios', 'conveniadas.convenio_id', '=', 'convenios.id')
+                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                            ->whereColumn('conveniadas.empresa_id', 'users.empresa_id')
+                            ->where('operadoras.empresa_id', $empresa);
+                    })->orWhereExists(function ($q) use ($empresa): void {
+                        $q->select(DB::raw(1))
+                            ->from('operadoras')
+                            ->whereColumn('operadoras.empresa_id', 'users.empresa_id')
+                            ->where('operadoras.empresa_id', $empresa);
+                    });
+                } elseif ($role == 3) { // Convênio
+                    $query->whereExists(function ($q) use ($empresa): void {
+                        $q->select(DB::raw(1))
+                            ->from('convenios')
+                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                            ->whereColumn('convenios.empresa_id', 'users.empresa_id')
+                            ->where('convenios.empresa_id', $empresa);
+                    })->orWhereExists(function ($q) use ($empresa): void {
+                        $q->select(DB::raw(1))
+                            ->from('conveniadas')
+                            ->join('convenios', 'conveniadas.convenio_id', '=', 'convenios.id')
+                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                            ->whereColumn('conveniadas.empresa_id', 'users.empresa_id')
+                            ->where('convenios.empresa_id', $empresa);
+                    });
+                } elseif ($role == 4) { // Conveniada
+                    $query->whereExists(function ($q) use ($empresa): void {
+                        $q->select(DB::raw(1))
+                            ->from('conveniadas')
+                            ->join('convenios', 'conveniadas.convenio_id', '=', 'convenios.id')
+                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
+                            ->whereColumn('conveniadas.empresa_id', 'users.empresa_id')
+                            ->where('conveniadas.empresa_id', $empresa);
+                    });
+                }
+            })
             ->when($this->search_trash, fn (Builder $q) => $q->onlyTrashed())
             ->orderBy(...array_values($this->sortBy))
             ->paginate($this->perPage);

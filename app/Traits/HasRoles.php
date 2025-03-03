@@ -24,7 +24,7 @@ trait HasRoles
 
     public function giveRole(string $role): void
     {
-        $role = $this->role()->firstOrCreate(['name' => $role]);
+        $role = Role::firstOrCreate(['name' => ucfirst($role)]);
         $this->role()->associate($role);
 
         $this->makeSessionRoles();
