@@ -38,7 +38,7 @@ export default {
                 },
                 dark: {
 
-                    "primary": "#1f2937",
+                    "primary": "#115e59",
                     "primary-content": "#cdd0d3",
                     "secondary": "#6b7280",
                     "secondary-content": "#e0e1e4",
@@ -46,9 +46,9 @@ export default {
                     "accent-content": "#101011",
                     "neutral": "#4b5563",
                     "neutral-content": "#d8dbde",
-                    "base-100": "#111827",
-                    "base-200": "#0d1320",
-                    "base-300": "#090f1a",
+                    "base-100": "#1f2937",
+                    "base-200": "#374151",
+                    "base-300": "#111827",
                     "base-content": "#c9cbcf",
                     "info": "#38bdf8",
                     "info-content": "#010d15",
@@ -58,6 +58,7 @@ export default {
                     "warning-content": "#130c00",
                     "error": "#ef4444",
                     "error-content": "#140202",
+
                 },
             },
         ],

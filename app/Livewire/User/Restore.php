@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Livewire\Users;
+namespace App\Livewire\User;
 
 use App\Models\User;
 use Illuminate\Contracts\View\View;
@@ -26,7 +26,7 @@ class Restore extends Component
 
     public function render(): View
     {
-        return view('livewire.users.restore');
+        return view('livewire.user.restore');
     }
 
     #[On('user.restoring')]

@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-use App\Livewire\Users\Index;
+use App\Livewire\User\Index;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -35,7 +35,10 @@ test('nao pode ser acessada pelo que nao tem permissao', function (): void {
 });
 
 test('composente deve carregar todos os usuarios', function (): void {
-    $users = User::factory()->withRoles('test')->count(10)->create();
+    actingAs(
+        User::factory()->withRoles('admin')->create()
+    );
+    $users = User::factory()->withRoles('test')->count(9)->create();
 
     $lw = Livewire::test(Index::class);
     $lw->assertSet('users', function ($users): true {
@@ -52,6 +55,9 @@ test('composente deve carregar todos os usuarios', function (): void {
 });
 
 test('vefiricando ser a table tem formato', function (): void {
+    actingAs(
+        User::factory()->withRoles('admin')->create()
+    );
     Livewire::test(Index::class)
         ->assertSet('headers', [
             ['key' => 'id', 'label' => 'id', 'class' => 'w-16'],
@@ -101,8 +107,8 @@ test('deve filtar os usuarios pelo nivel', function (): void {
         'email' => 'mario@gamail.com',
     ]);
 
-    $roles  = Role::where('name', '=', 'admin')->first();
-    $roles2 = Role::where('name', '=', 'test')->first();
+    $roles  = Role::where('name', '=', 'Admin')->first();
+    $roles2 = Role::where('name', '=', 'Test')->first();
 
     actingAs($admin);
 

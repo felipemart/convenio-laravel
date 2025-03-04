@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Livewire\Users;
+namespace App\Livewire\User;
 
 use App\Models\User;
 use Livewire\Attributes\On;
@@ -16,7 +16,7 @@ class Show extends Component
 
     public function render()
     {
-        return view('livewire.users.show');
+        return view('livewire.user.show');
     }
 
     #[On('user.showing')]

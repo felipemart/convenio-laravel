@@ -19,12 +19,12 @@ test('deve conceder papel ao usuário', function (): void {
     expect($user->hasRole('admin'))->toBeTrue();
 
     assertDatabaseHas('roles', [
-        'name' => 'admin',
+        'name' => 'Admin',
     ]);
 
     assertDatabaseHas('users', [
         'id'      => $user->id,
-        'role_id' => Role::where('name', '=', 'admin')->first()->id,
+        'role_id' => Role::where('name', '=', 'Admin')->first()->id,
     ]);
 });
 test('papeis deve ter seeder', function (): void {

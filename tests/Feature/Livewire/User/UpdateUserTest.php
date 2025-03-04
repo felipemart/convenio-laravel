@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-use App\Livewire\Users\Update;
+use App\Livewire\User\Update;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;

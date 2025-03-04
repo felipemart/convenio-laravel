@@ -2,9 +2,10 @@
 
 declare(strict_types = 1);
 
-use App\Livewire\Users\Index;
-use App\Livewire\Users\Show;
+use App\Livewire\User\Index;
+use App\Livewire\User\Show;
 use App\Models\User;
+use Livewire\Attributes\On;
 use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
@@ -68,7 +69,7 @@ test('loadUser tenha o atributo on livewire ', function (): void {
     /** @var @var ReflectionAttribute $atribute */
     $atribute = $atributes[0];
 
-    expect($atribute->getName())->toBe(\Livewire\Attributes\On::class)
+    expect($atribute->getName())->toBe(On::class)
         ->and($atribute->getArguments())->toHaveCount(1)
         ->and($atribute->getArguments()[0])->toBe('user.showing');
 });

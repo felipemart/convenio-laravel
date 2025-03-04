@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Livewire\Users;
+namespace App\Livewire\User;
 
 use App\Models\Role;
 use App\Models\User;
@@ -55,7 +55,7 @@ class Index extends Component
     #[On('user.restored')]
     public function render(): View
     {
-        return view('livewire.users.index');
+        return view('livewire.user.index');
     }
 
     #[Computed]
@@ -170,16 +170,16 @@ class Index extends Component
 
     public function destroy(int $id): void
     {
-        $this->dispatch('user.deletion', userId: $id)->to('users.delete');
+        $this->dispatch('user.deletion', userId: $id)->to('user.delete');
     }
 
     public function restore(int $id): void
     {
-        $this->dispatch('user.restoring', userId: $id)->to('users.restore');
+        $this->dispatch('user.restoring', userId: $id)->to('user.restore');
     }
 
     public function show(int $id): void
     {
-        $this->dispatch('user.showing', userId: $id)->to('users.show');
+        $this->dispatch('user.showing', userId: $id)->to('user.show');
     }
 }

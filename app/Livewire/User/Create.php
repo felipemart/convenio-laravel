@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Livewire\Users;
+namespace App\Livewire\User;
 
 use App\Models\Empresa;
 use App\Models\Permission;
@@ -64,7 +64,7 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.users.create');
+        return view('livewire.user.create');
     }
 
     protected function rules(): array
@@ -132,40 +132,40 @@ class Create extends Component
                     $query->whereExists(function ($q) use ($empresa): void {
                         $q->select(DB::raw(1))
                             ->from('convenios')
+                            ->join('conveniadas', 'conveniadas.convenio_id', '=', 'convenios.id')
                             ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
-                            ->whereColumn('convenios.empresa_id', 'empresas.id')
-                            ->where('operadoras.empresa_id', $empresa);
-                    })->orWhereExists(function ($q) use ($empresa): void {
-                        $q->select(DB::raw(1))
-                            ->from('conveniadas')
-                            ->join('convenios', 'conveniadas.convenio_id', '=', 'convenios.id')
-                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
-                            ->whereColumn('conveniadas.empresa_id', 'empresas.id')
-                            ->where('operadoras.empresa_id', $empresa);
+                            ->whereColumn('operadoras.empresa_id', 'empresas.id')
+                            ->where(function ($query) use ($empresa): void {
+                                $query->Where('conveniadas.empresa_id', $empresa)
+                                    ->orWhere('convenios.empresa_id', $empresa)
+                                    ->orWhere('operadoras.empresa_id', $empresa);
+                            });
                     });
                 } elseif ($role == 3) { // Convênio
                     $query->whereExists(function ($q) use ($empresa): void {
                         $q->select(DB::raw(1))
                             ->from('convenios')
+                            ->join('conveniadas', 'conveniadas.convenio_id', '=', 'convenios.id')
                             ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
                             ->whereColumn('convenios.empresa_id', 'empresas.id')
-                            ->where('convenios.empresa_id', $empresa);
-                    })->orWhereExists(function ($q) use ($empresa): void {
-                        $q->select(DB::raw(1))
-                            ->from('conveniadas')
-                            ->join('convenios', 'conveniadas.convenio_id', '=', 'convenios.id')
-                            ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
-                            ->whereColumn('conveniadas.empresa_id', 'empresas.id')
-                            ->where('convenios.empresa_id', $empresa);
+                            ->where(function ($query) use ($empresa): void {
+                                $query->Where('conveniadas.empresa_id', $empresa)
+                                    ->orWhere('convenios.empresa_id', $empresa)
+                                    ->orWhere('operadoras.empresa_id', $empresa);
+                            });
                     });
                 } elseif ($role == 4) { // Conveniada
                     $query->whereExists(function ($q) use ($empresa): void {
                         $q->select(DB::raw(1))
-                            ->from('conveniadas')
-                            ->join('convenios', 'conveniadas.convenio_id', '=', 'convenios.id')
+                            ->from('convenios')
+                            ->join('conveniadas', 'conveniadas.convenio_id', '=', 'convenios.id')
                             ->join('operadoras', 'convenios.operadora_id', '=', 'operadoras.id')
                             ->whereColumn('conveniadas.empresa_id', 'empresas.id')
-                            ->where('conveniadas.empresa_id', $empresa);
+                            ->where(function ($query) use ($empresa): void {
+                                $query->Where('conveniadas.empresa_id', $empresa)
+                                    ->orWhere('convenios.empresa_id', $empresa)
+                                    ->orWhere('operadoras.empresa_id', $empresa);
+                            });
                     });
                 }
             })
@@ -226,18 +226,17 @@ class Create extends Component
             'email'      => $this->email,
             'password'   => bcrypt(str()->random(10)),
             'empresa_id' => $this->empresaSelect,
+            'role_id'    => $this->roleSelect,
 
         ]);
 
         $this->user->notify(new BemVindoNotification());
-
         $token = Password::createToken($this->user);
-
         $this->user->notify(new EmailCriacaoSenha($token));
 
         if ($this->user->name) {
             $this->success(
-                'Salvo com sucesso!',
+                'Usuário criado com sucesso!',
                 null,
                 'toast-top toast-end',
                 'o-information-circle',
@@ -248,7 +247,7 @@ class Create extends Component
             return true;
         }
         $this->error(
-            'Erro ao salvar!',
+            'Erro ao criar o usuário!',
             null,
             'toast-top toast-end',
             'o-exclamation-triangle',

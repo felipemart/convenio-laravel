@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Livewire\Users;
+namespace App\Livewire\User;
 
 use App\Models\Permission;
 use App\Models\Role;
@@ -55,7 +55,7 @@ class Update extends Component
 
     public function render()
     {
-        return view('livewire.users.update');
+        return view('livewire.user.update');
     }
 
     protected function rules(): array

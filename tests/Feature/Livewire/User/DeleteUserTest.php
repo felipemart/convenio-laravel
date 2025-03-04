@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-use App\Livewire\Users\Delete;
+use App\Livewire\User\Delete;
 use App\Models\User;
 use Livewire\Livewire;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-use App\Livewire\Users\Restore;
+use App\Livewire\User\Restore;
 use App\Models\User;
 use Livewire\Livewire;
 

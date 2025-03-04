@@ -103,7 +103,7 @@
 
     <!-- FILTER DRAWER -->
 
-    <livewire:users.delete/>
-    <livewire:users.restore/>
-    <livewire:users.show/>
+    <livewire:user.delete/>
+    <livewire:user.restore/>
+    <livewire:user.show/>
 </div>
