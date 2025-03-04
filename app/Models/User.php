@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace App\Models;
 
 use App\Notifications\EmailRecuperacaoSenha;
-use App\Notifications\VerifyEmail;
 use App\Traits\HasPermissions;
 use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -77,10 +76,5 @@ class User extends Authenticatable implements Auditable
     public function sendPasswordResetNotification($token): void
     {
         $this->notify(new EmailRecuperacaoSenha($token));
-    }
-
-    public function sendEmailVerificationNotification(): void
-    {
-        $this->notify(new VerifyEmail());
     }
 }

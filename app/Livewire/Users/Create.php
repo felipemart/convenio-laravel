@@ -9,10 +9,12 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use App\Notifications\BemVindoNotification;
+use App\Notifications\EmailCriacaoSenha;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Password;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -228,7 +230,10 @@ class Create extends Component
         ]);
 
         $this->user->notify(new BemVindoNotification());
-        $this->user->sendEmailVerificationNotification();
+
+        $token = Password::createToken($this->user);
+
+        $this->user->notify(new EmailCriacaoSenha($token));
 
         if ($this->user->name) {
             $this->success(

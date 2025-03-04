@@ -8,7 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class EmailRecuperacaoSenha extends Notification
+class EmailCriacaoSenha extends Notification
 {
     use Queueable;
 
@@ -40,12 +40,12 @@ class EmailRecuperacaoSenha extends Notification
         $url    = $this->resetUrl($notifiable);
 
         return (new MailMessage())
-            ->subject('Notificação de redefinição de senha')
-            ->greeting('Redefinição de senha')
-            ->line('Você está recebendo este e-mail porque recebemos uma solicitação de redefinição de senha para sua conta.')
-            ->action('Redefinir senha', $url)
+            ->subject('Notificação de criação de senha')
+            ->greeting('Criação de senha')
+            ->line('Você está recebendo este e-mail para criar uma senha para sua conta.')
+            ->action('Criar senha', $url)
             ->line("Este link de redefinição de senha irá expirar em $expire minutos")
-            ->line('Se você não solicitou uma redefinição de senha, nenhuma outra ação será necessária.')
+            ->line('Caso expire o link, por favor solicite uma nova senha.')
             ->salutation('presados');
     }
 

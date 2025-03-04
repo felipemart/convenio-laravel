@@ -40,7 +40,6 @@ class Register extends Component
         ]);
 
         $user->notify(new BemVindoNotification());
-        $user->sendEmailVerificationNotification();
 
         $this->redirect(route('dashboard'));
     }
