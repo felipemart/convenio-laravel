@@ -87,9 +87,6 @@ class Create extends Component
         ];
     }
 
-    /**
-     * @return void
-     */
     public function changeRoles(): void
     {
         if ($this->roleSelect !== null && $this->roleSelect !== 0) {
@@ -186,7 +183,7 @@ class Create extends Component
             'email'         => $this->email,
         ]);
 
-        $id_pai = $this->empresaSelect ?: auth()->user()->empresa_id;
+        $id_pai = $this->empresaSelect !== null && $this->empresaSelect !== 0 ? $this->empresaSelect : auth()->user()->empresa_id;
 
         switch ($this->roleSelect) {
             case 2:
@@ -208,9 +205,7 @@ class Create extends Component
 
     public function removeTipo($array, $id): array
     {
-        $novoArray = array_filter($array, function ($item) use ($id) {
-            return $item['id'] !== $id;
-        });
+        $novoArray = array_filter($array, fn (array $item): bool => $item['id'] !== $id);
 
         return array_values($novoArray);
     }

@@ -57,7 +57,7 @@ class Index extends Component
         $role    = auth()->user()->role_id;
         $empresa = auth()->user()->empresa_id;
 
-        if (! empty($this->search)) {
+        if ($this->search !== null && $this->search !== '' && $this->search !== '0') {
             $this->resetPage();
         }
 

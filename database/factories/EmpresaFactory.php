@@ -45,7 +45,7 @@ class EmpresaFactory extends Factory
     public function withOperadora(Operadora $operadora): static
     {
         return $this->afterCreating(function (Empresa $empresa) use ($operadora): void {
-            $empresa->giveOperadora($operadora);
+            $empresa->giveOperadora();
         });
     }
 

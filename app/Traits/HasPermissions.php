@@ -15,9 +15,7 @@ trait HasPermissions
 {
     private function getKeySession(): string
     {
-        $k = "user:" . $this->id . ".permissions";
-
-        return $k;
+        return "user:" . $this->id . ".permissions";
     }
 
     /** @return BelongsToMany<Permission, $this> */
@@ -49,7 +47,6 @@ trait HasPermissions
 
     /**
      * @param string|array<string> $key
-     * @return bool
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -76,10 +73,6 @@ trait HasPermissions
         return  $permissons->where('permission', '=', $key)->isNotEmpty();
     }
 
-    /**
-     * @param string $key
-     * @return void
-     */
     public function revokePermission(string $key): void
     {
         $this->permissions()->where('key', '=', $key)->delete();

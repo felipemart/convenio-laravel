@@ -12,9 +12,7 @@ trait HasRoles
 {
     private function getKeySessionRole(): string
     {
-        $k = "user:" . $this->id . ".roles";
-
-        return $k;
+        return "user:" . $this->id . ".roles";
     }
 
     public function role(): BelongsTo
