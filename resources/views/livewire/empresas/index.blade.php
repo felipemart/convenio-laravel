@@ -90,7 +90,7 @@
                               class="btn-ghost btn-sm text-white-500" tooltip="Clientes"/>
                 @endif
                 <x-button icon="o-pencil-square" wire:navigate
-                          href="{{ route('user.edit', ['id' => $empresa->id])  }}" spinner
+                          href="{{ route('emppresa.edit', ['id' => $empresa->id])  }}" spinner
                           class="btn-ghost btn-sm text-white-500" tooltip="Editar"/>
 
 

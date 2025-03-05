@@ -39,11 +39,30 @@
                     <div>Tricks</div>
                 </x-tab>
 
+                @if($empresa->operadora->isNotEmpty())
+                    <x-tab name="operadora-tab" label="Operadora" icon="o-sparkles">
+                        <div>Tricks</div>
+                    </x-tab>
+
+                @endif
+                @if($empresa->convenios->isNotEmpty())
+                    <x-tab name="convenio-tab" label="Convenio" icon="o-sparkles">
+                        <div>Tricks</div>
+                    </x-tab>
+
+                @endif
+                @if($empresa->conveniadas->isNotEmpty())
+                    <x-tab name="conveniada-tab" label="Conveniada" icon="o-sparkles">
+                        <div>Tricks</div>
+                    </x-tab>
+
+                @endif
+
             </x-tabs>
 
         @endif
         <br/>
-        <x-button label="Cancelar" @click="$wire.modal = false"/>
+        <x-button label="Cancelar" wire:navigate href="{{ route('empresas.list')  }}"/>
 
     </x-card>
 </div>

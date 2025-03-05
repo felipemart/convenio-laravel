@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function (): void {
         Route::get('/empresas', Empresas\Index::class)->name('empresas.list');
         Route::get('/emppresa/show/{id}', Empresas\Show::class)->name('empresas.show');
         Route::get('/emppresa/create', Empresas\Create::class)->name('empresas.create');
+        Route::get('/emppresa/edit/{id}', Empresas\Update::class)->name('emppresa.edit');
     });
     //endregion
 });

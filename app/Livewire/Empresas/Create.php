@@ -96,7 +96,7 @@ class Create extends Component
             $this->empresa = Empresa::select('empresas.id', DB::raw("CONCAT(razao_social, ' - ', nome_fantasia) AS descricao_empresa"))
                 ->where(function ($query) use ($role, $empresa, $roleUser): void {
                     if ($role == 2) { // Operadora
-                        $query->whereExists(function ($q) use ($empresa, $roleUser): void {
+                        $query->whereExists(function ($q) use ($roleUser): void {
                             if ($roleUser == 1) {
                                 $q->select(DB::raw(1))->whereExists(function ($q): void {
                                     $q->select(DB::raw(1))
@@ -106,7 +106,7 @@ class Create extends Component
                             }
                         });
                     } elseif ($role == 3) { // Convênio
-                        $query->whereExists(function ($q) use ($empresa, $roleUser): void {
+                        $query->whereExists(function ($q) use ($roleUser): void {
                             if ($roleUser == 1) {
                                 $q->select(DB::raw(1))
                                     ->whereExists(function ($q): void {
@@ -189,7 +189,7 @@ class Create extends Component
 
         switch ($this->roleSelect) {
             case 2:
-                $empresa->giveOperadora($id_pai);
+                $empresa->giveOperadora();
 
                 break;
             case 3:
