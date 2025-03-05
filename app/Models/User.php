@@ -40,7 +40,7 @@ class User extends Authenticatable implements Auditable
         'remember_token',
     ];
 
-    public function empresa()
+    public function empresa(): BelongsTo
     {
         return $this->belongsTo(Empresa::class);
     }

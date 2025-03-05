@@ -82,7 +82,7 @@ trait HasPermissions
      */
     public function revokePermission(string $key): void
     {
-        $this->permissons()->where('key', '=', $key)->delete();
+        $this->permissions()->where('key', '=', $key)->delete();
         $this->makeSessionPermissions();
     }
 

@@ -2,6 +2,7 @@
 
 declare(strict_types = 1);
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -25,6 +26,9 @@ return new class () extends Migration
             $table->string('email');
             $table->string('inscricao_estadual')->nullable();
             $table->string('inscricao_municipal')->nullable();
+            $table->datetime('restored_at')->nullable();
+            $table->foreignIdFor(User::class, 'restored_by')->nullable();
+            $table->foreignIdFor(User::class, 'deleted_by')->nullable();
             $table->timestamps();
             $table->softDeletes(); // Soft delete, se necessário
         });

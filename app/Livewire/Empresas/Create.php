@@ -87,6 +87,9 @@ class Create extends Component
         ];
     }
 
+    /**
+     * @return void
+     */
     public function changeRoles(): void
     {
         switch ($this->roleSelect) {
@@ -94,7 +97,7 @@ class Create extends Component
                 $this->empresas = Empresa::query()
                     ->select('empresas.id', DB::raw("CONCAT(razao_social, ' - ', nome_fantasia) AS descricao_empresa"))
                     ->join('operadoras', 'empresas.id', '=', 'operadoras.empresa_id')
-                    ->where('empresas.id', '!=', $this->empresaSelect)->toArray();
+                    ->where('empresas.id', '!=', $this->empresaSelect)->get()->toArray();
 
                 break;
             case 3:
@@ -111,7 +114,7 @@ class Create extends Component
                             $query->where('convenios.empresa_id', $this->empresaUser);
                         }
                     })
-                    ->toArray();
+                    ->get()->toArray();
 
                 break;
             case 4:
@@ -133,7 +136,7 @@ class Create extends Component
                             $query->where('conveniadas.empresa_id', $this->empresaUser);
                         }
                     })
-                    ->toArray();
+                    ->get()->toArray();
 
                 break;
             default:
@@ -154,15 +157,15 @@ class Create extends Component
             $this->cidade        = $e->cidade;
             $this->email         = $e->email;
 
-            if (count($e->operadora)) {
+            if ($e->operadora()->exists()) {
                 $this->roles = $this->removeTipo($this->roles, 2);
             }
 
-            if (count($e->convenios)) {
+            if ($e->convenios()->exists()) {
                 $this->roles = $this->removeTipo($this->roles, 3);
             }
 
-            if (count($e->conveniadas)) {
+            if ($e->conveniadas()->exists()) {
                 $this->roles = $this->removeTipo($this->roles, 4);
             }
         }
@@ -173,7 +176,7 @@ class Create extends Component
         $this->validate();
     }
 
-    public function removeTipo($array, $id)
+    public function removeTipo($array, $id): array
     {
         $novoArray = array_filter($array, function ($item) use ($id) {
             return $item['id'] !== $id;
