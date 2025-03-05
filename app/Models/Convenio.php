@@ -13,7 +13,7 @@ class Convenio extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['id'];
+    protected $fillable = ['id', 'operadora_id'];
 
     /**
      * Get the operadora that owns the convenio.

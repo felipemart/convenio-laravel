@@ -53,21 +53,26 @@ class Empresa extends Model
         return $this->hasMany(User::class);
     }
 
-    public function giveOperadora(Empresa $empresa): void
+    public function giveOperadora(): void
     {
-        $this->operadora()->firstOrCreate(['empresa_id' => $empresa->id]);
-        $this->save();
+        $this->operadora()->firstOrCreate(['empresa_id' => $this->id]);
     }
 
-    public function giveConvenio(Empresa $empresa): void
+    public function giveConvenio(int $empresaId): void
     {
-        $this->convenios()->firstOrCreate(['empresa_id' => $empresa->id]);
-        $this->save();
+        $idOperadora = Operadora::where('empresa_id', $empresaId)->first()->id;
+
+        if ($idOperadora) {
+            $this->convenios()->firstOrCreate(['empresa_id' => $this->id, 'operadora_id' => $idOperadora]);
+        }
     }
 
-    public function giveConveniada(Empresa $empresa): void
+    public function giveConveniada(int $empresaId): void
     {
-        $this->conveniadas()->firstOrCreate(['empresa_id' => $empresa->id]);
-        $this->save();
+        $idConvenio = Convenio::where('empresa_id', $empresaId)->first()->id;
+
+        if ($idConvenio) {
+            $this->conveniadas()->firstOrCreate(['empresa_id' => $this->id, 'convenio_id' => $idConvenio]);
+        }
     }
 }

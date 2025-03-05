@@ -27,7 +27,7 @@
         @if($roleSelect > 3 || ($roleUser == 1 && $roleSelect == 3))
             <x-select
                 label="Selectionar empresa"
-                :options="$empresas"
+                :options="$empresa"
                 option-value="id"
                 option-label="descricao_empresa"
                 placeholder="Selecionar um nivel"

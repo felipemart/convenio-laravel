@@ -13,7 +13,7 @@ class Conveniada extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['id'];
+    protected $fillable = ['id' , 'convenio_id'];
 
     /**
      * Get the convenio that owns the conveniada.
