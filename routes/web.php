@@ -9,6 +9,7 @@ use App\Livewire\Auth\Password\Recovery;
 use App\Livewire\Auth\Password\Reset;
 use App\Livewire\Auth\Register;
 use App\Livewire\Empresas;
+use App\Livewire\Operadora;
 use App\Livewire\User;
 use App\Livewire\Welcome;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,7 @@ Route::middleware('auth')->group(function (): void {
         Route::get('/dashboard', fn (): string => 'admin dashboard')->name('admin.dashboard');
         Route::get('/users', User\Index::class)->name('user.list');
         Route::get('/empresas', Empresas\Index::class)->name('empresas.list');
+        Route::get('/operadora', Operadora\Index::class)->name('operadora.list');
         Route::get('/emppresa/show/{id}', Empresas\Show::class)->name('empresas.show');
         Route::get('/emppresa/create', Empresas\Create::class)->name('empresas.create');
         Route::get('/emppresa/edit/{id}', Empresas\Update::class)->name('emppresa.edit');

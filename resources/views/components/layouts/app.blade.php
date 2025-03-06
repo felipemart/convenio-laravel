@@ -67,6 +67,7 @@
 
             <x-menu-item title="Usuarios" icon="o-sparkles" link="{{ route('user.list') }}"/>
             <x-menu-item title="Empresas" icon="o-sparkles" link="{{ route('empresas.list') }}"/>
+            <x-menu-item title="Operadora" icon="o-sparkles" link="{{ route('operadora.list') }}"/>
         </x-menu>
     </x-slot:sidebar>
 

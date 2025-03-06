@@ -35,7 +35,7 @@ class Index extends Component
         return view('livewire.empresas.index');
     }
 
-    public function updatedPerPage($value): void
+    public function updatedPerPage(): void
     {
         $this->resetPage();
     }
