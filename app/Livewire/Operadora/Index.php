@@ -31,8 +31,8 @@ class Index extends Component
 
     public bool $search_trash = false;
 
-    #[On('operadoras.deleted')]
-    #[On('operadoras.restored')]
+    #[On('operadora.deleted')]
+    #[On('operadora.restored')]
     public function render()
     {
         return view('livewire.operadora.index');

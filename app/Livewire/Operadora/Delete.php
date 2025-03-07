@@ -59,7 +59,7 @@ class Delete extends Component
             'alert-info',
             3000
         );
-        $this->dispatch('operadoras.deleted');
+        $this->dispatch('operadora.deleted');
         $this->reset('modal');
     }
 }

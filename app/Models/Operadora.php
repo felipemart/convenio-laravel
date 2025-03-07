@@ -15,7 +15,12 @@ class Operadora extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['id'];
+    protected $fillable = [
+        'id',
+        'restored_at',
+        'restored_by',
+        'deleted_by',
+    ];
 
     public function empresa(): BelongsTo
     {
@@ -25,5 +30,22 @@ class Operadora extends Model
     public function convenios(): HasMany
     {
         return $this->hasMany(Convenio::class);
+    }
+
+    public function restoredBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'restored_by');
+    }
+
+    public function deletedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'restored_at' => 'datetime',
+        ];
     }
 }

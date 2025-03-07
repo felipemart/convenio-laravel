@@ -8,7 +8,7 @@
         <x-slot:actions>
             <x-button @click="$wire.filtros = true" responsive icon="o-funnel" class="btn-primary"
                       icon="o-funnel" tooltip-bottom="Filtros"/>
-            <x-button icon="o-plus" class="btn-primary" wire:navigate href="{{ route('empresas.create') }}"
+            <x-button icon="o-plus" class="btn-primary" wire:navigate href="{{ route('operadora.create') }}"
                       tooltip-bottom="Cadastrar"/>
         </x-slot:actions>
     </x-header>
@@ -52,17 +52,20 @@
             <span class="flex">
 
 
+                <x-button icon="o-building-office-2" wire:navigate
+                          href="{{ route('operadora.edit', ['id' => $operadora->id])  }}" spinner
+                          class="btn-ghost btn-sm text-white-500" tooltip="Convenio"/>
                 <x-button icon="o-pencil-square" wire:navigate
-                          href="{{ route('emppresa.edit', ['id' => $operadora->id])  }}" spinner
+                          href="{{ route('operadora.edit', ['id' => $operadora->id])  }}" spinner
                           class="btn-ghost btn-sm text-white-500" tooltip="Editar"/>
 
 
 
                 <x-button
                     icon="o-document-magnifying-glass" wire:navigate
-                    href="{{ route('empresas.show', ['id' => $operadora->id])  }}" spinner
+                    href="{{ route('operadora.show', ['id' => $operadora->id])  }}" spinner
                     class="btn-ghost btn-sm text-white-500" tooltip="Visualizar"/>
-@ds($operadora->trashed())
+
                 @unless($operadora->trashed())
                     <x-button
                         id="delete-btn-{{ $operadora->id }}"
@@ -93,5 +96,5 @@
     <!-- FILTER DRAWER -->
 
     <livewire:operadora.delete/>
-    <livewire:empresas.restore/>
+    <livewire:operadora.restore/>
 </div>

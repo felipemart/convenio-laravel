@@ -34,10 +34,14 @@ Route::middleware('auth')->group(function (): void {
         Route::get('/dashboard', fn (): string => 'admin dashboard')->name('admin.dashboard');
         Route::get('/users', User\Index::class)->name('user.list');
         Route::get('/empresas', Empresas\Index::class)->name('empresas.list');
-        Route::get('/operadora', Operadora\Index::class)->name('operadora.list');
         Route::get('/emppresa/show/{id}', Empresas\Show::class)->name('empresas.show');
         Route::get('/emppresa/create', Empresas\Create::class)->name('empresas.create');
         Route::get('/emppresa/edit/{id}', Empresas\Update::class)->name('emppresa.edit');
+
+        Route::get('/operadora', Operadora\Index::class)->name('operadora.list');
+        Route::get('/operadora/show/{id}', Operadora\Show::class)->name('operadora.show');
+        Route::get('/operadora/create', Operadora\Create::class)->name('operadora.create');
+        Route::get('/operadora/edit/{id}', Operadora\Update::class)->name('operadora.edit');
     });
     //endregion
 });

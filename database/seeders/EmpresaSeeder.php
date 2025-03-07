@@ -25,7 +25,6 @@ class EmpresaSeeder extends Seeder
             'bairro'              => fake()->city(),
             'cidade'              => fake()->city(),
             'uf'                  => 'SP',
-            'telefone'            => fake()->phoneNumber(),
             'email'               => fake()->email(),
             'inscricao_estadual'  => fake()->unique()->numerify('##############'),
             'inscricao_municipal' => fake()->unique()->numerify('##############'),

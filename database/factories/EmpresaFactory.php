@@ -10,7 +10,7 @@ use App\Models\Operadora;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Empresa>
+ * @extends Factory<Empresa>
  */
 class EmpresaFactory extends Factory
 {
@@ -35,7 +35,6 @@ class EmpresaFactory extends Factory
             'bairro'              => fake()->city(),
             'cidade'              => fake()->city(),
             'uf'                  => 'SP',
-            'telefone'            => fake()->phoneNumber(),
             'email'               => fake()->email(),
             'inscricao_estadual'  => fake()->unique()->numerify('##############'),
             'inscricao_municipal' => fake()->unique()->numerify('##############'),

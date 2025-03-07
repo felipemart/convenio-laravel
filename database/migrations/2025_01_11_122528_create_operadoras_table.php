@@ -16,6 +16,7 @@ return new class () extends Migration
             $table->unsignedBigInteger('empresa_id'); // Chave estrangeira para empresas (operadoras)
             $table->timestamps();
             $table->softDeletes();
+            $table->datetime('restored_at')->nullable();
             $table->foreignIdFor(User::class, 'restored_by')->nullable();
             $table->foreignIdFor(User::class, 'deleted_by')->nullable();
             $table->foreign('empresa_id')->references('id')->on('empresas');
