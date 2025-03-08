@@ -2,8 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace App\Livewire\Operadora;
+namespace App\Livewire\Convenio;
 
+use App\Models\Convenio;
 use App\Models\Operadora;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -29,13 +30,24 @@ class Index extends Component
 
     public ?string $cnpj = null;
 
+    public ?int $operadoraId = 0;
+
     public bool $search_trash = false;
 
-    #[On('operadora.deleted')]
-    #[On('operadora.restored')]
+    #[On('convenio.deleted')]
+    #[On('convenio.restored')]
     public function render()
     {
-        return view('livewire.operadora.index');
+        return view('livewire.convenio.index');
+    }
+
+    public function mount($id = 0): void
+    {
+        if (auth()->user()->role_id == 1) {
+            $this->operadoraId = intval($id);
+        } else {
+            $this->operadoraId = Operadora::where('empresa_id', '=', auth()->user()->empresa_id)->first()->id;
+        }
     }
 
     #[Computed]
@@ -49,14 +61,14 @@ class Index extends Component
     }
 
     #[Computed]
-    public function operadoras(): LengthAwarePaginator
+    public function convenios(): LengthAwarePaginator
     {
         if ($this->search !== null && $this->search !== '' && $this->search !== '0') {
             $this->resetPage();
         }
 
-        return Operadora::select(['operadoras.*', 'empresas.razao_social', 'empresas.nome_fantasia'])
-            ->join('empresas', 'operadoras.empresa_id', '=', 'empresas.id')
+        return Convenio::select(['convenios.*', 'empresas.razao_social', 'empresas.nome_fantasia'])
+            ->join('empresas', 'convenios.empresa_id', '=', 'empresas.id')
             ->when(
                 $this->search,
                 fn (Builder $q) => $q->where(
@@ -88,17 +100,18 @@ class Index extends Component
                 )
             )
             ->when($this->search_trash, fn (Builder $q) => $q->onlyTrashed())
+            ->where('operadora_id', $this->operadoraId)
             ->orderBy(...array_values($this->sortBy))
             ->paginate($this->perPage);
     }
 
     public function destroy(int $id): void
     {
-        $this->dispatch('operadora.deletion', operadoraId: $id)->to('operadora.delete');
+        $this->dispatch('convenio.deletion', convenioId: $id)->to('convenio.delete');
     }
 
     public function restore(int $id): void
     {
-        $this->dispatch('operadora.restoring', operadoraId: $id)->to('operadora.restore');
+        $this->dispatch('convenio.restoring', convenioId: $id)->to('convenio.restore');
     }
 }

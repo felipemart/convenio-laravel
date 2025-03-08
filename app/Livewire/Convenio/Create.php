@@ -2,10 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace App\Livewire\Operadora;
+namespace App\Livewire\Convenio;
 
 use App\Models\Empresa;
-use Exception;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
@@ -33,7 +32,7 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.operadora.create');
+        return view('livewire.convenio.create');
     }
 
     protected function rules(): array

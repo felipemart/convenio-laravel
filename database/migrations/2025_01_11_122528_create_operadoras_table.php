@@ -2,6 +2,7 @@
 
 declare(strict_types = 1);
 
+use App\Models\Empresa;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,13 +14,12 @@ return new class () extends Migration
     {
         Schema::create('operadoras', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('empresa_id'); // Chave estrangeira para empresas (operadoras)
+            $table->foreignIdFor(Empresa::class, 'empresa_id');
             $table->timestamps();
             $table->softDeletes();
             $table->datetime('restored_at')->nullable();
             $table->foreignIdFor(User::class, 'restored_by')->nullable();
             $table->foreignIdFor(User::class, 'deleted_by')->nullable();
-            $table->foreign('empresa_id')->references('id')->on('empresas');
         });
     }
 

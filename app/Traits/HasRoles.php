@@ -61,6 +61,6 @@ trait HasRoles
     public function makeSessionRoles(): void
     {
         $k = $this->getKeySessionRole();
-        session([$k => $this->role->get()]);
+        session([$k => $this->role()->get()]);
     }
 }

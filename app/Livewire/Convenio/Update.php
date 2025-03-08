@@ -2,16 +2,19 @@
 
 declare(strict_types = 1);
 
-namespace App\Livewire\Operadora;
+namespace App\Livewire\Convenio;
 
-use App\Models\Empresa;
-use Exception;
+use App\Models\Operadora;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
-class Create extends Component
+class Update extends Component
 {
     use Toast;
+
+    public string $selectedTab = 'users-tab';
+
+    public ?Operadora $operadora = null;
 
     public string $cnpj = '';
 
@@ -30,11 +33,6 @@ class Create extends Component
     public string $cidade = '';
 
     public string $email = '';
-
-    public function render()
-    {
-        return view('livewire.operadora.create');
-    }
 
     protected function rules(): array
     {
@@ -63,53 +61,57 @@ class Create extends Component
         ];
     }
 
-    public function cnpjCarregaDados(): void
+    public function mount(int $id): void
     {
-        $e = Empresa::where('cnpj', $this->cnpj)->first();
-
-        if (! empty($e)) {
-            $this->razao_social  = $e->razao_social;
-            $this->nome_fantasia = $e->nome_fantasia;
-            $this->logradouro    = $e->logradouro;
-            $this->bairro        = $e->bairro;
-            $this->cep           = $e->cep;
-            $this->uf            = $e->uf;
-            $this->cidade        = $e->cidade;
-            $this->email         = $e->email;
-        }
+        $this->operadora     = Operadora::find($id);
+        $empresa             = $this->operadora->empresa;
+        $this->cnpj          = $empresa->cnpj;
+        $this->nome_fantasia = $empresa->nome_fantasia;
+        $this->razao_social  = $empresa->razao_social;
+        $this->logradouro    = $empresa->logradouro;
+        $this->bairro        = $empresa->bairro;
+        $this->cep           = $empresa->cep;
+        $this->uf            = $empresa->uf;
+        $this->cidade        = $empresa->cidade;
+        $this->email         = $empresa->email;
     }
 
-    public function save(): void
+    public function render()
+    {
+        return view('livewire.convenio.update');
+    }
+
+    public function save()
     {
         $this->validate();
 
         try {
-            $empresa = Empresa::firstOrCreate([
-                'cnpj'          => $this->cnpj,
-                'razao_social'  => $this->razao_social,
-                'nome_fantasia' => $this->nome_fantasia,
-                'logradouro'    => $this->logradouro,
-                'bairro'        => $this->bairro,
-                'cep'           => $this->cep,
-                'uf'            => $this->uf,
-                'cidade'        => $this->cidade,
-                'email'         => $this->email,
-            ]);
+            $empresa                = $this->operadora->empresa;
+            $empresa->cnpj          = $this->cnpj;
+            $empresa->razao_social  = $this->razao_social;
+            $empresa->nome_fantasia = $this->nome_fantasia;
+            $empresa->logradouro    = $this->logradouro;
+            $empresa->bairro        = $this->bairro;
+            $empresa->cep           = $this->cep;
+            $empresa->uf            = $this->uf;
+            $empresa->cidade        = $this->cidade;
+            $empresa->email         = $this->email;
 
-            $empresa->giveOperadora();
+            if (! $empresa->save()) {
+                throw new Exception('Erro ao atualizar a empresa da operadora!');
+            }
+
             $this->success(
-                'Usuário criado com sucesso!',
+                'Empresa atualizada com sucesso!',
                 null,
                 'toast-top toast-end',
                 'o-information-circle',
                 'alert-info',
                 3000
             );
-
-            $this->redirect(route('operadora.list'));
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->error(
-                'Erro ao criar o usuário!',
+                'Erro ao atualizar a empresa!',
                 null,
                 'toast-top toast-end',
                 'o-exclamation-triangle',
