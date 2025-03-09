@@ -112,6 +112,7 @@ class Index extends Component
 
     public function restore(int $id): void
     {
+        //teste
         $this->dispatch('convenio.restoring', convenioId: $id)->to('convenio.restore');
     }
 }
