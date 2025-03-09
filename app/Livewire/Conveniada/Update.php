@@ -6,8 +6,10 @@ namespace App\Livewire\Conveniada;
 
 use App\Models\Conveniada;
 use App\Models\Empresa;
+use Exception;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Throwable;
 
 class Update extends Component
 {

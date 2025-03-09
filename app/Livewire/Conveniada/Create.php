@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Livewire\Conveniada;
 
 use App\Models\Empresa;
+use Exception;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;

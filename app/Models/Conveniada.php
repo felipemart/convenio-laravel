@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Conveniada extends Model
@@ -18,7 +19,7 @@ class Conveniada extends Model
     /**
      * Get the convenio that owns the conveniada.
      */
-    public function convenio()
+    public function convenio(): BelongsTo
     {
         return $this->belongsTo(Convenio::class);
     }
@@ -26,7 +27,7 @@ class Conveniada extends Model
     /**
      * Get the empresa that owns the conveniada.
      */
-    public function empresa()
+    public function empresa(): BelongsTo
     {
         return $this->belongsTo(Empresa::class);
     }
