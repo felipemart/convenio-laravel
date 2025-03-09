@@ -8,6 +8,7 @@ use App\Livewire\Auth\Password\Create;
 use App\Livewire\Auth\Password\Recovery;
 use App\Livewire\Auth\Password\Reset;
 use App\Livewire\Auth\Register;
+use App\Livewire\Conveniada;
 use App\Livewire\Convenio;
 use App\Livewire\Empresas;
 use App\Livewire\Operadora;
@@ -48,6 +49,11 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/convenio/{id?}', Convenio\Index::class)->name('convenio.list');
     Route::get('/convenio/show/{id}', Convenio\Show::class)->name('convenio.show');
     Route::get('/convenio/edit/{id}', Convenio\Update::class)->name('convenio.edit');
+
+    Route::get('/conveniada/create', Conveniada\Create::class)->name('conveniada.create');
+    Route::get('/conveniada/{id?}', Conveniada\Index::class)->name('conveniada.list');
+    Route::get('/conveniada/show/{id}', Conveniada\Show::class)->name('conveniada.show');
+    Route::get('/conveniada/edit/{id}', Conveniada\Update::class)->name('conveniada.edit');
     //endregion
 });
 //endregion

@@ -9,7 +9,7 @@
             <x-button @click="$wire.filtros = true" responsive icon="o-funnel" class="btn-primary"
                       icon="o-funnel" tooltip-bottom="Filtros"/>
 
-            <x-button icon="o-plus" class="btn-primary" wire:navigate href="{{ route('convenio.create') }}"
+            <x-button icon="o-plus" class="btn-primary" wire:navigate href="{{ route('conveniada.create') }}"
                       tooltip-bottom="Cadastrar"/>
         </x-slot:actions>
     </x-header>
@@ -24,7 +24,7 @@
         right
     >
 
-        <x-checkbox label="Buscar por convenio excluidas" wire:model.live.debounce="search_trash"
+        <x-checkbox label="Buscar por conveniada excluidas" wire:model.live.debounce="search_trash"
                     hint="Ative para buscar por empresas excluidas"/>
         <x-input label="Razao social" wire:model="razao_social" wire:model.live.debounce="razao_social"/>
         <x-input label="CNPJ" wire:model="cnpj" wire:model.live.debounce="cnpj"/>
@@ -38,48 +38,48 @@
     <!-- TABLE  -->
     <x-card>
 
-        <x-table :headers="$this->headers" :rows="$this->convenios" with-pagination per-page="perPage"
+        <x-table :headers="$this->headers" :rows="$this->conveniadas" with-pagination per-page="perPage"
                  :per-page-values="[3, 5, 10]" :sort-by="$sortBy">
-            @scope('cell_razao_social', $convenio)
-            {{$convenio->razao_social}}
+            @scope('cell_razao_social', $conveniada)
+            {{$conveniada->razao_social}}
             @endscope
 
-            @scope('cell_nome_fantasia', $convenio)
-            {{$convenio->nome_fantasia}}
+            @scope('cell_nome_fantasia', $conveniada)
+            {{$conveniada->nome_fantasia}}
             @endscope
 
             @permission('incluir')
-            @scope('actions', $convenio)
+            @scope('actions', $conveniada)
             <span class="flex">
                 <x-button icon="o-building-office-2" wire:navigate
-                          href="{{ route('conveniada.list', ['id' => $convenio->id])  }}" spinner
-                          class="btn-ghost btn-sm text-white-500" tooltip="Conveniada"/>
+                          href="{{ route('conveniada.list', ['id' => $conveniada->id])  }}" spinner
+                          class="btn-ghost btn-sm text-white-500" tooltip="Convenio"/>
                 <x-button icon="o-pencil-square" wire:navigate
-                          href="{{ route('convenio.edit', ['id' => $convenio->id])  }}" spinner
+                          href="{{ route('conveniada.edit', ['id' => $conveniada->id])  }}" spinner
                           class="btn-ghost btn-sm text-white-500" tooltip="Editar"/>
 
 
 
                 <x-button
                     icon="o-document-magnifying-glass" wire:navigate
-                    href="{{ route('convenio.show', ['id' => $convenio->id])  }}" spinner
+                    href="{{ route('conveniada.show', ['id' => $conveniada->id])  }}" spinner
                     class="btn-ghost btn-sm text-white-500" tooltip="Visualizar"/>
 
-                @unless($convenio->trashed())
+                @unless($conveniada->trashed())
                     <x-button
-                        id="delete-btn-{{ $convenio->id }}"
-                        wire:key="delete-btn-{{ $convenio->id }}"
+                        id="delete-btn-{{ $conveniada->id }}"
+                        wire:key="delete-btn-{{ $conveniada->id }}"
                         icon="o-trash"
-                        wire:click="destroy('{{ $convenio->id }}')"
+                        wire:click="destroy('{{ $conveniada->id }}')"
                         spinner
                         class="btn-ghost btn-sm text-red-500" tooltip="Apagar"
                     />
                 @else
                     <x-button
-                        id="restore-btn-{{ $convenio->id }}"
-                        wire:key="restore-btn-{{ $convenio->id }}"
+                        id="restore-btn-{{ $conveniada->id }}"
+                        wire:key="restore-btn-{{ $conveniada->id }}"
                         icon="o-arrow-path-rounded-square"
-                        wire:click="restore('{{ $convenio->id }}')"
+                        wire:click="restore('{{ $conveniada->id }}')"
                         spinner
                         class="btn-ghost btn-sm text-white-500" tooltip="Reativar"
                     />
@@ -94,6 +94,6 @@
 
     <!-- FILTER DRAWER -->
 
-    <livewire:convenio.delete/>
-    <livewire:convenio.restore/>
+    <livewire:conveniada.delete/>
+    <livewire:conveniada.restore/>
 </div>

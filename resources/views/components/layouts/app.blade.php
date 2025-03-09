@@ -73,6 +73,9 @@
             @role('operadora')
             <x-menu-item title="Convenios" icon="o-sparkles" link="{{ route('convenio.list') }}"/>
             @endrole
+
+
+            <x-menu-item title="Conveniadas" icon="o-sparkles" link="{{ route('conveniada.list') }}"/>
         </x-menu>
     </x-slot:sidebar>
 
