@@ -4,9 +4,12 @@ declare(strict_types = 1);
 
 namespace App\Livewire\Convenio;
 
-use App\Models\Operadora;
+use App\Models\Convenio;
+use App\Models\Empresa;
+use Exception;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Throwable;
 
 class Update extends Component
 {
@@ -14,7 +17,7 @@ class Update extends Component
 
     public string $selectedTab = 'users-tab';
 
-    public ?Operadora $operadora = null;
+    public ?Convenio $convenio = null;
 
     public string $cnpj = '';
 
@@ -63,8 +66,10 @@ class Update extends Component
 
     public function mount(int $id): void
     {
-        $this->operadora     = Operadora::find($id);
-        $empresa             = $this->operadora->empresa;
+        $this->convenio = Convenio::find($id);
+        /** @var Empresa $empresa */
+        $empresa = $this->convenio->empresa;
+
         $this->cnpj          = $empresa->cnpj;
         $this->nome_fantasia = $empresa->nome_fantasia;
         $this->razao_social  = $empresa->razao_social;
@@ -86,7 +91,8 @@ class Update extends Component
         $this->validate();
 
         try {
-            $empresa                = $this->operadora->empresa;
+            /** @var Empresa $empresa */
+            $empresa                = $this->convenio->empresa;
             $empresa->cnpj          = $this->cnpj;
             $empresa->razao_social  = $this->razao_social;
             $empresa->nome_fantasia = $this->nome_fantasia;

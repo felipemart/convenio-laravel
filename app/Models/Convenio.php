@@ -6,6 +6,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Convenio extends Model
@@ -18,7 +20,7 @@ class Convenio extends Model
     /**
      * Get the operadora that owns the convenio.
      */
-    public function operadora()
+    public function operadora(): BelongsTo
     {
         return $this->belongsTo(Operadora::class);
     }
@@ -26,7 +28,7 @@ class Convenio extends Model
     /**
      * Get the empresa that owns the convenio.
      */
-    public function empresa()
+    public function empresa(): BelongsTo
     {
         return $this->belongsTo(Empresa::class);
     }
@@ -34,7 +36,7 @@ class Convenio extends Model
     /**
      * Get all of the conveniadas for the convenio.
      */
-    public function conveniadas()
+    public function conveniadas(): HasMany
     {
         return $this->hasMany(Conveniada::class);
     }

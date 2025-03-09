@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Livewire\Operadora;
 
+use App\Models\Empresa;
 use App\Models\Operadora;
 use Exception;
 use Livewire\Component;
@@ -65,7 +66,8 @@ class Update extends Component
 
     public function mount(int $id): void
     {
-        $this->operadora     = Operadora::find($id);
+        $this->operadora = Operadora::find($id);
+        /** @var Empresa $empresa */
         $empresa             = $this->operadora->empresa;
         $this->cnpj          = $empresa->cnpj;
         $this->nome_fantasia = $empresa->nome_fantasia;
@@ -83,11 +85,12 @@ class Update extends Component
         return view('livewire.operadora.update');
     }
 
-    public function save()
+    public function save(): void
     {
         $this->validate();
 
         try {
+            /** @var Empresa $empresa */
             $empresa                = $this->operadora->empresa;
             $empresa->cnpj          = $this->cnpj;
             $empresa->razao_social  = $this->razao_social;

@@ -5,6 +5,8 @@ declare(strict_types = 1);
 namespace App\Livewire\Convenio;
 
 use App\Models\Empresa;
+use Exception;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
@@ -30,7 +32,7 @@ class Create extends Component
 
     public string $email = '';
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.convenio.create');
     }
