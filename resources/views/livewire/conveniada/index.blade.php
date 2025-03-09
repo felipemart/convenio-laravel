@@ -51,9 +51,9 @@
             @permission('incluir')
             @scope('actions', $conveniada)
             <span class="flex">
-                <x-button icon="o-building-office-2" wire:navigate
+                <x-button icon="o-users" wire:navigate
                           href="{{ route('conveniada.list', ['id' => $conveniada->id])  }}" spinner
-                          class="btn-ghost btn-sm text-white-500" tooltip="Convenio"/>
+                          class="btn-ghost btn-sm text-white-500" tooltip="Clientes"/>
                 <x-button icon="o-pencil-square" wire:navigate
                           href="{{ route('conveniada.edit', ['id' => $conveniada->id])  }}" spinner
                           class="btn-ghost btn-sm text-white-500" tooltip="Editar"/>

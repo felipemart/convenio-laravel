@@ -66,7 +66,6 @@
 
 
             <x-menu-item title="Usuarios" icon="o-sparkles" link="{{ route('user.list') }}"/>
-            <x-menu-item title="Empresas" icon="o-sparkles" link="{{ route('empresas.list') }}"/>
             @role('admin')
             <x-menu-item title="Operadora" icon="o-sparkles" link="{{ route('operadora.list') }}"/>
             @endrole
@@ -74,8 +73,9 @@
             <x-menu-item title="Convenios" icon="o-sparkles" link="{{ route('convenio.list') }}"/>
             @endrole
 
-
+            @role('convenio')
             <x-menu-item title="Conveniadas" icon="o-sparkles" link="{{ route('conveniada.list') }}"/>
+            @endrole
         </x-menu>
     </x-slot:sidebar>
 

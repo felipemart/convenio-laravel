@@ -43,6 +43,10 @@ class Index extends Component
 
     public function mount($id = 0): void
     {
+        if (! in_array(auth()->user()->role_id, [1, 2])) {
+            $this->redirectRoute('dashboard');
+        }
+
         if (auth()->user()->role_id == 1) {
             $this->operadoraId = intval($id);
         } else {

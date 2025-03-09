@@ -43,7 +43,11 @@ class Index extends Component
 
     public function mount($id = 0): void
     {
-        if (auth()->user()->role_id == 1) {
+        if (! in_array(auth()->user()->role_id, [1, 2, 3])) {
+            $this->redirectRoute('dashboard');
+        }
+
+        if (in_array(auth()->user()->role_id, [1, 2])) {
             $this->convenioId = intval($id);
         } else {
             $this->convenioId = Convenio::where('empresa_id', '=', auth()->user()->empresa_id)->first()->id;
