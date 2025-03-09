@@ -86,7 +86,7 @@ class Update extends Component
         return view('livewire.convenio.update');
     }
 
-    public function save()
+    public function save(): void
     {
         $this->validate();
 
@@ -115,7 +115,7 @@ class Update extends Component
                 'alert-info',
                 3000
             );
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             $this->error(
                 'Erro ao atualizar a empresa!',
                 null,

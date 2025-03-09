@@ -108,7 +108,7 @@ class Create extends Component
             );
 
             $this->redirect(route('operadora.list'));
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->error(
                 'Erro ao criar o usuário!',
                 null,

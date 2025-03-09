@@ -4,11 +4,13 @@ declare(strict_types = 1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use MongoDB\Laravel\Eloquent\Model;
+use OwenIt\Auditing\Audit;
 
 class MongoAudit extends Model implements \OwenIt\Auditing\Contracts\Audit
 {
-    use \OwenIt\Auditing\Audit;
+    use Audit;
 
     /**
      * {@inheritdoc}
@@ -26,7 +28,7 @@ class MongoAudit extends Model implements \OwenIt\Auditing\Contracts\Audit
     /**
      * {@inheritdoc}
      */
-    public function auditable()
+    public function auditable(): MorphTo
     {
         return $this->morphTo();
     }
@@ -34,7 +36,7 @@ class MongoAudit extends Model implements \OwenIt\Auditing\Contracts\Audit
     /**
      * {@inheritdoc}
      */
-    public function user()
+    public function user(): MorphTo
     {
         return $this->morphTo();
     }
