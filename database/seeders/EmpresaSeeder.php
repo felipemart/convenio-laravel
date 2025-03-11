@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace Database\Seeders;
 
 use App\Models\Empresa;
-use App\Models\Operadora;
 use Illuminate\Database\Seeder;
 
 class EmpresaSeeder extends Seeder
@@ -30,16 +29,5 @@ class EmpresaSeeder extends Seeder
             'inscricao_municipal' => fake()->unique()->numerify('##############'),
 
         ]);
-    }
-
-    public function configure()
-    {
-        return $this->state(fn (array $attributes): array => [
-            // outros campos
-        ])->afterCreating(function (Empresa $empresa): void {
-            if (isset($attributes['is_operadora']) && $attributes['is_operadora'] === true) {
-                Operadora::factory()->create(['empresa_id' => $empresa->id]);
-            }
-        });
     }
 }

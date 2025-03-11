@@ -27,9 +27,13 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/', Welcome::class)->name('dashboard');
     Route::get('/register', Register::class)->name('auth.register');
     Route::get('/logout', Logout::class)->name('logout');
-    Route::get('/user/edit/{id}', User\Update::class)->name('user.edit');
-    Route::get('/user/create', User\Create::class)->name('user.create');
-    Route::get('/users', User\Index::class)->name('user.list');
+
+    Route::middleware('role:admin|operadora|convenio')->group(function (): void {
+        Route::get('/user/edit/{id}', User\Update::class)->name('user.edit');
+        Route::get('/user/create', User\Create::class)->name('user.create');
+        Route::get('/users', User\Index::class)->name('user.list');
+    });
+
     //region Admin
 
     Route::get('/dashboard', fn (): string => 'admin dashboard')->name('admin.dashboard');

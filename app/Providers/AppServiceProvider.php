@@ -18,12 +18,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        //        foreach (RoleEnum::cases() as $role) {
-        //            Gate::define(
-        //                $role->value,
-        //                fn ($user) => $user->hasRole($role)
-        //            );
-        //        }
+        // comment explaining why the method is empty
     }
 
     public static function bladeMethodWrapper($method, $role, $guard = null): bool
@@ -39,9 +34,6 @@ class AppServiceProvider extends ServiceProvider
         // role checks
         $bladeCompiler->if('role', fn (): bool => static::bladeMethodWrapper('hasRole', ...func_get_args()));
         $bladeCompiler->if('hasrole', fn (): bool => static::bladeMethodWrapper('hasRole', ...func_get_args()));
-        //        $bladeCompiler->if('hasanyrole', fn () => $this->bladeMethodWrapper('hasAnyRole', ...func_get_args()));
-        //        $bladeCompiler->if('hasallroles', fn () => $this->bladeMethodWrapper('hasAllRoles', ...func_get_args()));
-        //        $bladeCompiler->if('hasexactroles', fn () => $this->bladeMethodWrapper('hasExactRoles', ...func_get_args()));
         $bladeCompiler->directive('endunlessrole', fn (): string => '<?php endif; ?>');
     }
 }

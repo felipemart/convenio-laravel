@@ -42,7 +42,7 @@ class Delete extends Component
     {
         $this->validate();
 
-        if (auth()->user()->empresa_id == $this->conveniada->empresa_id) {
+        if (auth()->user()->role_id >= 4) {
             $this->addError('confirmDestroy', 'Não pode deletar a propria empresas');
 
             return;

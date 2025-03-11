@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-function obfuscar_email(?string $email): string
+function obfuscarEmail(?string $email): string
 {
     if ($email === null || $email === '' || $email === '0') {
         return '';

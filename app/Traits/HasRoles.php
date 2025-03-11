@@ -23,6 +23,10 @@ trait HasRoles
     public function giveRole(string $role): void
     {
         $role = Role::firstOrCreate(['name' => ucfirst($role)]);
+
+        if ($this->role()->exists()) {
+            $this->role()->delete();
+        }
         $this->role()->associate($role);
 
         $this->makeSessionRoles();

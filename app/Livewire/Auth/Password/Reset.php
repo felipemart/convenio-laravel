@@ -104,6 +104,6 @@ class Reset extends Component
     #[Computed]
     public function obfuscarEmail(): string
     {
-        return obfuscar_email($this->email);
+        return obfuscarEmail($this->email);
     }
 }

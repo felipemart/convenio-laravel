@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Livewire\Conveniada;
 
+use App\Models\Convenio;
 use App\Models\Empresa;
 use Exception;
 use Illuminate\Contracts\View\View;
@@ -31,6 +32,21 @@ class Create extends Component
     public string $cidade = '';
 
     public string $email = '';
+
+    public ?int $convenioId = 0;
+
+    public function mount($id = 0): void
+    {
+        if (! in_array(auth()->user()->role_id, [1, 2, 3])) {
+            $this->redirectRoute('dashboard');
+        }
+
+        if (in_array(auth()->user()->role_id, [1, 2])) {
+            $this->convenioId = intval($id);
+        } else {
+            $this->convenioId = Convenio::where('empresa_id', '=', auth()->user()->empresa_id)->first()->id;
+        }
+    }
 
     public function render(): View
     {
@@ -97,7 +113,7 @@ class Create extends Component
                 'email'         => $this->email,
             ]);
 
-            $empresa->giveOperadora();
+            $empresa->giveConveniada($this->convenioId);
             $this->success(
                 'Usuário criado com sucesso!',
                 null,

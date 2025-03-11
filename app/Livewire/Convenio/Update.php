@@ -6,10 +6,10 @@ namespace App\Livewire\Convenio;
 
 use App\Models\Convenio;
 use App\Models\Empresa;
-use Exception;
 use Livewire\Component;
 use Mary\Traits\Toast;
 use Throwable;
+use UnexpectedValueException;
 
 class Update extends Component
 {
@@ -104,7 +104,7 @@ class Update extends Component
             $empresa->email         = $this->email;
 
             if (! $empresa->save()) {
-                throw new Exception('Erro ao atualizar a empresa da operadora!');
+                throw new UnexpectedValueException("Erro ao atualizar a empresa da operadora!"); // Compliant
             }
 
             $this->success(

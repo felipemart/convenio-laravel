@@ -47,7 +47,7 @@ class UserSeeder extends Seeder
 
             // Empresas (Conveniadas)
             $empresaConveniada1 = Empresa::factory()->create();
-            $conveniada1        = Conveniada::create([
+            Conveniada::create([
                 'convenio_id' => $convenio->id,
                 'empresa_id'  => $empresaConveniada1->id,
             ]);
@@ -57,7 +57,7 @@ class UserSeeder extends Seeder
             User::factory(3)->withRoles('Conveniada')->create(['empresa_id' => $empresaConveniada1->id, 'deleted_at' => now()]); // Usuários deletados
 
             $empresaConveniada2 = Empresa::factory()->create();
-            $conveniada2        = Conveniada::create([
+            Conveniada::create([
                 'convenio_id' => $convenio->id,
                 'empresa_id'  => $empresaConveniada2->id,
             ]);
@@ -79,7 +79,7 @@ class UserSeeder extends Seeder
 
             // Outras Empresas (Conveniadas) - Mesmo Convênio 2
             $empresaConveniada3 = Empresa::factory()->create();
-            $conveniada3        = Conveniada::create([
+            Conveniada::create([
                 'convenio_id' => $convenio2->id,
                 'empresa_id'  => $empresaConveniada3->id,
             ]);
@@ -89,7 +89,7 @@ class UserSeeder extends Seeder
             User::factory(3)->withRoles('Conveniada')->create(['empresa_id' => $empresaConveniada3->id, 'deleted_at' => now()]); // Usuários deletados
 
             $empresaConveniada4 = Empresa::factory()->create();
-            $conveniada4        = Conveniada::create([
+            Conveniada::create([
                 'convenio_id' => $convenio2->id,
                 'empresa_id'  => $empresaConveniada4->id,
             ]);

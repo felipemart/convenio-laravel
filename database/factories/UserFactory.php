@@ -74,6 +74,13 @@ class UserFactory extends Factory
         ]);
     }
 
+    public function updateEmpresa(int $empresa_id): static
+    {
+        return $this->afterCreating(function (User $user) use ($empresa_id) {
+            $user->update(['empresa_id' => $empresa_id]);
+        });
+    }
+
     public function admin(): static
     {
         return $this->afterCreating(fn (User $user) => $user->giveRole('admin'));

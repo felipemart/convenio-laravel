@@ -14,7 +14,6 @@ test('deve desconectar o usuário', function (): void {
     actingAs($user);
 
     Livewire::test(Logout::class)
-        ->call('logout')
         ->assertRedirect(route('login'));
 
     expect(auth()->guest())->toBeTrue();

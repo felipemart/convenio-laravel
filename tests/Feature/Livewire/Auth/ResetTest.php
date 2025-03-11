@@ -77,7 +77,6 @@ test('certificando-se de que o e-mail é real', function ($f): void {
                 ->set($f->field, $f->value)
                 ->call('resetarSenha')
                 ->assertHasErrors([$f->field => $f->rule]);
-            ;
 
             return true;
         }
@@ -91,7 +90,7 @@ test('certificando-se de que o e-mail é real', function ($f): void {
 
 test('certificar que funcao obfuscar_email ', function (): void {
     $email         = 'johndoe@example.com';
-    $obfuscarEmail = obfuscar_email($email);
+    $obfuscarEmail = obfuscarEmail($email);
     expect($obfuscarEmail)->toBe('jo*****@example.com');
 
     Notification::fake();
@@ -106,7 +105,7 @@ test('certificar que funcao obfuscar_email ', function (): void {
         EmailRecuperacaoSenha::class,
         function (EmailRecuperacaoSenha $notification) use ($user): true {
             Livewire::test(Reset::class, ['token' => $notification->token, 'email' => $user->email])
-                ->assertSet('obfuscarEmail', obfuscar_email($user->email));
+                ->assertSet('obfuscarEmail', obfuscarEmail($user->email));
 
             return true;
         }
