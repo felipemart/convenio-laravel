@@ -45,14 +45,14 @@ Route::middleware('auth')->group(function (): void {
         Route::get('/operadora/edit/{id}', Operadora\Update::class)->name('operadora.edit');
     });
     Route::middleware('role:admin|operadora|convenio')->group(function (): void {
-        Route::get('/convenio/create', Convenio\Create::class)->name('convenio.create');
+        Route::get('/convenio/create/{id?}', Convenio\Create::class)->name('convenio.create');
         Route::get('/convenio/{id?}', Convenio\Index::class)->name('convenio.list');
         Route::get('/convenio/show/{id}', Convenio\Show::class)->name('convenio.show');
         Route::get('/convenio/edit/{id}', Convenio\Update::class)->name('convenio.edit');
     });
 
     Route::middleware('role:admin|operadora|convenio|conveniada')->group(function (): void {
-        Route::get('/conveniada/create', Conveniada\Create::class)->name('conveniada.create');
+        Route::get('/conveniada/create//{id?}', Conveniada\Create::class)->name('conveniada.create');
         Route::get('/conveniada/{id?}', Conveniada\Index::class)->name('conveniada.list');
         Route::get('/conveniada/show/{id}', Conveniada\Show::class)->name('conveniada.show');
         Route::get('/conveniada/edit/{id}', Conveniada\Update::class)->name('conveniada.edit');

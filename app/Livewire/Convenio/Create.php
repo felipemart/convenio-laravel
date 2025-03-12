@@ -5,8 +5,10 @@ declare(strict_types = 1);
 namespace App\Livewire\Convenio;
 
 use App\Models\Empresa;
+use App\Models\Operadora;
 use Exception;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
@@ -31,6 +33,21 @@ class Create extends Component
     public string $cidade = '';
 
     public string $email = '';
+
+    public ?int $operadoraId = 0;
+
+    public function mount($id = 0): void
+    {
+        if (! in_array(auth()->user()->role_id, [1, 2])) {
+            $this->redirectRoute('dashboard');
+        }
+
+        if (auth()->user()->role_id == 1) {
+            $this->operadoraId = intval($id);
+        } else {
+            $this->operadoraId = Operadora::where('empresa_id', '=', auth()->user()->empresa_id)->first()->id;
+        }
+    }
 
     public function render(): View
     {
@@ -66,17 +83,18 @@ class Create extends Component
 
     public function cnpjCarregaDados(): void
     {
-        $e = Empresa::where('cnpj', $this->cnpj)->first();
+        $response = Http::get("https://publica.cnpj.ws/cnpj/{$this->cnpj}");
 
-        if (! empty($e)) {
+        if ($response->status() == 200) {
+            $e = json_decode($response->body());
+
             $this->razao_social  = $e->razao_social;
-            $this->nome_fantasia = $e->nome_fantasia;
-            $this->logradouro    = $e->logradouro;
-            $this->bairro        = $e->bairro;
-            $this->cep           = $e->cep;
-            $this->uf            = $e->uf;
-            $this->cidade        = $e->cidade;
-            $this->email         = $e->email;
+            $this->nome_fantasia = $e->estabelecimento->nome_fantasia ?: '';
+            $this->logradouro    = $e->estabelecimento->logradouro;
+            $this->bairro        = $e->estabelecimento->bairro;
+            $this->cep           = $e->estabelecimento->cep;
+            $this->uf            = $e->estabelecimento->estado->sigla;
+            $this->cidade        = $e->estabelecimento->cidade->nome;
         }
     }
 
@@ -97,7 +115,8 @@ class Create extends Component
                 'email'         => $this->email,
             ]);
 
-            $empresa->giveOperadora();
+            $empresa->giveConvenio(Operadora::where('id', $this->operadoraId)->first()->empresa_id);
+
             $this->success(
                 'Usuário criado com sucesso!',
                 null,
@@ -107,7 +126,7 @@ class Create extends Component
                 3000
             );
 
-            $this->redirect(route('operadora.list'));
+            $this->redirect(route('convenio.list', ['id' => $this->operadoraId]));
         } catch (Exception) {
             $this->error(
                 'Erro ao criar o usuário!',

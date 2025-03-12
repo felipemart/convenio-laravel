@@ -1,6 +1,6 @@
 <div>
     <!-- HEADER -->
-    <x-header title="Convenio" separator progress-indicator>
+    <x-header title="Conveniada" separator progress-indicator>
 
         <x-slot:middle class="!justify-end">
             <x-input placeholder="Pesquisar..." wire:model.live.debounce="search" clearable icon="o-magnifying-glass"/>
@@ -9,7 +9,8 @@
             <x-button @click="$wire.filtros = true" responsive icon="o-funnel" class="btn-primary"
                       icon="o-funnel" tooltip-bottom="Filtros"/>
 
-            <x-button icon="o-plus" class="btn-primary" wire:navigate href="{{ route('conveniada.create') }}"
+            <x-button icon="o-plus" class="btn-primary" wire:navigate
+                      href="{{ route('conveniada.create',[ 'id' => $convenioId]) }}"
                       tooltip-bottom="Cadastrar"/>
         </x-slot:actions>
     </x-header>

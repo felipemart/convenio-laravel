@@ -9,7 +9,8 @@
             <x-button @click="$wire.filtros = true" responsive icon="o-funnel" class="btn-primary"
                       icon="o-funnel" tooltip-bottom="Filtros"/>
 
-            <x-button icon="o-plus" class="btn-primary" wire:navigate href="{{ route('convenio.create') }}"
+            <x-button icon="o-plus" class="btn-primary" wire:navigate
+                      href="{{ route('convenio.create', ['id' => $operadoraId]) }}"
                       tooltip-bottom="Cadastrar"/>
         </x-slot:actions>
     </x-header>

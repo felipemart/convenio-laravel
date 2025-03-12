@@ -6,6 +6,7 @@ namespace App\Livewire\Operadora;
 
 use App\Models\Empresa;
 use Exception;
+use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
@@ -65,17 +66,18 @@ class Create extends Component
 
     public function cnpjCarregaDados(): void
     {
-        $e = Empresa::where('cnpj', $this->cnpj)->first();
+        $response = Http::get("https://publica.cnpj.ws/cnpj/{$this->cnpj}");
 
-        if (! empty($e)) {
+        if ($response->status() == 200) {
+            $e = json_decode($response->body());
+
             $this->razao_social  = $e->razao_social;
-            $this->nome_fantasia = $e->nome_fantasia;
-            $this->logradouro    = $e->logradouro;
-            $this->bairro        = $e->bairro;
-            $this->cep           = $e->cep;
-            $this->uf            = $e->uf;
-            $this->cidade        = $e->cidade;
-            $this->email         = $e->email;
+            $this->nome_fantasia = $e->estabelecimento->nome_fantasia ?: '';
+            $this->logradouro    = $e->estabelecimento->logradouro;
+            $this->bairro        = $e->estabelecimento->bairro;
+            $this->cep           = $e->estabelecimento->cep;
+            $this->uf            = $e->estabelecimento->estado->sigla;
+            $this->cidade        = $e->estabelecimento->cidade->nome;
         }
     }
 
