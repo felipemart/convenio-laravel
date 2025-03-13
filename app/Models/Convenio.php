@@ -15,7 +15,13 @@ class Convenio extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['id', 'operadora_id'];
+    protected $fillable = [
+        'id',
+        'operadora_id',
+        'restored_at',
+        'restored_by',
+        'deleted_by',
+    ];
 
     /**
      * Get the operadora that owns the convenio.
@@ -39,5 +45,15 @@ class Convenio extends Model
     public function conveniadas(): HasMany
     {
         return $this->hasMany(Conveniada::class);
+    }
+
+    public function restoredBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'restored_by');
+    }
+
+    public function deletedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Livewire\Conveniada;
 
+use App\Models\Conveniada;
 use App\Models\Convenio;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -14,7 +15,7 @@ class Restore extends Component
 {
     use Toast;
 
-    public ?Convenio $conveniada = null;
+    public ?Conveniada $conveniada = null;
 
     public bool $modal = false;
 
