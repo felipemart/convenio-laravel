@@ -2,8 +2,8 @@
 
 declare(strict_types = 1);
 
-use App\Livewire\Conveniada\Delete;
-use App\Models\Conveniada;
+use App\Livewire\Convenio\Delete;
+use App\Models\Convenio;
 use App\Models\Empresa;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
@@ -19,17 +19,14 @@ test('Deve ser capaz de deletar uma conveniada', function () {
     $empresaConvenio = Empresa::factory()->create();
     $empresaConvenio->giveConvenio($empresa->id);
 
-    $empresaConveniada = Empresa::factory()->create();
-    $empresaConveniada->giveConveniada($empresaConvenio->id);
-
-    $conveniada = Conveniada::where('empresa_id', '=', $empresaConveniada->id)->first();
+    $convenio = Convenio::where('empresa_id', '=', $empresaConvenio->id)->first();
 
     actingAs($admin);
 
-    Livewire::test(Delete::class, ['conveniada' => $conveniada])
+    Livewire::test(Delete::class, ['convenio' => $convenio])
         ->set('confirmDestroy_confirmation', 'DELETAR')
         ->call('destroy')
-        ->assertDispatched('conveniada.deleted');
+        ->assertDispatched('convenio.deleted');
 });
 
 test('deve ter um confirmacao para excluir', function (): void {
@@ -40,39 +37,34 @@ test('deve ter um confirmacao para excluir', function (): void {
     $empresaConvenio = Empresa::factory()->create();
     $empresaConvenio->giveConvenio($empresa->id);
 
-    $empresaConveniada = Empresa::factory()->create();
-    $empresaConveniada->giveConveniada($empresaConvenio->id);
-
-    $conveniada = Conveniada::where('empresa_id', '=', $empresaConveniada->id)->first();
+    $convenio = Convenio::where('empresa_id', '=', $empresaConvenio->id)->first();
 
     actingAs($admin);
 
-    Livewire::test(Delete::class, ['conveniada' => $conveniada])
+    Livewire::test(Delete::class, ['convenio' => $convenio])
         ->call('destroy')
         ->assertHasErrors(['confirmDestroy' => 'confirmed']);
 
-    assertNotSoftDeleted('conveniadas', ['id' => $conveniada->id]);
+    assertNotSoftDeleted('convenios', ['id' => $convenio->id]);
 });
-test('Usuario conveniada nao pode deletar conveniada', function (): void {
+test('Usuario convenio nao pode deletar convenio', function (): void {
     $this->seed(RoleSeeder::class);
-    $conveniadaUser = User::factory()->withRoles('conveniada')->create();
-    $empresa        = Empresa::factory()->create();
+    $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
 
     $empresaConvenio = Empresa::factory()->create();
     $empresaConvenio->giveConvenio($empresa->id);
 
-    $empresaConveniada = Empresa::factory()->create();
-    $empresaConveniada->giveConveniada($empresaConvenio->id);
+    $conveniadaUser = User::factory()->withRoles('convenio')->updateEmpresa($empresaConvenio->id)->create();
 
-    $conveniada = Conveniada::where('empresa_id', '=', $empresaConveniada->id)->first();
+    $convenio = Convenio::where('empresa_id', '=', $empresaConvenio->id)->first();
 
     actingAs($conveniadaUser);
 
-    Livewire::test(Delete::class, ['conveniada' => $conveniada])
+    Livewire::test(Delete::class, ['convenio' => $convenio])
         ->set('confirmDestroy_confirmation', 'DELETAR')
         ->call('destroy')
-        ->assertNotDispatched('conveniada.deleted');
+        ->assertNotDispatched('convenio.deleted');
 
-    assertNotSoftDeleted('conveniadas', ['id' => $conveniada->id]);
+    assertNotSoftDeleted('convenios', ['id' => $convenio->id]);
 });
