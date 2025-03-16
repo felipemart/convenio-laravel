@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace App\Livewire\Conveniada;
 
 use App\Models\Conveniada;
-use App\Models\Convenio;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -32,7 +31,7 @@ class Restore extends Component
     #[On('conveniada.restoring')]
     public function openConfirmationfor(int $conveniadaId): void
     {
-        $this->conveniada = Convenio::withTrashed()->find($conveniadaId);
+        $this->conveniada = Conveniada::withTrashed()->find($conveniadaId);
         $this->modal      = true;
     }
 
