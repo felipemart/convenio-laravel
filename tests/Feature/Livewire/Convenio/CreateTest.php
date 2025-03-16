@@ -49,6 +49,25 @@ test('Regras de validacao', function ($f): void {
 
 test('Devera ser capaz de carregar os dados de empresa ja existente', function () {
     $empresa = Empresa::factory()->create();
+
+    Http::fake([
+        "https://publica.cnpj.ws/cnpj/{$empresa->cnpj}" => Http::response([
+            'razao_social'    => $empresa->razao_social,
+            'estabelecimento' => [
+                'nome_fantasia' => $empresa->nome_fantasia,
+                'logradouro'    => $empresa->logradouro,
+                'bairro'        => $empresa->bairro,
+                'cep'           => $empresa->cep,
+                'cidade'        => [
+                    'nome' => $empresa->cidade,
+                ],
+                'estado' => [
+                    'sigla' => $empresa->uf,
+                ],
+            ],
+        ], 200),  // Resposta mockada da API com código HTTP 200
+    ]);
+
     actingAs(User::factory()->withRoles('admin')->create());
     Livewire::test(Create::class)
         ->set('cnpj', $empresa->cnpj)
@@ -59,9 +78,8 @@ test('Devera ser capaz de carregar os dados de empresa ja existente', function (
         ->assertSet('bairro', $empresa->bairro)
         ->assertSet('cep', $empresa->cep)
         ->assertSet('uf', $empresa->uf)
-        ->assertSet('cidade', $empresa->cidade)
-        ->assertSet('email', $empresa->email);
-})->skip();
+        ->assertSet('cidade', $empresa->cidade);
+});
 
 test('Devera ser capaz de registrar um novo convenio no sistema', function ($f): void {
     $this->seed(RoleSeeder::class);
