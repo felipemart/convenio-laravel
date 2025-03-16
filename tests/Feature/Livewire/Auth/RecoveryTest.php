@@ -13,10 +13,10 @@ use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\get;
 
 test('precisa ter uma rota para recuperação de senha', function (): void {
-get(route('password.recovery'))
-->assertSeeLivewire('auth.password.recovery')
-->assertOk();
-    });
+    get(route('password.recovery'))
+        ->assertSeeLivewire('auth.password.recovery')
+        ->assertOk();
+});
 
 test('deve ser capaz de recuperar a senha', function (): void {
     Notification::fake();

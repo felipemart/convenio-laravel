@@ -22,14 +22,14 @@ test('precisa receber um token validos', function (): void {
         ->call('recuperacaoSenha');
 
     Notification::assertSentTo($user, EmailRecuperacaoSenha::class, function (EmailRecuperacaoSenha $notification): true {
-    get(route('password.reset') . '?token=' . $notification->token)
-    ->assertSuccessful();
+        get(route('password.reset') . '?token=' . $notification->token)
+            ->assertSuccessful();
 
         get(route('password.reset') . '?token=invalido-token')
             ->assertRedirect(route('login'));
 
         return true;
-        });
+    });
 });
 
 test('teste possivel de resetar a senha', function (): void {
