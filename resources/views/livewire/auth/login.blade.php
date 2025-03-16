@@ -1,4 +1,4 @@
-<x-card title="Login" shadow class="mx-auto w-[400px]">
+<x-card title="Login" shadow class="mx-auto w-[500px]">
 
 
     <x-form wire:submit="lgoin">
@@ -25,10 +25,11 @@
 
         @endif
         <div class="w-full flex items-center justify-between">
-
+            <a wire:navigate href="{{ route('password.recovery')  }}"
+               class="text-xs text-gray-3   00 hover:underline dark:text-gray-200">
+                Esqueci minha senha</a>
             <x-slot:actions>
-                <a wire:navigate href="{{ route('password.recovery')  }}" class="btn btn-ghost"> Esqueci minha
-                    senha</a>
+
                 <x-button label="Cancelar" type="reset"/>
                 <x-button label="Login" class="btn-primary" type="submit" spinner="save"/>
             </x-slot:actions>

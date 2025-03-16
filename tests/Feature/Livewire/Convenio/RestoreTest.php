@@ -47,7 +47,7 @@ test('deve ter um confirmacao para restaurar', function (): void {
     $emprsaConvenio = Empresa::factory()->create();
     $emprsaConvenio->giveConvenio($emprsa->id);
 
-    $convenio = Convenio::where('empresa_id', '=', $emprsaConvenio->id)->first();
+    $convenio = $emprsaConvenio->convenios()->first();
     $convenio->delete();
 
     $userOperadora = User::factory()->withRoles('operadora')->updateEmpresa($emprsa->id)->create();

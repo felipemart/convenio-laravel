@@ -20,6 +20,7 @@ class Operadora extends Model implements Auditable
 
     protected $fillable = [
         'id',
+        'empresa_id',
         'restored_at',
         'restored_by',
         'deleted_by',

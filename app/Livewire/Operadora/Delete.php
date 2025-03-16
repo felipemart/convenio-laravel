@@ -48,6 +48,7 @@ class Delete extends Component
 
             return;
         }
+
         $this->operadora->delete();
         $this->operadora->deleted_by = auth()->user()->id;
         $this->operadora->save();

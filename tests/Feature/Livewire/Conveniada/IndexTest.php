@@ -3,7 +3,6 @@
 declare(strict_types = 1);
 
 use App\Livewire\Conveniada\Index;
-use App\Models\Conveniada;
 use App\Models\Empresa;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
@@ -149,7 +148,7 @@ test('deve filtar os usuarios deletado', function (): void {
         $empresaConveniada->giveConveniada($emprsaConvenio->id);
 
         if ($i > 0) {
-            Conveniada::where('empresa_id', '=', $empresaConveniada->id)->delete();
+            $empresaConveniada->conveniadas()->first()->delete();
         }
     }
 

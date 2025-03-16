@@ -3,7 +3,6 @@
 declare(strict_types = 1);
 
 use App\Livewire\Conveniada\Show;
-use App\Models\Conveniada;
 use App\Models\Empresa;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
@@ -19,7 +18,7 @@ test('deve ser capaz de ver o cadastro da conveniada', function (): void {
 
     $empresaConveniada = Empresa::factory()->create();
     $empresaConveniada->giveConveniada($emprsaConvenio->id);
-    $conveniada = Conveniada::where('empresa_id', '=', $empresaConveniada->id)->first();
+    $conveniada = $empresaConveniada->conveniadas()->first();
 
     $userConvenio = User::factory()->withRoles('convenio')->updateEmpresa($emprsaConvenio->id)->create();
     actingAs($userConvenio);

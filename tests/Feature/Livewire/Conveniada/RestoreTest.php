@@ -22,7 +22,7 @@ test('deve ser capaz de restaurar  uma conveniada', function (): void {
 
     $empresaConveniada = Empresa::factory()->create();
     $empresaConveniada->giveConveniada($emprsaConvenio->id);
-    $conveniada = Conveniada::where('empresa_id', '=', $empresaConveniada->id)->first();
+    $conveniada = $empresaConveniada->conveniadas()->first();
     $conveniada->delete();
 
     $userConvenio = User::factory()->withRoles('convenio')->updateEmpresa($emprsaConvenio->id)->create();
