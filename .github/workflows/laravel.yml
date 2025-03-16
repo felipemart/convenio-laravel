@@ -27,6 +27,9 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
 
+    - name: install package.json
+      run: npm run install
+
     - name: build assets
       run: npm run build
       
