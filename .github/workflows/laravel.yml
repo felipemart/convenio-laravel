@@ -10,51 +10,54 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+        with:
+          php-version: '8.4'
+      - uses: actions/checkout@v4
+      - name: Install mongosh
+        run: |
+          sudo apt-get install gnupg
+          wget -qO- https://www.mongodb.org/static/pgp/server-7.0.asc | sudo tee /etc/apt/trusted.gpg.d/server-7.0.asc
+          echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+          sudo apt-get update
+          sudo apt-get install -y mongodb-mongosh
+          mongosh --version
+      - name: Initalize MongoDB
+        run: |
+          mongosh --host localhost:27017 -u admin -p admin --authenticationDatabase admin <<EOF
+          db = db.getSiblingDB('APP-DB');
+          db.createUser({ user: 'APP-USERNAME', pwd: 'APP-PASSWORD', roles: [{ role: 'readWrite', db: 'APP-DB' }] })
+          db.createCollection('APP-COLLECTION');
+          EOF
+          # Do whatever you like in here
 
-    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
-      with:
-        php-version: '8.4'
-    - uses: actions/checkout@v4
-    - name: "Create MongoDB Replica Set"
-      run: |
-                    docker run --name mongodb -p 27017:27017 -e MONGO_INITDB_DATABASE=unittest --detach mongo:${{ matrix.mongodb }} mongod --replSet rs --setParameter transactionLifetimeLimitSeconds=5
-                    if [ "${{ matrix.mongodb }}" = "4.4" ]; then MONGOSH_BIN="mongo"; else MONGOSH_BIN="mongosh"; fi
-                    until docker exec --tty mongodb $MONGOSH_BIN 127.0.0.1:27017 --eval "db.runCommand({ ping: 1 })"; do
-                    sleep 1
-                    done
-                    sudo docker exec --tty mongodb $MONGOSH_BIN 127.0.0.1:27017 --eval "rs.initiate({\"_id\":\"rs\",\"members\":[{\"_id\":0,\"host\":\"127.0.0.1:27017\" }]})"
-    - name: "Show MongoDB server status"
-      run: |
-                    if [ "${{ matrix.mongodb }}" = "4.4" ]; then MONGOSH_BIN="mongo"; else MONGOSH_BIN="mongosh"; fi
-                    docker exec --tty mongodb $MONGOSH_BIN 127.0.0.1:27017 --eval "db.runCommand({ serverStatus: 1 })"
-    
-    - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-    - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-    - name: Generate key
-      run: php artisan key:generate
-    - name: Directory Permissions
-      run: chmod -R 777 storage bootstrap/cache
-    - name: Create Database
-      run: |
-        mkdir -p database
-        touch database/database.sqlite
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Generate key
+        run: php artisan key:generate
+      - name: Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+      - name: Create Database
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
 
-    - name: install package.json
-      run: npm install
+      - name: install package.json
+        run: npm install
 
-    - name: build assets
-      run: npm run build
-      
-    - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
-      run: php artisan test -p
-      
-    - name: Execute Larastan
-      run: vendor/bin/phpstan analyse
-      
-    - name: Execute pint
-      run: vendor/bin/pint --test
+      - name: build assets
+        run: npm run build
+
+      - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        run: php artisan test -p
+
+      - name: Execute Larastan
+        run: vendor/bin/phpstan analyse
+
+      - name: Execute pint
+        run: vendor/bin/pint --test
