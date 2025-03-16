@@ -28,7 +28,7 @@ jobs:
         touch database/database.sqlite
 
     - name: install package.json
-      run: npm run install
+      run: npm install
 
     - name: build assets
       run: npm run build
