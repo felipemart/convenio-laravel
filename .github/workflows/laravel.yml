@@ -10,10 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
         php-version: '8.4'
     - uses: actions/checkout@v4
+    - name: "Create MongoDB Replica Set"
+      run: |
+                    docker run --name mongodb -p 27017:27017 -e MONGO_INITDB_DATABASE=unittest --detach mongo:${{ matrix.mongodb }} mongod --replSet rs --setParameter transactionLifetimeLimitSeconds=5
+                    if [ "${{ matrix.mongodb }}" = "4.4" ]; then MONGOSH_BIN="mongo"; else MONGOSH_BIN="mongosh"; fi
+                    until docker exec --tty mongodb $MONGOSH_BIN 127.0.0.1:27017 --eval "db.runCommand({ ping: 1 })"; do
+                    sleep 1
+                    done
+                    sudo docker exec --tty mongodb $MONGOSH_BIN 127.0.0.1:27017 --eval "rs.initiate({\"_id\":\"rs\",\"members\":[{\"_id\":0,\"host\":\"127.0.0.1:27017\" }]})"
+    - name: "Show MongoDB server status"
+      run: |
+                    if [ "${{ matrix.mongodb }}" = "4.4" ]; then MONGOSH_BIN="mongo"; else MONGOSH_BIN="mongosh"; fi
+                    docker exec --tty mongodb $MONGOSH_BIN 127.0.0.1:27017 --eval "db.runCommand({ serverStatus: 1 })"
+    
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
@@ -37,7 +51,7 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
-      run: php artisan test
+      run: php artisan test -p
       
     - name: Execute Larastan
       run: vendor/bin/phpstan analyse
