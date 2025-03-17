@@ -14,6 +14,9 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        Permission::create(['permission' => 'incluir']);
+        Permission::create(['permission' => 'operadora.create', 'role_id' => 1]);
+        Permission::create(['permission' => 'operadora.edit', 'role_id' => 1]);
+        Permission::create(['permission' => 'operadora.delete', 'role_id' => 1]);
+        Permission::create(['permission' => 'operadora.list', 'role_id' => 1]);
     }
 }

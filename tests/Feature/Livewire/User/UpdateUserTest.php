@@ -4,15 +4,16 @@ declare(strict_types = 1);
 
 use App\Livewire\User\Update;
 use App\Models\User;
+use Database\Seeders\PermissionSeeder;
 use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
 
 test('deve acessar o perfil do usuario', function (): void {
-    $admin = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
+    $admin = User::factory()->withRoles('admin')->create();
 
-    $userEdit = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
+    $userEdit = User::factory()->withRoles('admin')->create();
 
     actingAs($admin);
     Livewire::test(Update::class, ['id' => $userEdit->id])
@@ -23,9 +24,9 @@ test('deve acessar o perfil do usuario', function (): void {
 });
 
 test('deve acessar o perfil do usuario deletado deve aparacer o data de exclusao', function (): void {
-    $admin = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
+    $admin = User::factory()->withRoles('admin')->create();
 
-    $userEdit = User::factory()->withRoles('admin')->withPermissions('incluir')->create(
+    $userEdit = User::factory()->withRoles('admin')->create(
         [
             'restored_at' => now(),
         ]
@@ -42,10 +43,12 @@ test('deve acessar o perfil do usuario deletado deve aparacer o data de exclusao
 });
 
 test('deve acessar o perfil do usuario remove a permissao ao usuario', function (): void {
+    $this->seed(PermissionSeeder::class);
     $admin = User::factory()->withRoles('admin')->create();
 
-    $userEdit       = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
     $permmissionsTb = DB::table('permissions')->first();
+
+    $userEdit = User::factory()->withRoles('admin')->withPermissions($permmissionsTb->permission)->create();
 
     actingAs($admin);
     Livewire::test(Update::class, ['id' => $userEdit->id])
@@ -62,9 +65,10 @@ test('deve acessar o perfil do usuario remove a permissao ao usuario', function 
 });
 
 test('deve acessar o perfil do usuario adicionar a permissao ao usuario', function (): void {
-    $admin = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
+    $this->seed(PermissionSeeder::class);
+    $admin = User::factory()->withRoles('admin')->create();
 
-    $userEdit = User::factory()->create();
+    $userEdit = User::factory()->withRoles('admin')->create();
 
     $permmissionsTb = DB::table('permissions')->first();
 
@@ -80,4 +84,20 @@ test('deve acessar o perfil do usuario adicionar a permissao ao usuario', functi
 
     $userEdit->refresh();
     expect($userEdit->permissions)->toHaveCount(1);
+});
+
+test('deve acessar o perfil do usuario adicionar so deve ver permissoa do nivel do usuario', function (): void {
+    $this->seed(PermissionSeeder::class);
+    $admin = User::factory()->withRoles('admin')->create();
+
+    $userEdit = User::factory()->withRoles('guest')->create();
+
+    actingAs($admin);
+    Livewire::test(Update::class, ['id' => $admin->id])
+        ->assertSee('operadora.create')
+        ->assertOk();
+
+    Livewire::test(Update::class, ['id' => $userEdit->id])
+        ->assertDontSee('operadora.create')
+        ->assertOk();
 });

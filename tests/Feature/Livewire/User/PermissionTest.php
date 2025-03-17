@@ -12,19 +12,19 @@ use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\seed;
 
 test('Deve conceder permissão ao usuário', function (): void {
-    $user = User::factory()->create();
+    $user = User::factory()->withRoles('admin')->create();
 
-    $user->givePermission('incluir');
+    $user->givePermission('operadora.create');
 
-    expect($user->hasPermission('incluir'))->toBeTrue();
+    expect($user->hasPermission('operadora.create'))->toBeTrue();
 
     assertDatabaseHas('permissions', [
-        'permission' => 'incluir',
+        'permission' => 'operadora.create',
     ]);
 
     assertDatabaseHas('permission_user', [
         'user_id'       => $user->id,
-        'permission_id' => Permission::where('permission', '=', 'incluir')->first()->id,
+        'permission_id' => Permission::where('permission', '=', 'operadora.create')->first()->id,
     ]);
 });
 
@@ -34,7 +34,7 @@ test('permissao deve ter seeder', function (): void {
     assertDatabaseHas(
         'permissions',
         [
-            'permission' => 'incluir',
+            'permission' => 'operadora.create',
         ]
     );
 });
@@ -45,20 +45,20 @@ test('seeder deve dar permissao ao usuário', function (): void {
     assertDatabaseHas(
         'permissions',
         [
-            'permission' => 'incluir',
+            'permission' => 'operadora.create',
         ]
     );
 
     assertDatabaseHas('permission_user', [
         'user_id'       => User::first()?->id,
-        'permission_id' => Permission::where('permission', '=', 'incluir')->first()?->id,
+        'permission_id' => Permission::where('permission', '=', 'operadora.create')->first()?->id,
     ]);
 });
 
 test('ter certeza que os permissao estao em cache', function (): void {
-    $user = User::factory()->create();
+    $user = User::factory()->withRoles('admin')->create();
 
-    $user->givePermission('incluir');
+    $user->givePermission('operadora.create');
 
     $keyCache = "user:" . $user->id . ".permissions";
 
@@ -67,13 +67,13 @@ test('ter certeza que os permissao estao em cache', function (): void {
 });
 
 test('checando ser esta  usando cache para permissao', function (): void {
-    $user = User::factory()->create();
+    $user = User::factory()->withRoles('admin')->create();
 
-    $user->givePermission('incluir');
+    $user->givePermission('operadora.create');
 
     DB::listen(fn ($query) => throw new Exception('realizou chamada no banco'));
 
-    $user->hasPermission('incluir');
+    $user->hasPermission('operadora.create');
 
     expect(true)->toBeTrue();
 });

@@ -17,8 +17,8 @@ class UserSeeder extends Seeder
     {
         // Admin
         User::factory()
-            ->withPermissions('incluir')
             ->withRoles('Admin')
+            ->withPermissions('operadora.create')
             ->create([
                 'name'     => 'Admin',
                 'email'    => 'admin@localhost.com',
@@ -101,7 +101,6 @@ class UserSeeder extends Seeder
 
         // Usuários operadora
         User::factory()
-            ->withPermissions('incluir')
             ->withRoles('operadora')
             ->create([
                 'name'       => 'Operadora',
@@ -111,7 +110,6 @@ class UserSeeder extends Seeder
             ]);
         // Usuários Convenio
         User::factory()
-            ->withPermissions('incluir')
             ->withRoles('convenio')
             ->create([
                 'name'       => 'Convenio',
@@ -122,7 +120,6 @@ class UserSeeder extends Seeder
 
         // Usuários Conveniada
         User::factory()
-            ->withPermissions('incluir')
             ->withRoles('conveniada')
             ->create([
                 'name'       => 'Conveniada',
