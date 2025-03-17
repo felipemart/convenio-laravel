@@ -26,7 +26,7 @@ trait HasPermissions
 
     public function givePermission(string $key): void
     {
-        $this->permissions()->firstOrCreate(['permission' => $key]);
+        $this->permissions()->firstOrCreate(['permission' => $key, 'role_id' => $this->role_id]);
         $this->makeSessionPermissions();
     }
 

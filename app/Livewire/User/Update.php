@@ -95,6 +95,7 @@ class Update extends Component
                     "%" . strtolower((string) $this->search) . "%"
                 )
             )
+            ->where('permissions.role_id', '>=', $this->user->role_id)
             ->orderBy(...array_values($this->sortBy))
             ->paginate($this->perPage);
     }
