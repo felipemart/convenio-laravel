@@ -19,21 +19,31 @@ test('deve ser acessada somente pelos usaurios papeis', function (): void {
     $emprsa->giveConvenio($emprsa->id);
 
     actingAs(
-        User::factory()->withRoles('admin')->create()
+        User::factory()
+            ->withRoles('admin')
+            ->withPermissions('conveniada.list')
+            ->create()
     );
 
     get(route('conveniada.list'))
         ->assertOk();
 
     actingAs(
-        User::factory()->withRoles('operadora')->create()
+        User::factory()
+            ->withRoles('operadora')
+            ->withPermissions('conveniada.list')
+            ->create()
     );
 
     get(route('conveniada.list'))
         ->assertOk();
 
     actingAs(
-        User::factory()->withRoles('convenio')->updateEmpresa($emprsa->id)->create()
+        User::factory()
+            ->withRoles('convenio')
+            ->withPermissions('conveniada.list')
+            ->updateEmpresa($emprsa->id)
+            ->create()
     );
 
     get(route('conveniada.list'))
@@ -72,7 +82,11 @@ test('composente deve carregar todos os usuarios', function (): void {
     }
 
     actingAs(
-        User::factory()->withRoles('convenio')->updateEmpresa($emprsaConvenio->id)->create()
+        User::factory()
+            ->withRoles('convenio')
+            ->withPermissions('conveniada.list')
+            ->updateEmpresa($emprsaConvenio->id)
+            ->create()
     );
 
     $lw = Livewire::test(Index::class);
@@ -92,7 +106,10 @@ test('composente deve carregar todos os usuarios', function (): void {
 
 test('vefiricando ser a table tem formato', function (): void {
     actingAs(
-        User::factory()->withRoles('admin')->create()
+        User::factory()
+            ->withRoles('admin')
+            ->withPermissions('conveniada.list')
+            ->create()
     );
     Livewire::test(Index::class)
         ->assertSet('headers', [
@@ -117,7 +134,11 @@ test('deve filtar os usuarios por nome e email', function (): void {
     }
 
     actingAs(
-        User::factory()->withRoles('convenio')->updateEmpresa($emprsaConvenio->id)->create()
+        User::factory()
+            ->withRoles('convenio')
+            ->withPermissions('conveniada.list')
+            ->updateEmpresa($emprsaConvenio->id)
+            ->create()
     );
 
     Livewire::test(Index::class)
@@ -153,7 +174,11 @@ test('deve filtar os usuarios deletado', function (): void {
     }
 
     actingAs(
-        User::factory()->withRoles('convenio')->updateEmpresa($emprsaConvenio->id)->create()
+        User::factory()
+            ->withRoles('convenio')
+            ->withPermissions('conveniada.list')
+            ->updateEmpresa($emprsaConvenio->id)
+            ->create()
     );
 
     Livewire::test(Index::class)
@@ -185,7 +210,11 @@ test('paginacao dos resultados', function (): void {
     }
 
     actingAs(
-        User::factory()->withRoles('convenio')->updateEmpresa($emprsaConvenio->id)->create()
+        User::factory()
+            ->withRoles('convenio')
+            ->withPermissions('conveniada.list')
+            ->updateEmpresa($emprsaConvenio->id)
+            ->create()
     );
 
     Livewire::test(Index::class)
