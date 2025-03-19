@@ -6,6 +6,7 @@ use App\Livewire\Convenio\Index;
 use App\Models\Convenio;
 use App\Models\Empresa;
 use App\Models\User;
+use Database\Seeders\PermissionSeeder;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Livewire;
@@ -14,20 +15,26 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
 test('deve ser acessada somente pelos usaurios papeis', function (): void {
-    $this->seed(RoleSeeder::class);
+    $this->seed([RoleSeeder::class, PermissionSeeder::class]);
     $emprsa = Empresa::factory()->create();
     $emprsa->giveOperadora();
     $emprsa->giveConvenio($emprsa->id);
 
     actingAs(
-        User::factory()->withRoles('admin')->create()
+        User::factory()
+            ->withRoles('admin')
+            ->withPermissions('convenio.list')
+            ->create()
     );
 
     get(route('convenio.list'))
         ->assertOk();
 
     actingAs(
-        User::factory()->withRoles('operadora')->create()
+        User::factory()
+            ->withRoles('operadora')
+            ->withPermissions('convenio.list')
+            ->create()
     );
 
     get(route('convenio.list'))
@@ -35,12 +42,21 @@ test('deve ser acessada somente pelos usaurios papeis', function (): void {
 });
 
 test('nao pode ser acessada pelo que nao tem permissao', function (): void {
-    $this->seed(RoleSeeder::class);
+    $this->seed([RoleSeeder::class, PermissionSeeder::class]);
     actingAs(
         User::factory()->withRoles('guest')->create()
     );
     get(route('convenio.list'))
         ->assertForbidden();
+
+    actingAs(
+        User::factory()
+            ->withRoles('admin')
+            ->create()
+    );
+    get(route('convenio.list'))
+        ->assertRedirect(route('dashboard'));
+
     $emprsa = Empresa::factory()->create();
     $emprsa->giveOperadora();
     $emprsa->giveConvenio($emprsa->id);
@@ -64,7 +80,11 @@ test('composente deve carregar todos os usuarios', function (): void {
     }
 
     actingAs(
-        User::factory()->withRoles('operadora')->updateEmpresa($emprsa->id)->create()
+        User::factory()
+            ->withRoles('operadora')
+            ->withPermissions('convenio.list')
+            ->updateEmpresa($emprsa->id)
+            ->create()
     );
 
     $lw = Livewire::test(Index::class);
@@ -84,7 +104,10 @@ test('composente deve carregar todos os usuarios', function (): void {
 
 test('vefiricando ser a table tem formato', function (): void {
     actingAs(
-        User::factory()->withRoles('admin')->create()
+        User::factory()
+            ->withRoles('admin')
+            ->withPermissions('convenio.list')
+            ->create()
     );
     Livewire::test(Index::class)
         ->assertSet('headers', [
@@ -107,7 +130,10 @@ test('deve filtar os usuarios por nome e email', function (): void {
     }
 
     actingAs(
-        User::factory()->withRoles('operadora')->updateEmpresa($emprsa->id)->create()
+        User::factory()
+            ->withRoles('operadora')
+            ->withPermissions('convenio.list')
+            ->updateEmpresa($emprsa->id)->create()
     );
 
     Livewire::test(Index::class)
@@ -141,7 +167,10 @@ test('deve filtar os usuarios deletado', function (): void {
     }
 
     actingAs(
-        User::factory()->withRoles('operadora')->updateEmpresa($emprsa->id)->create()
+        User::factory()
+            ->withRoles('operadora')
+            ->withPermissions('convenio.list')
+            ->updateEmpresa($emprsa->id)->create()
     );
 
     Livewire::test(Index::class)
@@ -161,7 +190,7 @@ test('deve filtar os usuarios deletado', function (): void {
 });
 
 test('paginacao dos resultados', function (): void {
-    $this->seed(RoleSeeder::class);
+    $this->seed([RoleSeeder::class, PermissionSeeder::class]);
     $emprsa = Empresa::factory()->create();
     $emprsa->giveOperadora();
 
@@ -171,7 +200,7 @@ test('paginacao dos resultados', function (): void {
     }
 
     actingAs(
-        User::factory()->withRoles('operadora')->updateEmpresa($emprsa->id)->create()
+        User::factory()->withRoles('operadora')->withPermissions('convenio.list')->updateEmpresa($emprsa->id)->create()
     );
 
     Livewire::test(Index::class)

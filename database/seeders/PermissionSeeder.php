@@ -18,5 +18,10 @@ class PermissionSeeder extends Seeder
         Permission::create(['permission' => 'operadora.edit', 'role_id' => 1]);
         Permission::create(['permission' => 'operadora.delete', 'role_id' => 1]);
         Permission::create(['permission' => 'operadora.list', 'role_id' => 1]);
+
+        Permission::create(['permission' => 'convenio.create', 'role_id' => 2]);
+        Permission::create(['permission' => 'convenio.edit', 'role_id' => 2]);
+        Permission::create(['permission' => 'convenio.delete', 'role_id' => 2]);
+        Permission::create(['permission' => 'convenio.list', 'role_id' => 2]);
     }
 }
