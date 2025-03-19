@@ -43,6 +43,8 @@ class Index extends Component
 
     public function mount($id = 0): void
     {
+        auth()->user()->hasPermission('convenio.list') ?: $this->redirectRoute('dashboard');
+
         if (! in_array(auth()->user()->role_id, [1, 2])) {
             $this->redirectRoute('dashboard');
         }
