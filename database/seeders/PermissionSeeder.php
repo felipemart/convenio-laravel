@@ -14,14 +14,19 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        Permission::create(['permission' => 'operadora.create', 'role_id' => 1]);
-        Permission::create(['permission' => 'operadora.edit', 'role_id' => 1]);
-        Permission::create(['permission' => 'operadora.delete', 'role_id' => 1]);
-        Permission::create(['permission' => 'operadora.list', 'role_id' => 1]);
+        Permission::create(['permission' => 'operadora.create', 'role_id' => 1, 'descricao' => 'Cadastro de Operadoras']);
+        Permission::create(['permission' => 'operadora.edit', 'role_id' => 1, 'descricao' => 'Edição de Operadoras']);
+        Permission::create(['permission' => 'operadora.delete', 'role_id' => 1, 'descricao' => 'Exclusão de Operadoras']);
+        Permission::create(['permission' => 'operadora.list', 'role_id' => 1, 'descricao' => 'Listagem de Operadoras']);
 
-        Permission::create(['permission' => 'convenio.create', 'role_id' => 2]);
-        Permission::create(['permission' => 'convenio.edit', 'role_id' => 2]);
-        Permission::create(['permission' => 'convenio.delete', 'role_id' => 2]);
-        Permission::create(['permission' => 'convenio.list', 'role_id' => 2]);
+        Permission::create(['permission' => 'convenio.create', 'role_id' => 2, 'descricao' => 'Cadastro de Convenios']);
+        Permission::create(['permission' => 'convenio.edit', 'role_id' => 2, 'descricao' => 'Edição de Convenios']);
+        Permission::create(['permission' => 'convenio.delete', 'role_id' => 2,  'descricao' => 'Exclusão de Convenios']);
+        Permission::create(['permission' => 'convenio.list', 'role_id' => 2, 'descricao' => 'Listagem de Convenios']);
+
+        Permission::create(['permission' => 'conveniada.create', 'role_id' => 3, 'descricao' => 'Cadastro de Conveniadas']);
+        Permission::create(['permission' => 'conveniada.edit', 'role_id' => 3, 'descricao' => 'Edição de Conveniadas']);
+        Permission::create(['permission' => 'conveniada.delete', 'role_id' => 3, 'descricao' => 'Exclusão de Conveniadas']);
+        Permission::create(['permission' => 'conveniada.list', 'role_id' => 3, 'descricao' => 'Listagem de Conveniadas']);
     }
 }

@@ -2,78 +2,79 @@
 
 declare(strict_types = 1);
 
-use App\Models\Permission;
+use App\Livewire\User\PermissionUser;
 use App\Models\User;
 use Database\Seeders\PermissionSeeder;
-use Database\Seeders\UserSeeder;
-use Illuminate\Support\Facades\DB;
+use Livewire\Livewire;
 
-use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
 use function Pest\Laravel\seed;
 
-test('Deve conceder permissão ao usuário', function (): void {
-    $user = User::factory()->withRoles('admin')->create();
-
-    $user->givePermission('operadora.create');
-
-    expect($user->hasPermission('operadora.create'))->toBeTrue();
-
-    assertDatabaseHas('permissions', [
-        'permission' => 'operadora.create',
-    ]);
-
-    assertDatabaseHas('permission_user', [
-        'user_id'       => $user->id,
-        'permission_id' => Permission::where('permission', '=', 'operadora.create')->first()->id,
-    ]);
-});
-
-test('permissao deve ter seeder', function (): void {
-    $this->seed(PermissionSeeder::class);
-
-    assertDatabaseHas(
-        'permissions',
-        [
-            'permission' => 'operadora.create',
-        ]
+test('should be accessible only by users with roles', function (): void {
+    actingAs(
+        User::factory()->withRoles('admin')->create()
     );
+    get(route('user.permissions', ['id' => 1]))
+        ->assertOk();
 });
 
-test('seeder deve dar permissao ao usuário', function (): void {
-    seed([PermissionSeeder::class, UserSeeder::class]);
-
-    assertDatabaseHas(
-        'permissions',
-        [
-            'permission' => 'operadora.create',
-        ]
+test('verifying if the table has the correct format', function (): void {
+    actingAs(
+        User::factory()->withRoles('admin')->create()
     );
-
-    assertDatabaseHas('permission_user', [
-        'user_id'       => User::first()?->id,
-        'permission_id' => Permission::where('permission', '=', 'operadora.create')->first()?->id,
-    ]);
+    Livewire::test(PermissionUser::class, ['id' => 1])
+        ->assertSet('headers', [
+            [
+                'key'   => 'descricao',
+                'label' => 'Permissão',
+            ],
+        ]);
 });
 
-test('ter certeza que os permissao estao em cache', function (): void {
-    $user = User::factory()->withRoles('admin')->create();
-
-    $user->givePermission('operadora.create');
-
-    $keyCache = "user:" . $user->id . ".permissions";
-
-    expect(Session::has($keyCache))->toBeTrue('checando se chave existe')
-        ->and(Session::get($keyCache))->toBe($user->permissions);
+test('should render the correct view', function () {
+    actingAs(
+        User::factory()->withRoles('admin')->create()
+    );
+    Livewire::test(PermissionUser::class, ['id' => 1])
+        ->assertViewIs('livewire.user.permission');
 });
 
-test('checando ser esta  usando cache para permissao', function (): void {
+test('should update setPermissions correctly', function () {
     $user = User::factory()->withRoles('admin')->create();
+    actingAs($user);
 
-    $user->givePermission('operadora.create');
+    Livewire::test(PermissionUser::class, ['id' => $user->id])
+        ->call('updateSetPermissions')
+        ->assertSet('setPermissions', function ($setPermissions) use ($user) {
+            foreach ($user->permissions as $permission) {
+                if (! isset($setPermissions[$permission->id]) || ! $setPermissions[$permission->id]) {
+                    return false;
+                }
+            }
 
-    DB::listen(fn ($query) => throw new Exception('realizou chamada no banco'));
+            return true;
+        });
+});
 
-    $user->hasPermission('operadora.create');
+test('should update permissions correctly', function () {
+    seed(PermissionSeeder::class);
+    $user       = User::factory()->withRoles('admin')->create();
+    $permission = App\Models\Permission::first();
 
-    expect(true)->toBeTrue();
+    actingAs($user);
+
+    Livewire::test(PermissionUser::class, ['id' => $user->id])
+        ->set('setPermissions', [$permission->id => true])
+        ->call('updatePermissions', $permission->id)
+        ->assertHasNoErrors();
+
+    $this->assertTrue($user->permissions->contains($permission));
+
+    Livewire::test(PermissionUser::class, ['id' => $user->id])
+        ->set('setPermissions', [$permission->id => false])
+        ->call('updatePermissions', $permission->id)
+        ->assertHasNoErrors();
+    $user->refresh();
+    $this->assertFalse($user->permissions->contains($permission));
 });
