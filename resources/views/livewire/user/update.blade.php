@@ -46,26 +46,7 @@
 
 
             </x-tab>
-            <x-tab name="permissions-tab" label="Permissões" icon="o-sparkles">
-                <div>
-                    <x-input placeholder="Pesquisar..." wire:model.live.debounce="search" clearable
-                             icon="o-magnifying-glass"/>
-                    <x-table :headers="$this->headers" :rows="$this->permissions" with-pagination per-page="perPage"
-                             :per-page-values="[3, 5, 10]" :sort-by="$sortBy">
-                        @scope('actions', $permissions)
 
-                        <span class="flex">
-                            <x-toggle
-                                wire:model="setPermissions.{{ $permissions->id }}"
-                                value="{{ $permissions->id }}"
-                                class="toggle-primary" @change="$wire.updatePermissions({{ $permissions->id }})" right
-                                tight/>
-                        </span>
-                        @endscope
-                    </x-table>
-
-                </div>
-            </x-tab>
         </x-tabs>
         <x-button wire:navigate href="{{ route('user.list')  }}"
                   label="Voltar"/>

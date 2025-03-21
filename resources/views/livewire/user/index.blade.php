@@ -54,13 +54,16 @@
             @scope('cell_empresa', $user)
             {{ $user->empresa->nome_fantasia }}
             @endscope
-            @permission('incluir')
+
             @scope('actions', $user)
             <span class="flex">
+                    <x-button icon="o-pencil-square" wire:navigate
+                              href="{{ route('user.edit', ['id' => $user->id])  }}" spinner
+                              class="btn-ghost btn-sm text-white-500" tooltip="Editar"/>
 
-                        <x-button icon="o-pencil-square" wire:navigate
-                                  href="{{ route('user.edit', ['id' => $user->id])  }}" spinner
-                                  class="btn-ghost btn-sm text-white-500" tooltip="Editar"/>
+                    <x-button icon="o-pencil-square" wire:navigate
+                              href="{{ route('user.permissions', ['id' => $user->id])  }}" spinner
+                              class="btn-ghost btn-sm text-white-500" tooltip="Permissão"/>
 
                    <x-button
                        id="show-btn-{{ $user->id }}"
@@ -95,7 +98,6 @@
                 @endunless
             </span>
             @endscope
-            @endpermission
 
 
         </x-table>

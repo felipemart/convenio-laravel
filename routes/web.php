@@ -15,14 +15,14 @@ use App\Livewire\User;
 use App\Livewire\Welcome;
 use Illuminate\Support\Facades\Route;
 
-//region login
+// region login
 Route::get('/login', Login::class)->name('login');
 Route::get('/password/recovery', Recovery::class)->name('password.recovery');
 Route::get('/password/reset', Reset::class)->name('password.reset');
 Route::get('/password/create', Create::class)->name('password.create');
-//endregion
+// endregion
 
-//region Auth
+// region Auth
 Route::middleware('auth')->group(function (): void {
     Route::get('/', Welcome::class)->name('dashboard');
     Route::get('/register', Register::class)->name('auth.register');
@@ -30,11 +30,12 @@ Route::middleware('auth')->group(function (): void {
 
     Route::middleware('role:admin|operadora|convenio')->group(function (): void {
         Route::get('/user/edit/{id}', User\Update::class)->name('user.edit');
+        Route::get('/user/permissions/{id}', User\PermissionUser::class)->name('user.permissions');
         Route::get('/user/create', User\Create::class)->name('user.create');
         Route::get('/users', User\Index::class)->name('user.list');
     });
 
-    //region Admin
+    // region Admin
 
     Route::get('/dashboard', fn (): string => 'admin dashboard')->name('admin.dashboard');
 
@@ -57,6 +58,6 @@ Route::middleware('auth')->group(function (): void {
         Route::get('/conveniada/show/{id}', Conveniada\Show::class)->name('conveniada.show');
         Route::get('/conveniada/edit/{id}', Conveniada\Update::class)->name('conveniada.edit');
     });
-    //endregion
+    // endregion
 });
-//endregion
+// endregion

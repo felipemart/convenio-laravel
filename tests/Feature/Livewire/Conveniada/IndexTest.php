@@ -5,6 +5,7 @@ declare(strict_types = 1);
 use App\Livewire\Conveniada\Index;
 use App\Models\Empresa;
 use App\Models\User;
+use Database\Seeders\PermissionSeeder;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Livewire;
@@ -13,7 +14,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
 test('deve ser acessada somente pelos usaurios papeis', function (): void {
-    $this->seed(RoleSeeder::class);
+    $this->seed([RoleSeeder::class, PermissionSeeder::class]);
     $emprsa = Empresa::factory()->create();
     $emprsa->giveOperadora();
     $emprsa->giveConvenio($emprsa->id);

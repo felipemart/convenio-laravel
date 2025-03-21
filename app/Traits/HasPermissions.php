@@ -15,7 +15,7 @@ trait HasPermissions
 {
     private function getKeySession(): string
     {
-        return "user:" . $this->id . ".permissions";
+        return 'user:' . $this->id . '.permissions';
     }
 
     /** @return BelongsToMany<Permission, $this> */
@@ -26,7 +26,7 @@ trait HasPermissions
 
     public function givePermission(string $key): void
     {
-        $this->permissions()->firstOrCreate(['permission' => $key, 'role_id' => $this->role_id]);
+        $this->permissions()->firstOrCreate(['permission' => $key, 'role_id' => $this->role_id, 'descricao' => $key]);
         $this->makeSessionPermissions();
     }
 
@@ -46,7 +46,8 @@ trait HasPermissions
     }
 
     /**
-     * @param string|array<string> $key
+     * @param  string|array<string>  $key
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -68,9 +69,9 @@ trait HasPermissions
             $this->makeSessionPermissions();
         }
         /** @var Collection<int, Permission> */
-        $permissons = session()->get($k);
+        $permissions = session()->get($k);
 
-        return  $permissons->where('permission', '=', $key)->isNotEmpty();
+        return $permissions->where('permission', '=', $key)->isNotEmpty();
     }
 
     public function revokePermission(string $key): void
