@@ -1,4 +1,4 @@
-<x-modal wire:model="modal" title="Dados do usuario" class="backdrop-blur">
+<x-modal wire:model="modal" title="Dados do usuario" class="backdrop-blur-sm">
 
     @if($user)
         <x-input readonly label="Nome" :value="$user->name" class="mb-2"/>

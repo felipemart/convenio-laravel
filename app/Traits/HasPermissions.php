@@ -18,7 +18,9 @@ trait HasPermissions
         return 'user:' . $this->id . '.permissions';
     }
 
-    /** @return BelongsToMany<Permission, $this> */
+    /**
+     * @return BelongsToMany
+     */
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class);

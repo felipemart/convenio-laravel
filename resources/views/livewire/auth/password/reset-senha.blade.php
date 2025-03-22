@@ -1,4 +1,4 @@
-<x-card title="Recuperação de Senha" shadow class="mx-auto w-[350px]">
+<x-card title="Recuperação de Senha" shadow-sm class="mx-auto w-[350px]">
 
     <x-form wire:submit="resetarSenha">
         <x-input label="Email" value="{{ $this->obfuscarEmail }}" readonly/>

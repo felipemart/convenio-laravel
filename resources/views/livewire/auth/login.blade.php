@@ -1,4 +1,4 @@
-<x-card title="Login" shadow class="mx-auto w-[500px]">
+<x-card title="Login" shadow-sm class="mx-auto w-[500px]">
 
 
     <x-form wire:submit="lgoin">

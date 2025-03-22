@@ -1,4 +1,4 @@
-<x-modal wire:model="modal" title="Restaurar a Empresa {{ $empresa?->nome_fantasia }}?" class="backdrop-blur">
+<x-modal wire:model="modal" title="Restaurar a Empresa {{ $empresa?->nome_fantasia }}?" class="backdrop-blur-sm">
     @error('confirmRestore')
     <x-alert icon="o-exclamation-triangle" class="alert-warning">
         <span>{{ $message }}</span>
