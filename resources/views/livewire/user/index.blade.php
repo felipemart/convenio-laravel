@@ -2,7 +2,7 @@
     <!-- HEADER -->
     <x-header title="Usuarios" separator progress-indicator>
 
-        <x-slot:middle class="!justify-end">
+        <x-slot:middle class="justify-end!">
             <x-input placeholder="Pesquisar..." wire:model.live.debounce="search" clearable icon="o-magnifying-glass"/>
         </x-slot:middle>
         <x-slot:actions>

@@ -1,4 +1,4 @@
-<x-modal wire:model="modal" title="Deletar {{ $operadora?->empresa->nome_fantasia }}?" class="backdrop-blur">
+<x-modal wire:model="modal" title="Deletar {{ $operadora?->empresa->nome_fantasia }}?" class="backdrop-blur-sm">
 
     @error('confirmDestroy')
     <x-alert icon="o-exclamation-triangle" class="alert-warning">

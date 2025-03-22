@@ -1,4 +1,4 @@
-<x-card title="Recuperação de Senha" shadow class="mx-auto w-[350px]">
+<x-card title="Recuperação de Senha" shadow-sm class="mx-auto w-[350px]">
 
     @if($message)
         <x-alert icon="o-check-circle" class="alert-success">
