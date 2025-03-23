@@ -7,8 +7,8 @@
         <x-steps wire:model="step" class=" my-5 p-5">
             <div>
                 <x-form wire:submit="save">
-                    <x-input label="Nome" wire:model="name" class="mb-2"/>
-                    <x-input label="Email" wire:model="email" class="mb-2"/>
+                    <x-input label="Nome" wire:model="name" class=""/>
+                    <x-input label="Email" wire:model="email" class=""/>
 
                     <x-select
                         label="Nivel de acesso"
@@ -18,7 +18,7 @@
                         placeholder="Selecionar"
                         placeholder-value=""
                         wire:change="changeEmpresa"
-                        wire:model="roleSelect" class="mb-2"/>
+                        wire:model="roleSelect" class=""/>
 
                     <x-select
                         label="Empresa"
@@ -27,7 +27,7 @@
                         option-label="nome_fantasia"
                         placeholder="Selecionar"
                         placeholder-value=""
-                        wire:model="empresaSelect" class="mb-2"/>
+                        wire:model="empresaSelect" class=""/>
 
                 </x-form>
             </div>

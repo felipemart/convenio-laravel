@@ -6,17 +6,17 @@
     <x-tabs wire:model="selectedTab">
         <x-tab name="users-tab" label="Informações" icon="o-users">
             <x-form wire:submit="save">
-                <x-input label="CNPJ" wire:model="cnpj" :value="$conveniada->empresa->cnpj" class="mb-2"/>
+                <x-input label="CNPJ" wire:model="cnpj" :value="$conveniada->empresa->cnpj" class=""/>
                 <x-input label="Nome Fantasia" wire:model="nome_fantasia" :value="$conveniada->empresa->nome_fantasia"/>
-                <x-input label="Razao Social" wire:model="razao_social" class="mb-2"
+                <x-input label="Razao Social" wire:model="razao_social" class=""
                          :value="$conveniada->empresa->razao_social"/>
-                <x-input label="Logradouro" wire:model="logradouro" class="mb-2"
+                <x-input label="Logradouro" wire:model="logradouro" class=""
                          :value="$conveniada->empresa->logradouro"/>
-                <x-input label="Bairro" wire:model="bairro" class="mb-2" :value="$conveniada->empresa->bairro"/>
-                <x-input label="CEP" wire:model="cep" class="mb-2" :value="$conveniada->empresa->cep"/>
-                <x-input label="UF" wire:model="uf" class="mb-2" :value="$conveniada->empresa->uf"/>
-                <x-input label="Cidade" wire:model="cidade" class="mb-2" :value="$conveniada->empresa->cidade"/>
-                <x-input label="Email" wire:model="email" class="mb-2" :value="$conveniada->empresa->email"/>
+                <x-input label="Bairro" wire:model="bairro" class="" :value="$conveniada->empresa->bairro"/>
+                <x-input label="CEP" wire:model="cep" class="" :value="$conveniada->empresa->cep"/>
+                <x-input label="UF" wire:model="uf" class="" :value="$conveniada->empresa->uf"/>
+                <x-input label="Cidade" wire:model="cidade" class="" :value="$conveniada->empresa->cidade"/>
+                <x-input label="Email" wire:model="email" class="" :value="$conveniada->empresa->email"/>
 
 
                 <br/>

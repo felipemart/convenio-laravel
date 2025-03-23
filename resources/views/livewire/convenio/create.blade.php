@@ -4,15 +4,15 @@
 
     </x-header>
     <x-form wire:submit="save">
-        <x-input label="CNPJ" wire:model="cnpj" wire:change="cnpjCarregaDados" class="mb-2"/>
+        <x-input label="CNPJ" wire:model="cnpj" wire:change="cnpjCarregaDados" class=""/>
         <x-input label="Nome Fantasia" wire:model="nome_fantasia"/>
-        <x-input label="Razao Social" wire:model="razao_social" class="mb-2"/>
-        <x-input label="Logradouro" wire:model="logradouro" class="mb-2"/>
-        <x-input label="Bairro" wire:model="bairro" class="mb-2"/>
-        <x-input label="CEP" wire:model="cep" class="mb-2"/>
-        <x-input label="UF" wire:model="uf" class="mb-2"/>
-        <x-input label="Cidade" wire:model="cidade" class="mb-2"/>
-        <x-input label="Email" wire:model="email" class="mb-2"/>
+        <x-input label="Razao Social" wire:model="razao_social" class=""/>
+        <x-input label="Logradouro" wire:model="logradouro" class=""/>
+        <x-input label="Bairro" wire:model="bairro" class=""/>
+        <x-input label="CEP" wire:model="cep" class=""/>
+        <x-input label="UF" wire:model="uf" class=""/>
+        <x-input label="Cidade" wire:model="cidade" class=""/>
+        <x-input label="Email" wire:model="email" class=""/>
     </x-form>
 
     <x-button label="Cancelar" wire:navigate href="{{ route('convenio.list')  }}"/>
