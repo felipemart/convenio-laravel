@@ -18,7 +18,6 @@ class UserSeeder extends Seeder
         // Admin
         User::factory()
             ->withRoles('Admin')
-            ->withPermissions('operadora.create')
             ->create([
                 'name'     => 'Admin',
                 'email'    => 'admin@localhost.com',
