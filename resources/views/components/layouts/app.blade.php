@@ -52,17 +52,24 @@
 
                 <x-menu-separator/>
             @endif
-
+            @permission('usuario.list')
             <x-menu-item title="Usuarios" icon="o-sparkles" link="{{ route('user.list') }}"/>
+            @endpermission
             @role('admin')
+            @permission('operadora.list')
             <x-menu-item title="Operadora" icon="o-sparkles" link="{{ route('operadora.list') }}"/>
+            @endpermission
             @endrole
             @role('operadora')
+            @permission('convenio.list')
             <x-menu-item title="Convenios" icon="o-sparkles" link="{{ route('convenio.list') }}"/>
+            @endpermission
             @endrole
 
             @role('convenio')
+            @permission('conveniada.list')
             <x-menu-item title="Conveniadas" icon="o-sparkles" link="{{ route('conveniada.list') }}"/>
+            @endpermission
             @endrole
         </x-menu>
     </x-slot:sidebar>

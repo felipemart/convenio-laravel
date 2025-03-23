@@ -47,7 +47,7 @@ test('deve ser capaz de ver o perfil do usuario deletado', function (): void {
 });
 
 test('deve ser capaz de abrir o modal por evendo', function (): void {
-    $admin = User::factory()->withRoles('admin')->create();
+    $admin = User::factory()->withRoles('admin')->withPermissions('usuario.list')->create();
     $user  = User::factory()->withRoles('test')->create();
 
     actingAs($admin);
