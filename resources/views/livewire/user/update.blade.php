@@ -12,8 +12,8 @@
             <x-tab name="users-tab" label="Dados" icon="o-users">
                 <div>
                     <x-form wire:submit="save">
-                        <x-input label="Nome" wire:model="name" class="mb-2"/>
-                        <x-input label="Email" wire:model="email" value="{{$user->email}}" class="mb-2"/>
+                        <x-input label="Nome" wire:model="name" class=""/>
+                        <x-input label="Email" wire:model="email" value="{{$user->email}}" class=""/>
 
                         <x-select
                             label="Nivel de acesso"
@@ -22,18 +22,18 @@
                             option-label="name"
                             placeholder="Selecionar"
                             placeholder-value=""
-                            wire:model="roleSelect" class="mb-2"/>
+                            wire:model="roleSelect" class=""/>
 
 
-                        <x-input label="Criado em" value="{{$user->created_at->format('d/m/Y')}}" class="mb-2"
+                        <x-input label="Criado em" value="{{$user->created_at->format('d/m/Y')}}" class=""
                                  disabled/>
                         @if($user->deleted_at)
-                            <x-input label="Deletado em" value="{{$user->deleted_at->format('d/m/Y')}}" class="mb-2"
+                            <x-input label="Deletado em" value="{{$user->deleted_at->format('d/m/Y')}}" class=""
                                      disabled/>
                         @endif
 
                         @if($user->restored_at)
-                            <x-input label="Restaurado em" value="{{ $user->restored_at }}" class="mb-2"
+                            <x-input label="Restaurado em" value="{{ $user->restored_at }}" class=""
                                      disabled/>
                         @endif
 
