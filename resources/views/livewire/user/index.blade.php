@@ -61,7 +61,7 @@
                               href="{{ route('user.edit', ['id' => $user->id])  }}" spinner
                               class="btn-ghost btn-sm text-white-500" tooltip="Editar"/>
 
-                    <x-button icon="o-pencil-square" wire:navigate
+                    <x-button icon="o-adjustments-horizontal" wire:navigate
                               href="{{ route('user.permissions', ['id' => $user->id])  }}" spinner
                               class="btn-ghost btn-sm text-white-500" tooltip="Permissão"/>
 

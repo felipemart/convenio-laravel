@@ -27,7 +27,7 @@
     <x-slot:actions>
         <x-button label="Messages" icon="o-envelope" link="###" class="btn-ghost btn-sm" responsive/>
         <x-button label="Notifications" icon="o-bell" link="###" class="btn-ghost btn-sm" responsive/>
-        <x-theme-toggle class="btn btn-circle" darkTheme="dark" lightTheme="light"/>
+        <x-theme-toggle class="btn btn-circle" darkTheme="black" lightTheme="wireframe"/>
     </x-slot:actions>
 </x-nav>
 
