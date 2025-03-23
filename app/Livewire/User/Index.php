@@ -43,8 +43,7 @@ class Index extends Component
 
     public function mount(): void
     {
-        //TODO refatorar
-        $this->filterRole();
+        auth()->user()->hasPermission('usuario.list') ?: $this->redirectRoute('dashboard');
     }
 
     public function updatedPerPage($value): void
