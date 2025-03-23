@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-    themes: light --default, dark --prefersdark, cupcake;
+    themes: wireframe --default, black --prefersdark, cupcake;
 }
+
 @source "../../vendor/robsontenorio/mary/src/View/Components/**/*.php";
 
 /* Theme toggle */
