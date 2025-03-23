@@ -7,7 +7,6 @@ namespace App\Traits;
 use App\Models\Permission;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Facades\Cache;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -18,9 +17,6 @@ trait HasPermissions
         return 'user:' . $this->id . '.permissions';
     }
 
-    /**
-     * @return BelongsToMany
-     */
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class);
@@ -35,16 +31,13 @@ trait HasPermissions
     public function givePermissionId(int $idPpermission): void
     {
         $this->permissions()->firstOrCreate(['id' => $idPpermission]);
-
-        Cache::forget($this->getKeyPermissions());
-        Cache::rememberForever($this->getKeyPermissions(), fn () => $this->permissions);
+        $this->makeSessionPermissions();
     }
 
     public function removePermission($idPermission): void
     {
         $this->permissions()->detach($idPermission);
-        Cache::forget($this->getKeyPermissions());
-        Cache::rememberForever($this->getKeyPermissions(), fn () => $this->permissions);
+        $this->makeSessionPermissions();
     }
 
     /**
