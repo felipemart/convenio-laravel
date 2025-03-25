@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
 
-test('deve conceder papel ao usuário', function (): void {
+it('should assign role to the use', function (): void {
     $user = User::factory()->create();
 
     $user->giveRole('admin');
@@ -27,7 +27,7 @@ test('deve conceder papel ao usuário', function (): void {
         'role_id' => Role::where('name', '=', 'Admin')->first()->id,
     ]);
 });
-test('papeis deve ter seeder', function (): void {
+test('roles should have seeder', function (): void {
     $this->seed(RoleSeeder::class);
 
     assertDatabaseHas(

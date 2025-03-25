@@ -9,7 +9,7 @@ use Database\Seeders\RoleSeeder;
 
 use function Pest\Laravel\actingAs;
 
-test('deve ser capaz de ver o cadastro da conveniada', function (): void {
+test('should be able to view the registration of the affiliated company', function (): void {
     $this->seed(RoleSeeder::class);
     $emprsa = Empresa::factory()->create();
     $emprsa->giveOperadora();

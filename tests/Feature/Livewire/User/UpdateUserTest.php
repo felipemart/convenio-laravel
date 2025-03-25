@@ -8,7 +8,7 @@ use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
 
-test('deve acessar o perfil do usuario', function (): void {
+test('should access the user profile', function (): void {
     $admin = User::factory()->withRoles('admin')->create();
 
     $userEdit = User::factory()->withRoles('admin')->create();
@@ -21,7 +21,7 @@ test('deve acessar o perfil do usuario', function (): void {
         ->assertOk();
 });
 
-test('deve acessar o perfil do usuario deletado deve aparacer o data de exclusao', function (): void {
+test('should access the deleted user profile and show the deletion date', function (): void {
     $admin = User::factory()->withRoles('admin')->create();
 
     $userEdit = User::factory()->withRoles('admin')->create(

@@ -13,7 +13,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertNotSoftDeleted;
 use function Pest\Laravel\assertSoftDeleted;
 
-test('deve ser capaz de restaurar  uma conveniada', function (): void {
+test('should be able to restore a conveniada', function (): void {
     $this->seed(RoleSeeder::class);
     $emprsa = Empresa::factory()->create();
     $emprsa->giveOperadora();
@@ -42,7 +42,7 @@ test('deve ser capaz de restaurar  uma conveniada', function (): void {
         ->restoredBy->id->toBe($userConvenio->id);
 });
 
-test('deve ter um confirmacao para restaurar', function (): void {
+test('should have a confirmation to restore', function (): void {
     $this->seed(RoleSeeder::class);
     $emprsa = Empresa::factory()->create();
     $emprsa->giveOperadora();

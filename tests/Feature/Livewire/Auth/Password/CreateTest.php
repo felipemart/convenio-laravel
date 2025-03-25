@@ -18,7 +18,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\seed;
 use function PHPUnit\Framework\assertTrue;
 
-test('deve acessar a tela de criar senha', function (): void {
+test('should access the create password screen', function (): void {
     Notification::fake();
     $admin = User::factory()->withRoles('admin')->create();
 
@@ -55,7 +55,7 @@ test('deve acessar a tela de criar senha', function (): void {
     );
 });
 
-test('deve acessar validar o token', function (): void {
+test('should validate the token', function (): void {
     Notification::fake();
     $admin = User::factory()->withRoles('admin')->create();
 

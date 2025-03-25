@@ -29,7 +29,7 @@ it('should be able to login', function (): void {
         ->and(auth()->user())->id->toBe($user->id);
 });
 
-it('should make sure the email and password', function (): void {
+it('should validate the email and password', function (): void {
     Livewire::test(Login::class)
         ->set('email', 'johndoe@example.com')
         ->set('password', 'password')
@@ -38,7 +38,7 @@ it('should make sure the email and password', function (): void {
         ->assertSee('Credenciais inválidas.');
 });
 
-it('should make sure that rate limiter is working', function (): void {
+it('should ensure that rate limiter is working', function (): void {
     $usrer = User::factory()->create();
 
     for ($i = 0; $i < 5; $i++) {

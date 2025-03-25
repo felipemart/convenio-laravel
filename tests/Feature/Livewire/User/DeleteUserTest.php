@@ -10,7 +10,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertNotSoftDeleted;
 use function Pest\Laravel\assertSoftDeleted;
 
-test('deve ser capaz de deletar um usuario', function (): void {
+test('should be able to delete a user', function (): void {
     $admin      = User::factory()->withRoles('admin')->create();
     $userDelete = User::factory()->create();
 
@@ -27,8 +27,7 @@ test('deve ser capaz de deletar um usuario', function (): void {
     expect($userDelete)
         ->deletedBy->id->toBe($admin->id);
 });
-
-test('deve ter um confirmacao para excluir', function (): void {
+test('should have a confirmation to delete', function (): void {
     $admin      = User::factory()->withRoles('admin')->create();
     $userDelete = User::factory()->create();
 
@@ -40,7 +39,7 @@ test('deve ter um confirmacao para excluir', function (): void {
 
     assertNotSoftDeleted('users', ['id' => $userDelete->id]);
 });
-test('Nao pode deletar o usuario que esta logado', function (): void {
+test('cannot delete the logged-in user', function (): void {
     $admin = User::factory()->withRoles('admin')->create();
 
     actingAs($admin);

@@ -9,7 +9,7 @@ use Database\Seeders\RoleSeeder;
 
 use function Pest\Laravel\actingAs;
 
-test('deve ser capaz de ver o cadastro da operadora', function (): void {
+test('should be able to view the operator registration', function (): void {
     $this->seed(RoleSeeder::class);
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();

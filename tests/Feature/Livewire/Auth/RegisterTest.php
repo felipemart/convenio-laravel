@@ -11,12 +11,12 @@ use Livewire\Livewire;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
 
-test('renderizar a view do livewire', function (): void {
+test('render the livewire view', function (): void {
     Livewire::test(Register::class)
         ->assertStatus(200);
 });
 
-test('Devera ser capaz de registrar um novo usuário no sistema', function (): void {
+test('Should be able to register a new user in the system', function (): void {
     Livewire::test(Register::class)
         ->set('name', 'John Doe')
         ->set('email', 'johndoe@example.com')
@@ -33,7 +33,7 @@ test('Devera ser capaz de registrar um novo usuário no sistema', function (): v
     assertDatabaseCount('users', 1);
 });
 
-test('Regras de validacao', function ($f): void {
+test('Validation rules', function ($f): void {
     if ($f->rule == 'unique') {
         User::factory()->create([$f->field => $f->value]);
     }
@@ -58,7 +58,7 @@ test('Regras de validacao', function ($f): void {
     'password::required' => (object)['field' => 'password', 'value' => '', 'rule' => 'required'],
 ]);
 
-test('deve ser capaz de confirmar o e-mail', function (): void {
+test('should be able to confirm the email', function (): void {
     Notification::fake();
 
     Livewire::test(Register::class)

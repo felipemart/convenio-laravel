@@ -9,7 +9,7 @@ use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
 
-test('deve acessar o perfil da conveniada', function (): void {
+test('should access the conveniada profile', function (): void {
     $admin   = User::factory()->withRoles('admin')->create();
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
@@ -35,7 +35,7 @@ test('deve acessar o perfil da conveniada', function (): void {
         ->assertOk();
 });
 
-test('Regras de validacao', function ($f): void {
+test('Validation rules', function ($f): void {
     $admin   = User::factory()->withRoles('admin')->create();
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
@@ -77,7 +77,7 @@ test('Regras de validacao', function ($f): void {
     'email::required'         => (object) ['field' => 'email', 'value' => '', 'rule' => 'required'],
 ]);
 
-it('deve atualizar a conveniada', function (): void {
+it('should update the conveniada', function (): void {
     $admin   = User::factory()->withRoles('admin')->create();
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();

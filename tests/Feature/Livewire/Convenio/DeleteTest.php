@@ -9,7 +9,7 @@ use App\Models\User;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertNotSoftDeleted;
 
-test('Deve ser capaz de deletar um convenio', function () {
+test('Should be able to delete a convenio', function () {
     $admin   = User::factory()->withRoles('admin')->create();
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
@@ -27,7 +27,7 @@ test('Deve ser capaz de deletar um convenio', function () {
         ->assertDispatched('convenio.deleted');
 });
 
-test('deve ter um confirmacao para excluir', function (): void {
+test('should have a confirmation to delete', function (): void {
     $admin   = User::factory()->withRoles('admin')->create();
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();

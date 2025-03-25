@@ -11,7 +11,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertNotSoftDeleted;
 use function Pest\Laravel\assertSoftDeleted;
 
-test('Deve ser capaz de deletar uma operadora', function () {
+test('Should be able to delete an operator', function () {
     $admin   = User::factory()->withRoles('admin')->create();
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
@@ -28,7 +28,7 @@ test('Deve ser capaz de deletar uma operadora', function () {
     assertSoftDeleted('operadoras', ['id' => $operadora->id]);
 });
 
-test('deve ter um confirmacao para excluir', function (): void {
+test('should have a confirmation to delete', function (): void {
     $admin   = User::factory()->withRoles('admin')->create();
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
@@ -43,7 +43,7 @@ test('deve ter um confirmacao para excluir', function (): void {
 
     assertNotSoftDeleted('operadoras', ['id' => $operadora->id]);
 });
-test('Usuario operadora nao pode deletar operadora', function (): void {
+test('Operator user cannot delete operator', function (): void {
     $this->seed(RoleSeeder::class);
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();

@@ -12,7 +12,7 @@ use Livewire\Livewire;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
-test('deve ser acessada somente pelos usaurios papeis', function (): void {
+test('should only be accessed by users with roles', function (): void {
     $this->seed(RoleSeeder::class);
     $emprsa = Empresa::factory()->create();
     $emprsa->giveOperadora();
@@ -25,7 +25,7 @@ test('deve ser acessada somente pelos usaurios papeis', function (): void {
         ->assertOk();
 });
 
-test('nao pode ser acessada pelo que nao tem permissao', function (): void {
+test('cannot be accessed by users without permission', function (): void {
     $this->seed(RoleSeeder::class);
     actingAs(
         User::factory()->withRoles('guest')->create()
@@ -42,7 +42,7 @@ test('nao pode ser acessada pelo que nao tem permissao', function (): void {
         ->assertForbidden();
 });
 
-test('composente deve carregar todos os usuarios', function (): void {
+test('component should load all users', function (): void {
     $this->seed(RoleSeeder::class);
     $operadoras = [];
 
@@ -71,7 +71,7 @@ test('composente deve carregar todos os usuarios', function (): void {
     }
 });
 
-test('vefiricando ser a table tem formato', function (): void {
+test('verifying if the table has the correct format', function (): void {
     actingAs(
         User::factory()->withRoles('admin')->withPermissions('operadora.list')->create()
     );
@@ -83,7 +83,7 @@ test('vefiricando ser a table tem formato', function (): void {
         ]);
 });
 
-test('deve filtar os usuarios por cnpj', function (): void {
+test('should filter users by CNPJ', function (): void {
     $this->seed(RoleSeeder::class);
     $operadoras = [];
 
@@ -113,7 +113,7 @@ test('deve filtar os usuarios por cnpj', function (): void {
         });
 });
 
-test('deve filtar os usuarios deletado', function (): void {
+test('should filter deleted users', function (): void {
     $this->seed(RoleSeeder::class);
 
     for ($i = 0; $i <= 2; $i++) {
@@ -145,7 +145,7 @@ test('deve filtar os usuarios deletado', function (): void {
         });
 });
 
-test('paginacao dos resultados', function (): void {
+test('pagination of results', function (): void {
     $this->seed(RoleSeeder::class);
     $operadoras = [];
 

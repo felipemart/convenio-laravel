@@ -11,13 +11,13 @@ use Database\Seeders\RoleSeeder;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
 
-test('renderizar a view do livewire', function (): void {
+test('render the livewire view', function (): void {
     actingAs(User::factory()->withRoles('admin')->create());
     Livewire::test(Create::class)
         ->assertStatus(200);
 });
 
-test('Regras de validacao', function ($f): void {
+test('Validation rules', function ($f): void {
     actingAs(User::factory()->withRoles('admin')->create());
 
     if ($f->rule == 'unique') {
@@ -47,7 +47,7 @@ test('Regras de validacao', function ($f): void {
     'email::required'         => (object)['field' => 'email', 'value' => '', 'rule' => 'required'],
 ]);
 
-test('Devera ser capaz de carregar os dados de empresa ja existente', function () {
+test('Should be able to load data of an existing company', function () {
     $empresa = Empresa::factory()->create();
 
     Http::fake([
@@ -81,7 +81,7 @@ test('Devera ser capaz de carregar os dados de empresa ja existente', function (
         ->assertSet('cidade', $empresa->cidade);
 });
 
-test('Devera ser capaz de registrar uma nova conveniada no sistema', function ($f): void {
+test('Should be able to register a new affiliated company in the system', function ($f): void {
     $this->seed(RoleSeeder::class);
     $emprsa = Empresa::factory()->create();
     $emprsa->giveOperadora();

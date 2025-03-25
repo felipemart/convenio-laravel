@@ -10,7 +10,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertNotSoftDeleted;
 use function Pest\Laravel\assertSoftDeleted;
 
-test('deve ser capaz de restaurar  um usuario', function (): void {
+test('should be able to restore a user', function (): void {
     $admin       = User::factory()->withRoles('admin')->create();
     $userRestore = User::factory()->deleted()->create();
 
@@ -30,7 +30,7 @@ test('deve ser capaz de restaurar  um usuario', function (): void {
         ->restoredBy->id->toBe($admin->id);
 });
 
-test('deve ter um confirmacao para restaurar', function (): void {
+test('should have a confirmation to restore', function (): void {
     $admin       = User::factory()->withRoles('admin')->create();
     $userRestore = User::factory()->deleted()->create();
 

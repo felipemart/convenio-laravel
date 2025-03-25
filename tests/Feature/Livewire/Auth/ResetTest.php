@@ -13,7 +13,7 @@ use Livewire\Livewire;
 use function Pest\Laravel\get;
 use function PHPUnit\Framework\assertTrue;
 
-test('precisa receber um token validos', function (): void {
+test('must receive a valid token', function (): void {
     Notification::fake();
     $user = User::factory()->create();
 
@@ -32,7 +32,7 @@ test('precisa receber um token validos', function (): void {
     });
 });
 
-test('teste possivel de resetar a senha', function (): void {
+test('possible to reset the password', function (): void {
     Notification::fake();
     $user = User::factory()->create();
 
@@ -62,7 +62,7 @@ test('teste possivel de resetar a senha', function (): void {
     );
 });
 
-test('certificando-se de que o e-mail é real', function ($f): void {
+test('ensuring the email is real', function ($f): void {
     Notification::fake();
     $user = User::factory()->create();
 
@@ -89,7 +89,7 @@ test('certificando-se de que o e-mail é real', function ($f): void {
     'password::confirmed' => (object) ['field' => 'password', 'value' => 'password-not-confirmed', 'rule' => 'confirmed'],
 ]);
 
-test('certificar que funcao obfuscar_email ', function (): void {
+test('ensure obfuscate_email function works', function (): void {
     $email         = 'johndoe@example.com';
     $obfuscarEmail = obfuscarEmail($email);
     expect($obfuscarEmail)->toBe('jo*****@example.com');

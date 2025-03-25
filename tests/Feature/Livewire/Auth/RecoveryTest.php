@@ -12,13 +12,13 @@ use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\get;
 
-test('precisa ter uma rota para recuperação de senha', function (): void {
+test('must have a route for password recovery', function (): void {
     get(route('password.recovery'))
         ->assertSeeLivewire('auth.password.recovery')
         ->assertOk();
 });
 
-test('deve ser capaz de recuperar a senha', function (): void {
+test('should be able to recover the password', function (): void {
     Notification::fake();
 
     $user = User::factory()->create();
@@ -32,7 +32,7 @@ test('deve ser capaz de recuperar a senha', function (): void {
     Notification::assertSentTo($user, EmailRecuperacaoSenha::class);
 });
 
-test('certificando-se de que o e-mail é real', function ($value, $rule): void {
+test('making sure the email is real', function ($value, $rule): void {
     Livewire::test(recovery::class)
         ->set('email', $value)
         ->call('recuperacaoSenha')
@@ -42,7 +42,7 @@ test('certificando-se de que o e-mail é real', function ($value, $rule): void {
     'email'    => ['value' => 'qualerEmail', 'rule' => 'email'],
 ]);
 
-test('precisa criar recuperação de token', function (): void {
+test('must create recovery token', function (): void {
     $user = User::factory()->create();
 
     Livewire::test(recovery::class)
