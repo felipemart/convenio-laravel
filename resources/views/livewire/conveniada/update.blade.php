@@ -22,7 +22,8 @@
                 <br/>
             </x-form>
 
-            <x-button label="Cancelar" wire:navigate href="{{ route('conveniada.list')  }}"/>
+            <x-button label="Voltar" wire:navigate
+                      href="{{ route('conveniada.list', ['id'  =>  $this->convenioId])}}"/>
             <x-button label="Salvar" wire:click="save" class="btn-primary"/>
         </x-tab>
 

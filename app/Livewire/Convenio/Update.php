@@ -37,6 +37,8 @@ class Update extends Component
 
     public string $email = '';
 
+    public ?int  $operadoraId = 0;
+
     protected function rules(): array
     {
         return [
@@ -79,6 +81,7 @@ class Update extends Component
         $this->uf            = $empresa->uf;
         $this->cidade        = $empresa->cidade;
         $this->email         = $empresa->email;
+        $this->operadoraId   = $this->convenio->operadora_id;
     }
 
     public function render()

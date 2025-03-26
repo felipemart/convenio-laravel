@@ -15,6 +15,7 @@
         <x-input label="Email" wire:model="email" class=""/>
     </x-form>
 
-    <x-button label="Cancelar" wire:navigate href="{{ route('conveniada.list')  }}"/>
+    <br/>
+    <x-button label="Cancelar" wire:navigate href="{{ route('conveniada.list', ['id'  =>  $this->convenioId])  }}"/>
     <x-button label="Salvar" wire:click="save" class="btn-primary"/>
 </div>

@@ -186,7 +186,8 @@ class Create extends Component
                 'toast-top toast-end',
                 'o-information-circle',
                 'alert-info',
-                3000
+                3000,
+                route('user.list')
             );
 
             return true;

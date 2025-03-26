@@ -57,7 +57,7 @@
 
         @endif
         <br/>
-        <x-button label="Cancelar" wire:navigate href="{{ route('convenio.list')  }}"/>
+        <x-button label="Voltar" wire:navigate href="{{ route('convenio.list', ['id' => $this->operadoraId] )  }}"/>
 
     </x-card>
 </div>
