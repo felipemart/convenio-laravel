@@ -47,7 +47,7 @@ test('Validation rules', function ($f): void {
     'email::required'         => (object)['field' => 'email', 'value' => '', 'rule' => 'required'],
 ]);
 
-test('Should be able to load data of an existing company', function () {
+test('Should be able to load data of an existing company', function (): void {
     $empresa = Empresa::factory()->create();
 
     Http::fake([

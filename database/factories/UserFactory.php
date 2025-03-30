@@ -76,7 +76,7 @@ class UserFactory extends Factory
 
     public function updateEmpresa(int $empresa_id): static
     {
-        return $this->afterCreating(function (User $user) use ($empresa_id) {
+        return $this->afterCreating(function (User $user) use ($empresa_id): void {
             $user->update(['empresa_id' => $empresa_id]);
         });
     }

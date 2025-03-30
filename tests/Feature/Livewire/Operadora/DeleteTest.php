@@ -11,7 +11,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertNotSoftDeleted;
 use function Pest\Laravel\assertSoftDeleted;
 
-test('Should be able to delete an operator', function () {
+test('Should be able to delete an operator', function (): void {
     $admin   = User::factory()->withRoles('admin')->create();
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();

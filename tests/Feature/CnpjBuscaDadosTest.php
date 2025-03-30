@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 use App\Actions\CnpjBuscaDados;
 
-it('returns company data when the API call is successful', function () {
+it('returns company data when the API call is successful', function (): void {
     Illuminate\Support\Facades\Http::fake([
         'https://publica.cnpj.ws/cnpj/12345678000195' => Http::response([
             'razao_social'    => 'Empresa Exemplo',
@@ -33,7 +33,7 @@ it('returns company data when the API call is successful', function () {
     ]);
 });
 
-it('returns empty data when the API call fails', function () {
+it('returns empty data when the API call fails', function (): void {
     Http::fake([
         'https://publica.cnpj.ws/cnpj/12345678000195' => Http::response([], 404),
     ]);

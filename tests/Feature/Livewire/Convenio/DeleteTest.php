@@ -9,7 +9,7 @@ use App\Models\User;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertNotSoftDeleted;
 
-test('Should be able to delete a convenio', function () {
+test('Should be able to delete a convenio', function (): void {
     $admin   = User::factory()->withRoles('admin')->create();
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
