@@ -4,11 +4,11 @@ declare(strict_types = 1);
 
 namespace App\Livewire\Convenio;
 
+use App\Actions\CnpjBuscaDados;
 use App\Models\Empresa;
 use App\Models\Operadora;
 use Exception;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
@@ -83,19 +83,16 @@ class Create extends Component
 
     public function cnpjCarregaDados(): void
     {
-        $response = Http::get("https://publica.cnpj.ws/cnpj/{$this->cnpj}");
+        $cnpjBuscaDados = new CnpjBuscaDados();
+        $dados          = $cnpjBuscaDados->execute($this->cnpj);
 
-        if ($response->status() == 200) {
-            $e = json_decode($response->body());
-
-            $this->razao_social  = $e->razao_social;
-            $this->nome_fantasia = $e->estabelecimento->nome_fantasia ?: '';
-            $this->logradouro    = $e->estabelecimento->logradouro;
-            $this->bairro        = $e->estabelecimento->bairro;
-            $this->cep           = $e->estabelecimento->cep;
-            $this->uf            = $e->estabelecimento->estado->sigla;
-            $this->cidade        = $e->estabelecimento->cidade->nome;
-        }
+        $this->razao_social  = $dados['razao_social'];
+        $this->nome_fantasia = $dados['nome_fantasia'];
+        $this->logradouro    = $dados['logradouro'];
+        $this->bairro        = $dados['bairro'];
+        $this->cep           = $dados['cep'];
+        $this->uf            = $dados['uf'];
+        $this->cidade        = $dados['cidade'];
     }
 
     public function save(): void

@@ -1,4 +1,4 @@
-<x-card title="Criação de Senha" shadow class="mx-auto w-[350px]">
+<x-card title="Criação de Senha" shadow-sm class="mx-auto w-[350px]">
 
     <x-form wire:submit="criarSenha">
         <x-input label="Email" value="{{ $this->obfuscarEmail }}" readonly/>

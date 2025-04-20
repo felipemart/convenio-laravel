@@ -2,14 +2,17 @@
     <!-- HEADER -->
     <x-header title="Usuarios" separator progress-indicator>
 
-        <x-slot:middle class="!justify-end">
+        <x-slot:middle class="justify-end!">
             <x-input placeholder="Pesquisar..." wire:model.live.debounce="search" clearable icon="o-magnifying-glass"/>
         </x-slot:middle>
         <x-slot:actions>
             <x-button @click="$wire.filtros = true" responsive icon="o-funnel" class="btn-primary"
                       icon="o-funnel" tooltip-bottom="Filtros"/>
+
+            @permission('usuario.create')
             <x-button icon="o-plus" class="btn-primary" wire:navigate href="{{ route('user.create') }}"
                       tooltip-bottom="Cadastrar"/>
+            @endhaspermission
         </x-slot:actions>
     </x-header>
 
@@ -54,14 +57,19 @@
             @scope('cell_empresa', $user)
             {{ $user->empresa->nome_fantasia }}
             @endscope
-            @permission('incluir')
+
             @scope('actions', $user)
             <span class="flex">
-
-                        <x-button icon="o-pencil-square" wire:navigate
-                                  href="{{ route('user.edit', ['id' => $user->id])  }}" spinner
-                                  class="btn-ghost btn-sm text-white-500" tooltip="Editar"/>
-
+                  @permission('usuario.edit')
+                    <x-button icon="o-pencil-square" wire:navigate
+                              href="{{ route('user.edit', ['id' => $user->id])  }}" spinner
+                              class="btn-ghost btn-sm text-white-500" tooltip="Editar"/>
+                @endpermission
+                @permission('usuario.permission')
+                    <x-button icon="o-adjustments-horizontal" wire:navigate
+                              href="{{ route('user.permissions', ['id' => $user->id])  }}" spinner
+                              class="btn-ghost btn-sm text-white-500" tooltip="Permissão"/>
+                @endpermission
                    <x-button
                        id="show-btn-{{ $user->id }}"
                        wire:key="show-btn-{{ $user->id }}"
@@ -71,7 +79,7 @@
                        class="btn-ghost btn-sm text-white-500" tooltip="Visualizar"
                    />
 
-
+                @permission('usuario.delete')
                 @unless($user->trashed())
                     @unless($user->is(auth()->user()))
                         <x-button
@@ -93,9 +101,9 @@
                         class="btn-ghost btn-sm text-white-500" tooltip="Reativar"
                     />
                 @endunless
+                @endpermission
             </span>
             @endscope
-            @endpermission
 
 
         </x-table>

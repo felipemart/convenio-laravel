@@ -5,13 +5,10 @@ declare(strict_types = 1);
 namespace App\Livewire\User;
 
 use App\Models\Empresa;
-use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use App\Notifications\BemVindoNotification;
 use App\Notifications\EmailCriacaoSenha;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
@@ -55,7 +52,6 @@ class Create extends Component
     {
         $role = auth()->user()->role_id;
 
-        $this->updateSetPermissions();
         $this->roles = Role::query()
             ->where('id', '>=', $role)
             ->orderBy('name')
@@ -93,31 +89,6 @@ class Create extends Component
         return [
             ['key' => 'permission', 'label' => 'Permissão'],
         ];
-    }
-
-    #[Computed]
-    public function permissions(): LengthAwarePaginator
-    {
-        return Permission::query()
-            ->when(
-                $this->search,
-                fn (Builder $q) => $q->where(
-                    DB::raw('lower(permission)'),
-                    'like',
-                    "%" . strtolower((string) $this->search) . "%"
-                )
-            )
-            ->orderBy(...array_values($this->sortBy))
-            ->paginate($this->perPage);
-    }
-
-    public function updateSetPermissions(): void
-    {
-        if ($this->user instanceof User) {
-            $this->user->permissions()->each(function ($permission): void {
-                $this->setPermissions[$permission->id] = true;
-            });
-        }
     }
 
     public function changeEmpresa(): void
@@ -190,51 +161,6 @@ class Create extends Component
             })
                 ->get()->toArray();
         }
-    }
-
-    public function updatePermissions($idPermisson): void
-    {
-        if ($this->user instanceof User) {
-            if ($this->setPermissions[$idPermisson]) {
-                $this->user->givePermissionId($idPermisson);
-            } else {
-                $this->user->removePermission($idPermisson);
-            }
-        } else {
-            $this->setPermissions = [];
-            $this->error(
-                'Erro, deve cadastrar o usuário antes!',
-                null,
-                'toast-top toast-end',
-                'o-exclamation-triangle',
-                'alert-info',
-                3000
-            );
-        }
-    }
-
-    public function next(): ?bool
-    {
-        if (! $this->saveOnly && $this->step == 1 && ! $this->save()) {
-            return false;
-        }
-
-        if ($this->step == 2) {
-            $this->success(
-                'Salvo com sucesso!',
-                null,
-                'toast-top toast-end',
-                'o-information-circle',
-                'alert-info',
-                3000
-            );
-            $this->redirect(route('user.list'));
-        }
-
-        $this->saveOnly = true;
-        $this->step     = 2;
-
-        return null;
     }
 
     public function save(): bool

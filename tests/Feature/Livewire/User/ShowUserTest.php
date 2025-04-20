@@ -11,8 +11,8 @@ use Livewire\Livewire;
 use function Pest\Laravel\actingAs;
 
 test('deve ser capaz de ver o perfil do usuario', function (): void {
-    $admin = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
-    $user  = User::factory()->withRoles('test')->withPermissions('incluir')->create();
+    $admin = User::factory()->withRoles('admin')->create();
+    $user  = User::factory()->withRoles('test')->create();
 
     actingAs($admin);
 
@@ -27,8 +27,8 @@ test('deve ser capaz de ver o perfil do usuario', function (): void {
 });
 
 test('deve ser capaz de ver o perfil do usuario deletado', function (): void {
-    $admin = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
-    $user  = User::factory()->withRoles('test')->withPermissions('incluir')->create([
+    $admin = User::factory()->withRoles('admin')->create();
+    $user  = User::factory()->withRoles('test')->create([
         'deleted_at' => now(),
         'deleted_by' => $admin->id,
     ]);
@@ -47,8 +47,8 @@ test('deve ser capaz de ver o perfil do usuario deletado', function (): void {
 });
 
 test('deve ser capaz de abrir o modal por evendo', function (): void {
-    $admin = User::factory()->withRoles('admin')->withPermissions('incluir')->create();
-    $user  = User::factory()->withRoles('test')->withPermissions('incluir')->create();
+    $admin = User::factory()->withRoles('admin')->withPermissions('usuario.list')->create();
+    $user  = User::factory()->withRoles('test')->create();
 
     actingAs($admin);
 

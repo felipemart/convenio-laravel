@@ -8,12 +8,6 @@ use Livewire\Component;
 
 class Logout extends Component
 {
-    public function render()
-    {
-        return view('livewire.auth.logout')
-            ->layout('components.layouts.guest', ['title' => 'Logout']);
-    }
-
     public function mount(): void
     {
         auth()->logout();

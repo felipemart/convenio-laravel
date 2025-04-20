@@ -5,21 +5,24 @@ declare(strict_types = 1);
 use App\Livewire\User\Index;
 use App\Models\Role;
 use App\Models\User;
+use Database\Seeders\PermissionSeeder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
+use function Pest\Laravel\seed;
 
 test('deve ser acessada somente pelos usaurios papeis', function (): void {
+    seed(PermissionSeeder::class);
     actingAs(
-        User::factory()->withRoles('admin')->create()
+        User::factory()->withRoles('admin')->withPermissions('usuario.list')->create()
     );
     get(route('user.list'))
         ->assertOk();
 
     actingAs(
-        User::factory()->withRoles('operadora')->create()
+        User::factory()->withRoles('operadora')->withPermissions('usuario.list')->create()
     );
 
     get(route('user.list'))
@@ -36,7 +39,7 @@ test('nao pode ser acessada pelo que nao tem permissao', function (): void {
 
 test('composente deve carregar todos os usuarios', function (): void {
     actingAs(
-        User::factory()->withRoles('admin')->create()
+        User::factory()->withRoles('admin')->withPermissions('usuario.list')->create()
     );
     $users = User::factory()->withRoles('test')->count(9)->create();
 
@@ -56,7 +59,7 @@ test('composente deve carregar todos os usuarios', function (): void {
 
 test('vefiricando ser a table tem formato', function (): void {
     actingAs(
-        User::factory()->withRoles('admin')->create()
+        User::factory()->withRoles('admin')->withPermissions('usuario.list')->create()
     );
     Livewire::test(Index::class)
         ->assertSet('headers', [
@@ -69,7 +72,7 @@ test('vefiricando ser a table tem formato', function (): void {
 });
 
 test('deve filtar os usuarios por nome e email', function (): void {
-    $admin = User::factory()->withRoles('admin')->create([
+    $admin = User::factory()->withRoles('admin')->withPermissions('usuario.list')->create([
         'name'  => 'Admin',
         'email' => 'admin@gamail.com',
     ]);
@@ -98,7 +101,7 @@ test('deve filtar os usuarios por nome e email', function (): void {
 });
 
 test('deve filtar os usuarios pelo nivel', function (): void {
-    $admin = User::factory()->withRoles('admin')->create([
+    $admin = User::factory()->withRoles('admin')->withPermissions('usuario.list')->create([
         'name'  => 'Admin',
         'email' => 'admin@gamail.com',
     ]);
@@ -137,7 +140,7 @@ test('deve filtar os usuarios pelo nivel', function (): void {
 });
 
 test('deve filtar os usuarios deletado', function (): void {
-    $admin = User::factory()->withRoles('admin')->create([
+    $admin = User::factory()->withRoles('admin')->withPermissions('usuario.list')->create([
         'name'  => 'Admin',
         'email' => 'admin@gamail.com',
     ]);
@@ -162,7 +165,7 @@ test('deve filtar os usuarios deletado', function (): void {
 });
 
 test('deve ordenar os usuarios', function (): void {
-    $admin = User::factory()->withRoles('admin')->create([
+    $admin = User::factory()->withRoles('admin')->withPermissions('usuario.list')->create([
         'name'  => 'Admin',
         'email' => 'admin@gamail.com',
     ]);
@@ -191,7 +194,7 @@ test('deve ordenar os usuarios', function (): void {
 });
 
 test('paginacao dos resultados', function (): void {
-    $admin = User::factory()->withRoles('admin')->create([
+    $admin = User::factory()->withRoles('admin')->withPermissions('usuario.list')->create([
         'name'  => 'Admin',
         'email' => 'admin@gamail.com',
     ]);

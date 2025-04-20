@@ -31,6 +31,11 @@ class Index extends Component
 
     public bool $search_trash = false;
 
+    public function mount(): void
+    {
+        auth()->user()->hasPermission('operadora.list') ?: $this->redirectRoute('dashboard');
+    }
+
     #[On('operadora.deleted')]
     #[On('operadora.restored')]
     public function render()

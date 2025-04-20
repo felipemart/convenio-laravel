@@ -8,10 +8,9 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+<body class="min-h-screen font-sans antialiased bg-base-200">
 
-<body class="font-sans antialiased">
-
-{{-- The navbar with `sticky` and `full-width` --}}
+{{-- NAVBAR mobile only --}}
 <x-nav sticky full-width>
 
     <x-slot:brand>
@@ -28,53 +27,49 @@
     <x-slot:actions>
         <x-button label="Messages" icon="o-envelope" link="###" class="btn-ghost btn-sm" responsive/>
         <x-button label="Notifications" icon="o-bell" link="###" class="btn-ghost btn-sm" responsive/>
-        <x-theme-toggle class="btn btn-circle" darkTheme="dark" lightTheme="light"/>
+        <x-theme-toggle class="btn btn-circle" darkTheme="black" lightTheme="wireframe"/>
     </x-slot:actions>
 </x-nav>
 
-{{-- The main content with `full-width` --}}
+{{-- MAIN --}}
 <x-main with-nav full-width>
-    {{-- This is a sidebar that works also as a drawer on small screens --}}
-    {{-- Notice the `main-drawer` reference here --}}
+    {{-- SIDEBAR --}}
     <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-200">
-        {{-- User --}}
-        @if($user = auth()->user())
-            <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover class="pt-2">
-                <x-slot:actions>
-                    <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff" no-wire-navigate
-                              link="{{ route('logout') }}"/>
-                </x-slot:actions>
-            </x-list-item>
-            <x-menu-separator/>
-        @endif
-        {{-- Activates the menu item when a route matches the `link` property --}}
+
+        {{-- MENU --}}
         <x-menu activate-by-route>
-            {{--            <x-menu-item title="Home" icon="o-home" link="###"/>--}}
-            {{--            <x-menu-item title="Messages" icon="o-envelope" link="###"/>--}}
-            {{--            <x-menu-sub title="Settings" icon="o-cog-6-tooth">--}}
-            {{--                <x-menu-item title="Wifi" icon="o-wifi" link="####"/>--}}
-            {{--                <x-menu-item title="Archives" icon="o-archive-box" link="####"/>--}}
-            {{--            </x-menu-sub>--}}
 
-            {{--            @permission('acessar_operadora')--}}
-            {{--            <x-menu-item title="Operadora1" icon="o-sparkles" link="/"/>--}}
-            {{--            @endpermission--}}
-
-            {{--            @role(['admin', 'operadora'])--}}
-            {{--            <x-menu-item title="Operadora2" icon="o-sparkles" link="/"/>--}}
-            {{--            @endrole--}}
+            {{-- User --}}
+            @if($user = auth()->user())
+                <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover class="pt-2">
+                    <x-slot:actions>
+                        <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff"
+                                  no-wire-navigate link="{{ route('logout') }}"/>
+                    </x-slot:actions>
+                </x-list-item>
 
 
+
+                <x-menu-separator/>
+            @endif
+            @permission('usuario.list')
             <x-menu-item title="Usuarios" icon="o-sparkles" link="{{ route('user.list') }}"/>
+            @endpermission
             @role('admin')
+            @permission('operadora.list')
             <x-menu-item title="Operadora" icon="o-sparkles" link="{{ route('operadora.list') }}"/>
+            @endpermission
             @endrole
             @role('operadora')
+            @permission('convenio.list')
             <x-menu-item title="Convenios" icon="o-sparkles" link="{{ route('convenio.list') }}"/>
+            @endpermission
             @endrole
 
             @role('convenio')
+            @permission('conveniada.list')
             <x-menu-item title="Conveniadas" icon="o-sparkles" link="{{ route('conveniada.list') }}"/>
+            @endpermission
             @endrole
         </x-menu>
     </x-slot:sidebar>
@@ -84,6 +79,7 @@
         {{ $slot }}
     </x-slot:content>
 </x-main>
+
 {{--  TOAST area --}}
 <x-toast/>
 </body>

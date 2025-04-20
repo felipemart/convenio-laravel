@@ -61,6 +61,7 @@ test('teste possivel de resetar a senha', function (): void {
         }
     );
 });
+
 test('certificando-se de que o e-mail é real', function ($f): void {
     Notification::fake();
     $user = User::factory()->create();
@@ -82,10 +83,10 @@ test('certificando-se de que o e-mail é real', function ($f): void {
         }
     );
 })->with([
-    'email::required'     => (object)['field' => 'email', 'value' => '', 'rule' => 'required'],
-    'email::email'        => (object)['field' => 'email', 'value' => 'not-an-email', 'rule' => 'email'],
-    'password::required'  => (object)['field' => 'password', 'value' => '', 'rule' => 'required'],
-    'password::confirmed' => (object)['field' => 'password', 'value' => 'password-not-confirmed', 'rule' => 'confirmed'],
+    'email::required'     => (object) ['field' => 'email', 'value' => '', 'rule' => 'required'],
+    'email::email'        => (object) ['field' => 'email', 'value' => 'not-an-email', 'rule' => 'email'],
+    'password::required'  => (object) ['field' => 'password', 'value' => '', 'rule' => 'required'],
+    'password::confirmed' => (object) ['field' => 'password', 'value' => 'password-not-confirmed', 'rule' => 'confirmed'],
 ]);
 
 test('certificar que funcao obfuscar_email ', function (): void {

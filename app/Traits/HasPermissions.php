@@ -7,7 +7,6 @@ namespace App\Traits;
 use App\Models\Permission;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Facades\Cache;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -15,10 +14,9 @@ trait HasPermissions
 {
     private function getKeySession(): string
     {
-        return "user:" . $this->id . ".permissions";
+        return 'user:' . $this->id . '.permissions';
     }
 
-    /** @return BelongsToMany<Permission, $this> */
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class);
@@ -26,27 +24,25 @@ trait HasPermissions
 
     public function givePermission(string $key): void
     {
-        $this->permissions()->firstOrCreate(['permission' => $key]);
+        $this->permissions()->firstOrCreate(['permission' => $key, 'role_id' => $this->role_id, 'descricao' => $key]);
         $this->makeSessionPermissions();
     }
 
     public function givePermissionId(int $idPpermission): void
     {
         $this->permissions()->firstOrCreate(['id' => $idPpermission]);
-
-        Cache::forget($this->getKeyPermissions());
-        Cache::rememberForever($this->getKeyPermissions(), fn () => $this->permissions);
+        $this->makeSessionPermissions();
     }
 
     public function removePermission($idPermission): void
     {
         $this->permissions()->detach($idPermission);
-        Cache::forget($this->getKeyPermissions());
-        Cache::rememberForever($this->getKeyPermissions(), fn () => $this->permissions);
+        $this->makeSessionPermissions();
     }
 
     /**
-     * @param string|array<string> $key
+     * @param  string|array<string>  $key
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -68,9 +64,9 @@ trait HasPermissions
             $this->makeSessionPermissions();
         }
         /** @var Collection<int, Permission> */
-        $permissons = session()->get($k);
+        $permissions = session()->get($k);
 
-        return  $permissons->where('permission', '=', $key)->isNotEmpty();
+        return $permissions->where('permission', '=', $key)->isNotEmpty();
     }
 
     public function revokePermission(string $key): void

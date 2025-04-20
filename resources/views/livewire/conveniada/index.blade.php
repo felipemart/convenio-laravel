@@ -2,16 +2,18 @@
     <!-- HEADER -->
     <x-header title="Conveniada" separator progress-indicator>
 
-        <x-slot:middle class="!justify-end">
+        <x-slot:middle class="justify-end!">
             <x-input placeholder="Pesquisar..." wire:model.live.debounce="search" clearable icon="o-magnifying-glass"/>
         </x-slot:middle>
         <x-slot:actions>
             <x-button @click="$wire.filtros = true" responsive icon="o-funnel" class="btn-primary"
                       icon="o-funnel" tooltip-bottom="Filtros"/>
 
+            @permission('conveniada.create')
             <x-button icon="o-plus" class="btn-primary" wire:navigate
                       href="{{ route('conveniada.create',[ 'id' => $convenioId]) }}"
                       tooltip-bottom="Cadastrar"/>
+            @endpermission
         </x-slot:actions>
     </x-header>
 
@@ -49,7 +51,6 @@
             {{$conveniada->nome_fantasia}}
             @endscope
 
-            @permission('incluir')
             @scope('actions', $conveniada)
             <span class="flex">
                 <x-button icon="o-users" wire:navigate
@@ -66,6 +67,7 @@
                     href="{{ route('conveniada.show', ['id' => $conveniada->id])  }}" spinner
                     class="btn-ghost btn-sm text-white-500" tooltip="Visualizar"/>
 
+                @permission('conveniada.delete')
                 @unless($conveniada->trashed())
                     <x-button
                         id="delete-btn-{{ $conveniada->id }}"
@@ -85,9 +87,9 @@
                         class="btn-ghost btn-sm text-white-500" tooltip="Reativar"
                     />
                 @endunless
+                @endpermission
             </span>
             @endscope
-            @endpermission
 
 
         </x-table>

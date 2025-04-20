@@ -2,14 +2,16 @@
     <!-- HEADER -->
     <x-header title="Operadoras" separator progress-indicator>
 
-        <x-slot:middle class="!justify-end">
+        <x-slot:middle class="justify-end!">
             <x-input placeholder="Pesquisar..." wire:model.live.debounce="search" clearable icon="o-magnifying-glass"/>
         </x-slot:middle>
         <x-slot:actions>
             <x-button @click="$wire.filtros = true" responsive icon="o-funnel" class="btn-primary"
                       icon="o-funnel" tooltip-bottom="Filtros"/>
+            @permission('operadora.create')
             <x-button icon="o-plus" class="btn-primary" wire:navigate href="{{ route('operadora.create') }}"
                       tooltip-bottom="Cadastrar"/>
+            @endpermission
         </x-slot:actions>
     </x-header>
 
@@ -47,7 +49,7 @@
             {{$operadora->nome_fantasia}}
             @endscope
 
-            @permission('incluir')
+
             @scope('actions', $operadora)
             <span class="flex">
 
@@ -55,17 +57,18 @@
                 <x-button icon="o-building-office-2" wire:navigate
                           href="{{ route('convenio.list', ['id' => $operadora->id])  }}" spinner
                           class="btn-ghost btn-sm text-white-500" tooltip="Convenio"/>
+                @permission('operadora.edit')
                 <x-button icon="o-pencil-square" wire:navigate
                           href="{{ route('operadora.edit', ['id' => $operadora->id])  }}" spinner
                           class="btn-ghost btn-sm text-white-500" tooltip="Editar"/>
-
+    @endpermission
 
 
                 <x-button
                     icon="o-document-magnifying-glass" wire:navigate
                     href="{{ route('operadora.show', ['id' => $operadora->id])  }}" spinner
                     class="btn-ghost btn-sm text-white-500" tooltip="Visualizar"/>
-
+ @permission('operadora.delete')
                 @unless($operadora->trashed())
                     <x-button
                         id="delete-btn-{{ $operadora->id }}"
@@ -85,9 +88,9 @@
                         class="btn-ghost btn-sm text-white-500" tooltip="Reativar"
                     />
                 @endunless
+                @endpermission
             </span>
             @endscope
-            @endpermission
 
 
         </x-table>
