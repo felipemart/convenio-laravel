@@ -46,7 +46,7 @@ test('Regras de validacao', function ($f): void {
     'email::required'         => (object)['field' => 'email', 'value' => '', 'rule' => 'required'],
 ]);
 
-test('Devera ser capaz de carregar os dados de empresa ja existente', function () {
+test('Devera ser capaz de carregar os dados de empresa ja existente', function (): void {
     $empresa = Empresa::factory()->create();
 
     Http::fake([

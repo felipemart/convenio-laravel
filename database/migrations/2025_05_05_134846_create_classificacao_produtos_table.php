@@ -13,12 +13,13 @@ return new class () extends Migration
      */
     public function up(): void
     {
-        Schema::create('classificacao_produtos', function (Blueprint $table) {
+        Schema::create('classificacao_produtos', function (Blueprint $table): void {
             $table->id();
             $table->string('descricao');
             $table->integer('tipo');
             $table->string('codigo');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

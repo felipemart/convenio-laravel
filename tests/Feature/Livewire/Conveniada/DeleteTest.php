@@ -9,7 +9,7 @@ use App\Models\User;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertNotSoftDeleted;
 
-test('Deve ser capaz de deletar uma conveniada', function () {
+test('Deve ser capaz de deletar uma conveniada', function (): void {
     $admin   = User::factory()->withRoles('admin')->create();
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();

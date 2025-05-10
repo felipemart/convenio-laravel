@@ -39,7 +39,7 @@ class EmailRecuperacaoSenha extends Notification
         $expire = config('auth.passwords.' . config('auth.defaults.passwords') . '.expire');
         $url    = $this->resetUrl($notifiable);
 
-        return (new MailMessage())
+        return new MailMessage()
             ->subject('Notificação de redefinição de senha')
             ->greeting('Redefinição de senha')
             ->line('Você está recebendo este e-mail porque recebemos uma solicitação de redefinição de senha para sua conta.')
