@@ -16,7 +16,7 @@ test('Deve ser capaz de deletar uma operadora', function (): void {
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
 
-    $operadora = $empresa->operadora()->first();
+    $operadora = $empresa->operadoras()->first();
 
     actingAs($admin);
 
@@ -33,7 +33,7 @@ test('deve ter um confirmacao para excluir', function (): void {
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
 
-    $operadora = $empresa->operadora()->first();
+    $operadora = $empresa->operadoras()->first();
 
     actingAs($admin);
 
@@ -50,7 +50,7 @@ test('Usuario operadora nao pode deletar operadora', function (): void {
 
     $operadoraUser = User::factory()->withRoles('operadora')->updateEmpresa($empresa->id)->create();
 
-    $operadora = $empresa->operadora()->first();
+    $operadora = $empresa->operadoras()->first();
 
     actingAs($operadoraUser);
 

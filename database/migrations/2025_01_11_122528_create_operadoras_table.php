@@ -15,6 +15,7 @@ return new class () extends Migration
         Schema::create('operadoras', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(Empresa::class, 'empresa_id');
+            $table->integer('grupoDesconto')->default(0);
             $table->timestamps();
             $table->softDeletes();
             $table->datetime('restored_at')->nullable();

@@ -71,6 +71,7 @@
             <x-menu-item title="Conveniadas" icon="o-sparkles" link="{{ route('conveniada.list') }}"/>
             @endpermission
             @endrole
+
         </x-menu>
     </x-slot:sidebar>
 

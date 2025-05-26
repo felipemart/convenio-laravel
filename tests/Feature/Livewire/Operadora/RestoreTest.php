@@ -17,7 +17,7 @@ test('deve ser capaz de restaurar  uma operadora', function (): void {
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
 
-    $operadora = $empresa->operadora()->first();
+    $operadora = $empresa->operadoras()->first();
     $operadora->delete();
 
     $user = User::factory()->withRoles('admin')->create();
@@ -42,7 +42,7 @@ test('deve ter um confirmacao para restaurar', function (): void {
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
 
-    $operadora = $empresa->operadora()->first();
+    $operadora = $empresa->operadoras()->first();
     $operadora->delete();
 
     $user = User::factory()->withRoles('admin')->create();

@@ -23,6 +23,12 @@
                                 tight/>
                         </span>
                 @endscope
+                <x-slot:footer class="bg-base-200 text-right">
+                    <tr>
+                        <td colspan="2">
+                            <x-button label="Hi!" class="btn-primary" @click="$wire.allPermissions" /></td>
+                    </tr>
+                </x-slot:footer>
             </x-table>
 
         </div>
@@ -30,6 +36,7 @@
 
     <x-button wire:navigate href="{{ route('user.list')  }}"
               label="Voltar"/>
+
     <!-- FILTER DRAWER -->
 
 </div>

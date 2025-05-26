@@ -14,7 +14,7 @@ test('deve ser capaz de ver o cadastro da operadora', function (): void {
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
 
-    $operadora = $empresa->operadora()->first();
+    $operadora = $empresa->operadoras()->first();
 
     $user = User::factory()->withRoles('admin')->create();
     actingAs($user);
