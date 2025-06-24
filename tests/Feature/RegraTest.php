@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-it('cria uma regra com os campos obrigatórios com data', function () {
+it('cria uma regra com os campos obrigatórios com data', function (): void {
     $data      = now()->startOfDay();
     $dataFinal = now()->addDays(10)->startOfDay();
     $regra     = Regra::create([
@@ -39,7 +39,7 @@ it('cria uma regra com os campos obrigatórios com data', function () {
         ->and($regra->dt_fim->format('Y-m-d H:i:s'))->toBe($dataFinal->format('Y-m-d H:i:s'));
 });
 
-it('cria uma regra com os campos obrigatórios', function () {
+it('cria uma regra com os campos obrigatórios', function (): void {
     $regra = Regra::create([
         'grupo_desconto_id' => 1,
         'permite_venda'     => true,
@@ -63,7 +63,7 @@ it('cria uma regra com os campos obrigatórios', function () {
         ->and($regra->dt_fim)->toBeNull();
 });
 
-it('usa soft deletes', function () {
+it('usa soft deletes', function (): void {
     $regra = Regra::create([
         'grupo_desconto_id' => 1,
         'permite_venda'     => true,

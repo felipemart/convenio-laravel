@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-it('cria um produto com os campos obrigatórios', function () {
+it('cria um produto com os campos obrigatórios', function (): void {
     $emprsa = Empresa::factory()->create();
     $emprsa->giveOperadora();
     $operadora             = $emprsa->Operadoras()->first();
@@ -28,7 +28,7 @@ it('cria um produto com os campos obrigatórios', function () {
         ->and($produto->pr_maximo)->toBe(99.99);
 });
 
-it('relaciona produto com classificacoes', function () {
+it('relaciona produto com classificacoes', function (): void {
     $emprsa = Empresa::factory()->create();
     $emprsa->giveOperadora();
     $operadora             = $emprsa->Operadoras()->first();
@@ -47,7 +47,7 @@ it('relaciona produto com classificacoes', function () {
         ->and($produto->ClassificacaoProdutos->first()->id)->toBe($classificacao->id);
 });
 
-it('relaciona produto com operadora', function () {
+it('relaciona produto com operadora', function (): void {
     $emprsa = Empresa::factory()->create();
     $emprsa = Empresa::factory()->create();
     $emprsa->giveOperadora();
