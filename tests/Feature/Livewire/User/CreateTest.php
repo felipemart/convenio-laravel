@@ -8,7 +8,7 @@ use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
 
-it('creates a new user successfully', function () {
+it('creates a new user successfully', function (): void {
     $admin = User::factory()->withRoles('admin')->create();
 
     actingAs($admin);
@@ -26,7 +26,7 @@ it('creates a new user successfully', function () {
     ]);
 });
 
-it('fails to create a user with invalid data', function () {
+it('fails to create a user with invalid data', function (): void {
     $admin = User::factory()->withRoles('admin')->create();
 
     actingAs($admin);

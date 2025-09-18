@@ -116,7 +116,7 @@ test('sets session flash message for password reset error', function (): void {
     );
 });
 
-it('sets session flash message for invalid user', function () {
+it('sets session flash message for invalid user', function (): void {
     Notification::fake();
     $admin = User::factory()->withRoles('admin')->create();
 
@@ -149,7 +149,7 @@ it('sets session flash message for invalid user', function () {
     );
 });
 
-test('changeEmpresa updates empresa based on roleSelect', function () {
+test('changeEmpresa updates empresa based on roleSelect', function (): void {
     seed([RoleSeeder::class, PermissionSeeder::class]);
     $admin   = User::factory()->withRoles('admin')->create();
     $empresa = Empresa::factory()->create();
@@ -161,7 +161,7 @@ test('changeEmpresa updates empresa based on roleSelect', function () {
         ->set('roleSelect', 2)
         ->call('changeEmpresa');
 
-    $component->assertSet('empresa', function ($empresas) use ($empresa) {
+    $component->assertSet('empresa', function ($empresas) use ($empresa): true {
         foreach ($empresa->toArray() as $key => $value) {
             expect($value)->toBe($empresas[0][$key]);
         }

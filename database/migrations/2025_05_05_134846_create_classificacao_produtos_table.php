@@ -13,14 +13,14 @@ return new class () extends Migration
      */
     public function up(): void
     {
-        Schema::create('permission_role', function (Blueprint $table): void {
-            $table->foreignId('permission_id')
-                ->constrained('permissions');
-            $table->foreignId('role_id')
-                ->constrained('roles');
-            $table->primary(['permission_id', 'role_id']);
+        Schema::create('classificacao_produtos', function (Blueprint $table): void {
+            $table->id();
+            $table->string('descricao');
+            $table->integer('tipo');
+            $table->string('codigo');
             $table->timestamps();
-        }); //
+            $table->softDeletes();
+        });
     }
 
     /**
@@ -28,6 +28,6 @@ return new class () extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('permission_role');
+        Schema::dropIfExists('classificacao_produtos');
     }
 };

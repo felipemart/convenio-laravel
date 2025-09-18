@@ -23,10 +23,11 @@ return new class () extends Migration
         });
 
         Schema::create('permission_user', function (Blueprint $table): void {
-            $table->foreignId('user_id');
-            $table->foreignId('permission_id');
-            $table->index(['user_id', 'permission_id']);
-            $table->unique(['user_id', 'permission_id']);
+            $table->foreignId('permission_id')
+                ->constrained('permissions');
+            $table->foreignId('user_id')
+                ->constrained('users');
+            $table->primary(['permission_id', 'user_id']);
             $table->timestamps();
         });
     }
@@ -36,7 +37,7 @@ return new class () extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('permissions');
         Schema::dropIfExists('permission_user');
+        Schema::dropIfExists('permissions');
     }
 };

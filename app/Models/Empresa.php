@@ -36,7 +36,7 @@ class Empresa extends Model implements Auditable
 
     ];
 
-    public function operadora(): HasMany
+    public function operadoras(): HasMany
     {
         return $this->hasMany(Operadora::class);
     }
@@ -58,7 +58,7 @@ class Empresa extends Model implements Auditable
 
     public function giveOperadora(): void
     {
-        $this->operadora()->firstOrCreate(['empresa_id' => $this->id]);
+        $this->operadoras()->firstOrCreate(['empresa_id' => $this->id]);
     }
 
     public function giveConvenio(int $empresaId): void

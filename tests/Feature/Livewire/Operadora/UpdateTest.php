@@ -14,7 +14,7 @@ test('deve acessar o perfil da conveniada', function (): void {
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
 
-    $operadora = $empresa->operadora()->first();
+    $operadora = $empresa->operadoras()->first();
 
     actingAs($admin);
     Livewire::test(Update::class, ['id' => $operadora->id])
@@ -34,7 +34,7 @@ test('Regras de validacao', function ($f): void {
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
 
-    $operadora = $empresa->operadora()->first();
+    $operadora = $empresa->operadoras()->first();
 
     if ($f->rule == 'unique') {
         User::factory()->create([$f->field => $f->value]);
@@ -68,7 +68,7 @@ it('deve atualizar a conveniada', function (): void {
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
 
-    $operadora = $empresa->operadora()->first();
+    $operadora = $empresa->operadoras()->first();
     $component = Livewire::test(Update::class, ['id' => $operadora->id])
         ->set('cnpj', '12345678000195')
         ->set('nome_fantasia', 'Nome Fantasia Teste')

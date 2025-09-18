@@ -11,12 +11,12 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertNotSoftDeleted;
 use function Pest\Laravel\assertSoftDeleted;
 
-test('Deve ser capaz de deletar uma operadora', function () {
+test('Deve ser capaz de deletar uma operadora', function (): void {
     $admin   = User::factory()->withRoles('admin')->create();
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
 
-    $operadora = $empresa->operadora()->first();
+    $operadora = $empresa->operadoras()->first();
 
     actingAs($admin);
 
@@ -33,7 +33,7 @@ test('deve ter um confirmacao para excluir', function (): void {
     $empresa = Empresa::factory()->create();
     $empresa->giveOperadora();
 
-    $operadora = $empresa->operadora()->first();
+    $operadora = $empresa->operadoras()->first();
 
     actingAs($admin);
 
@@ -50,7 +50,7 @@ test('Usuario operadora nao pode deletar operadora', function (): void {
 
     $operadoraUser = User::factory()->withRoles('operadora')->updateEmpresa($empresa->id)->create();
 
-    $operadora = $empresa->operadora()->first();
+    $operadora = $empresa->operadoras()->first();
 
     actingAs($operadoraUser);
 

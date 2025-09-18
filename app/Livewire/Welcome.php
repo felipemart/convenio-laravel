@@ -56,9 +56,7 @@ class Welcome extends Component
             ['id' => 3, 'name' => 'Marina', 'email' => 'marina@mary-ui.com', 'age' => 5],
         ])
             ->sortBy([[...array_values($this->sortBy)]])
-            ->when($this->search, function (Collection $collection) {
-                return $collection->filter(fn (array $item) => str($item['name'])->contains($this->search, true));
-            });
+            ->when($this->search, fn (Collection $collection) => $collection->filter(fn (array $item) => str($item['name'])->contains($this->search, true)));
     }
 
     public function render()

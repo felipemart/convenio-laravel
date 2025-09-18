@@ -56,12 +56,12 @@ test('papeis deve ter seeder', function (): void {
     );
 });
 
-it('users method returns a HasMany relation', function () {
+it('users method returns a HasMany relation', function (): void {
     $role = new Role();
     expect($role->users())->toBeInstanceOf(HasMany::class);
 });
 
-it('permissions method returns a BelongsToMany relation', function () {
+it('permissions method returns a BelongsToMany relation', function (): void {
     $role = new Role();
     expect($role->permissions())->toBeInstanceOf(BelongsToMany::class);
 });

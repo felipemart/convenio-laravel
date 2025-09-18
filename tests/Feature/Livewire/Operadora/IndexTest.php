@@ -121,7 +121,7 @@ test('deve filtar os usuarios deletado', function (): void {
         $empresa->giveOperadora();
 
         if ($i > 0) {
-            $empresa->operadora()->first()->delete();
+            $empresa->operadoras()->first()->delete();
         }
     }
 

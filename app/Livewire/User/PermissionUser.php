@@ -86,4 +86,16 @@ class PermissionUser extends Component
             $this->user->removePermission($idPermisson);
         }
     }
+
+    public function allPermissions(): void
+    {
+        $permissions = Permission::query()
+            ->where('permissions.role_id', '>=', $this->user->role_id)
+            ->orderBy(...array_values($this->sortBy))
+            ->get();
+
+        foreach ($permissions as $permission) {
+            $this->user->givePermissionId($permission->id);
+        }
+    }
 }

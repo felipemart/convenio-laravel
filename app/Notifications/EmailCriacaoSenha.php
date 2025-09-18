@@ -39,7 +39,7 @@ class EmailCriacaoSenha extends Notification
         $expire = config('auth.passwords.' . config('auth.defaults.passwords') . '.expire');
         $url    = $this->resetUrl($notifiable);
 
-        return (new MailMessage())
+        return new MailMessage()
             ->subject('Notificação de criação de senha')
             ->greeting('Criação de senha')
             ->line('Você está recebendo este e-mail para criar uma senha para sua conta.')

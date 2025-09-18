@@ -32,7 +32,7 @@ test('verifying if the table has the correct format', function (): void {
         ]);
 });
 
-test('should render the correct view', function () {
+test('should render the correct view', function (): void {
     actingAs(
         User::factory()->withRoles('admin')->create()
     );
@@ -40,13 +40,13 @@ test('should render the correct view', function () {
         ->assertViewIs('livewire.user.permission');
 });
 
-test('should update setPermissions correctly', function () {
+test('should update setPermissions correctly', function (): void {
     $user = User::factory()->withRoles('admin')->create();
     actingAs($user);
 
     Livewire::test(PermissionUser::class, ['id' => $user->id])
         ->call('updateSetPermissions')
-        ->assertSet('setPermissions', function ($setPermissions) use ($user) {
+        ->assertSet('setPermissions', function ($setPermissions) use ($user): bool {
             foreach ($user->permissions as $permission) {
                 if (! isset($setPermissions[$permission->id]) || ! $setPermissions[$permission->id]) {
                     return false;
@@ -57,7 +57,7 @@ test('should update setPermissions correctly', function () {
         });
 });
 
-test('should update permissions correctly', function () {
+test('should update permissions correctly', function (): void {
     seed(PermissionSeeder::class);
     $user       = User::factory()->withRoles('admin')->create();
     $permission = App\Models\Permission::first();

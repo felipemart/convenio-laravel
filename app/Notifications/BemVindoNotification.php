@@ -35,7 +35,7 @@ class BemVindoNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage())
+        return new MailMessage()
             ->subject('Email de boas vindas')
             ->greeting('Seja bem vindo!')
             ->line('Obrigado por ser registrar!')
