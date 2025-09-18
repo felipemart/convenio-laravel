@@ -55,6 +55,11 @@ class User extends Authenticatable implements Auditable
         return $this->belongsTo(User::class, 'deleted_by');
     }
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
     public function getKeyPermissions(): string
     {
         return "user:{$this->id}:permissions";

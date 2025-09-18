@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+// Removido strict_types para compatibilidade com PHP < 7.0
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -11,19 +11,20 @@ class CreateAuditsTable extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up() // Removido : void para compatibilidade
     {
         $connection = config('audit.drivers.database.connection', config('database.default'));
         $table      = config('audit.drivers.database.table', 'audits');
 
-        Schema::connection($connection)->create($table, function (Blueprint $table): void {
+        Schema::connection($connection)->create($table, function (Blueprint $table) { // Removido : void
             $morphPrefix = config('audit.user.morph_prefix', 'user');
 
             $table->bigIncrements('id');
             $table->string($morphPrefix . '_type')->nullable();
             $table->unsignedBigInteger($morphPrefix . '_id')->nullable();
             $table->string('event');
-            $table->morphs('auditable');
+            $table->string('auditable_type')->nullable();
+            $table->unsignedBigInteger('auditable_id')->nullable();
             $table->text('old_values')->nullable();
             $table->text('new_values')->nullable();
             $table->text('url')->nullable();
@@ -39,7 +40,7 @@ class CreateAuditsTable extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down() // Removido : void
     {
         $connection = config('audit.drivers.database.connection', config('database.default'));
         $table      = config('audit.drivers.database.table', 'audits');

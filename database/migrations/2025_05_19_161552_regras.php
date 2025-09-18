@@ -51,6 +51,7 @@ return new class () extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('regras_associadas');
         Schema::dropIfExists('regras');
     }
 };

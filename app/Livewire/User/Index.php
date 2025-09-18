@@ -68,7 +68,7 @@ class Index extends Component
         $empresa = auth()->user()->empresa_id;
 
         return User::query()
-            ->with('empresa')
+            ->with(['empresa', 'role'])
             ->when(
                 $this->search,
                 fn (Builder $q) => $q->where(
