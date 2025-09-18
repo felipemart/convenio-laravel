@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 // Removido strict_types para compatibilidade com PHP < 7.0
 
 use Illuminate\Database\Migrations\Migration;
