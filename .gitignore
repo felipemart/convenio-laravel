@@ -25,3 +25,4 @@ yarn-error.log
 laradumps.yaml
 laradumps.yaml.backup
 ./laradumps.yaml
+/workspace/
