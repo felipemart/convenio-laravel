@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace App\Livewire\Conveniada;
 
-use App\Actions\CnpjBuscaDados;
 use App\Models\Convenio;
 use App\Models\Empresa;
+use App\Services\CnpjBuscaDados;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
@@ -83,8 +83,8 @@ class Create extends Component
 
     public function cnpjCarregaDados(): void
     {
-        $cnpjBuscaDados = new CnpjBuscaDados();
-        $dados          = $cnpjBuscaDados->execute($this->cnpj);
+        $cnpjBuscaDados = new CnpjBuscaDados($this->cnpj);
+        $dados          = $cnpjBuscaDados->buscarDados();
 
         $this->razao_social  = $dados['razao_social'];
         $this->nome_fantasia = $dados['nome_fantasia'];

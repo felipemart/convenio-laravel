@@ -14,7 +14,7 @@ class Show extends Component
 
     public bool $modal = false;
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View | \Illuminate\Contracts\View\Factory
     {
         return view('livewire.user.show');
     }

@@ -59,7 +59,7 @@ class Welcome extends Component
             ->when($this->search, fn (Collection $collection) => $collection->filter(fn (array $item) => str($item['name'])->contains($this->search, true)));
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View | \Illuminate\Contracts\View\Factory
     {
         return view('livewire.welcome', [
             'users'   => $this->users(),

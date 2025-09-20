@@ -18,7 +18,7 @@ class Show extends Component
         $this->operadora = Operadora::withTrashed()->find($id);
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View | \Illuminate\Contracts\View\Factory
     {
         return view('livewire.operadora.show');
     }

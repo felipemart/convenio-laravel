@@ -80,7 +80,7 @@ class Update extends Component
         $this->email         = $empresa->email;
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View | \Illuminate\Contracts\View\Factory
     {
         return view('livewire.operadora.update');
     }

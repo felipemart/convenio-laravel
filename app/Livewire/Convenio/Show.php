@@ -18,7 +18,7 @@ class Show extends Component
         $this->convenio = Convenio::withTrashed()->find($id);
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View | \Illuminate\Contracts\View\Factory
     {
         return view('livewire.convenio.show');
     }

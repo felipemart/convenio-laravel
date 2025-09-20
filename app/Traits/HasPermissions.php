@@ -49,13 +49,7 @@ trait HasPermissions
     public function hasPermission(string | array $key): bool
     {
         if (is_array($key)) {
-            foreach ($key as $k) {
-                if ($this->hasPermission($k)) {
-                    return true;
-                }
-            }
-
-            return false;
+            return array_any($key, fn ($k) => $this->hasPermission($k));
         }
 
         $k = $this->getKeySession();

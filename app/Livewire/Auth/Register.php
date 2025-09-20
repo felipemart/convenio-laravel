@@ -22,7 +22,7 @@ class Register extends Component
     #[Rule(['required'])]
     public ?string $password = null;
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View | \Illuminate\Contracts\View\Factory
     {
         return view('livewire.auth.registro');
     }

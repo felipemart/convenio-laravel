@@ -38,7 +38,7 @@ class Index extends Component
 
     #[On('operadora.deleted')]
     #[On('operadora.restored')]
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View | \Illuminate\Contracts\View\Factory
     {
         return view('livewire.operadora.index');
     }

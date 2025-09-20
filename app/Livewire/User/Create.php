@@ -58,7 +58,7 @@ class Create extends Component
             ->get();
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View | \Illuminate\Contracts\View\Factory
     {
         return view('livewire.user.create');
     }

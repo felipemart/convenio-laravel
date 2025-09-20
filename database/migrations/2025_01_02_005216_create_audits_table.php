@@ -13,12 +13,12 @@ class CreateAuditsTable extends Migration
     /**
      * Run the migrations.
      */
-    public function up() // Removido : void para compatibilidade
+    public function up(): void // Removido : void para compatibilidade
     {
         $connection = config('audit.drivers.database.connection', config('database.default'));
         $table      = config('audit.drivers.database.table', 'audits');
 
-        Schema::connection($connection)->create($table, function (Blueprint $table) { // Removido : void
+        Schema::connection($connection)->create($table, function (Blueprint $table): void { // Removido : void
             $morphPrefix = config('audit.user.morph_prefix', 'user');
 
             $table->bigIncrements('id');
@@ -42,7 +42,7 @@ class CreateAuditsTable extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down() // Removido : void
+    public function down(): void // Removido : void
     {
         $connection = config('audit.drivers.database.connection', config('database.default'));
         $table      = config('audit.drivers.database.table', 'audits');

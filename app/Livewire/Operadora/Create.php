@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace App\Livewire\Operadora;
 
-use App\Actions\CnpjBuscaDados;
 use App\Models\Empresa;
+use App\Services\CnpjBuscaDados;
 use Exception;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -32,7 +32,7 @@ class Create extends Component
 
     public string $email = '';
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View | \Illuminate\Contracts\View\Factory
     {
         return view('livewire.operadora.create');
     }
@@ -66,8 +66,8 @@ class Create extends Component
 
     public function cnpjCarregaDados(): void
     {
-        $cnpjBuscaDados = new CnpjBuscaDados();
-        $dados          = $cnpjBuscaDados->execute($this->cnpj);
+        $cnpjBuscaDados = new CnpjBuscaDados($this->cnpj);
+        $dados          = $cnpjBuscaDados->buscarDados();
 
         $this->razao_social  = $dados['razao_social'];
         $this->nome_fantasia = $dados['nome_fantasia'];

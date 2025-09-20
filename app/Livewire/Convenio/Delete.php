@@ -26,7 +26,7 @@ class Delete extends Component
 
     public ?string $confirmDestroy_confirmation = null;
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View | \Illuminate\Contracts\View\Factory
     {
         return view('livewire.convenio.delete');
     }

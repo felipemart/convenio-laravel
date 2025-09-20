@@ -41,7 +41,7 @@ class Update extends Component
         $this->email      = $this->user->email;
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View | \Illuminate\Contracts\View\Factory
     {
         return view('livewire.user.update');
     }

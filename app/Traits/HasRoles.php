@@ -42,13 +42,7 @@ trait HasRoles
     public function hasRole(string | array $key): bool
     {
         if (is_array($key)) {
-            foreach ($key as $r) {
-                if ($this->hasRole($r)) {
-                    return true;
-                }
-            }
-
-            return false;
+            return array_any($key, fn ($r) => $this->hasRole($r));
         }
 
         $k = $this->getKeySessionRole();

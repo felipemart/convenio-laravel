@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-use App\Actions\CnpjBuscaDados;
+use App\Services\CnpjBuscaDados;
 
 it('returns company data when the API call is successful', function (): void {
     Illuminate\Support\Facades\Http::fake([
@@ -19,8 +19,8 @@ it('returns company data when the API call is successful', function (): void {
         ], 200),
     ]);
 
-    $action = new CnpjBuscaDados();
-    $result = $action->execute('12345678000195');
+    $serviceCnpj = new CnpjBuscaDados('12345678000195');
+    $result      = $serviceCnpj->buscarDados();
 
     expect($result)->toBe([
         'razao_social'  => 'Empresa Exemplo',
@@ -38,8 +38,8 @@ it('returns empty data when the API call fails', function (): void {
         'https://publica.cnpj.ws/cnpj/12345678000195' => Http::response([], 404),
     ]);
 
-    $action = new CnpjBuscaDados();
-    $result = $action->execute('12345678000195');
+    $serviceCnpj = new CnpjBuscaDados('12345678000195');
+    $result      = $serviceCnpj->buscarDados();
 
     expect($result)->toBe([
         'razao_social'  => '',
